@@ -1,2 +1,8 @@
-# tp1-parser-flecha
-TP1 | Parser para Flecha
+# TP1 $ Parser $ flecha
+
+## TL;DR
+
+```sh
+cabal build
+cabal run flecha -- example.flecha
+```
