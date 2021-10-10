@@ -1,66 +1,144 @@
 module Lexer where
 
-import Data.Char
+import Tokens
+import Data.Char 
+import qualified Data.Map as Map
 
-parseError :: [Token] -> a
-parseError _ = error "Parse error"
-data Exp  
-    = Let String Exp Exp
-    | Exp1 Exp1
-    deriving Show
-
-data Exp1 
-    = Plus Exp1 Term 
-    | Minus Exp1 Term 
-    | Term Term
-    deriving Show
-
-data Term 
-    = Times Term Factor 
-    | Div Term Factor 
-    | Factor Factor
-    deriving Show
-
-data Factor 
-    = Int Int 
-    | Var String 
-    | Brack Exp
-    deriving Show
-
-data Token
-    = TokenLet
-    | TokenIn
-    | TokenInt Int
-    | TokenVar String
-    | TokenEq
-    | TokenPlus
-    | TokenMinus
-    | TokenTimes
-    | TokenDiv
-    | TokenOB
-    | TokenCB
-    deriving Show
 
 lexer :: String -> [Token]
 lexer [] = []
-lexer (c:cs) 
-    | isSpace c = lexer cs
-    | isAlpha c = lexVar (c:cs)
-    | isDigit c = lexNum (c:cs)
-lexer ('=':cs) = TokenEq : lexer cs
-lexer ('+':cs) = TokenPlus : lexer cs
-lexer ('-':cs) = TokenMinus : lexer cs
-lexer ('*':cs) = TokenTimes : lexer cs
-lexer ('/':cs) = TokenDiv : lexer cs
-lexer ('(':cs) = TokenOB : lexer cs
-lexer (')':cs) = TokenCB : lexer cs
--- lexer (cs) = exitWith (ExitFailure 1)
+lexer input@(c:cs)  | isSpace c                 = lexer cs 
+                    | isDigit c                 = lexNumber input 
+                    | isLower c && isAlpha c    = lexTokenOrLowerId input                     
+                    | isUpper c && isAlpha c    = lexUpperId input
+                    | isStartingSymbol c        = lexSymbol input
+                    | '"' == c                  = lexString input
+                    | '\'' == c                 = lexChar input
+                    | otherwise                 = error $ "Lexical error: unexpected character: `" ++ [c::Char] ++ "`"
 
-lexNum cs = TokenInt (read num) : lexer rest
-                where (num,rest) = span isDigit cs
+-- TODO: analyze comments
 
-lexVar cs =
-    case span isAlpha cs of
-        ("let",rest) -> TokenLet : lexer rest
-        ("in",rest)  -> TokenIn : lexer rest
-        (var,rest)   -> TokenVar var : lexer rest
+
+lexChar :: String -> [Token]
+lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\'' : (lexer rest)
+lexChar ('\'':'\\':'\\':'\'':rest) = TokenChar '"'  : (lexer rest)
+lexChar ('\'':'\\':'"':'\'':rest)  = TokenChar '"'  : (lexer rest)
+lexChar ('\'':'\\':'t':'\'':rest)  = TokenChar '"'  : (lexer rest)
+lexChar ('\'':'\\':'n':'\'':rest)  = TokenChar '"'  : (lexer rest)
+lexChar ('\'':'\\':'r':'\'':rest)  = TokenChar '"'  : (lexer rest)
+lexChar ('\'': c : '\'':rest)      = TokenChar c    : (lexer rest)
+lexChar _ = error "Lexical error: expected a char"
+
+lexString :: String -> [Token]
+lexString input = let (string, rest) = spanString (tail input) "" False
+                    in TokenString (reverse string) : (lexer rest)
+
+spanString :: String -> String -> Bool -> (String, String)
+spanString ('"':cs)  string False = (string, cs)
+spanString ('\\':cs) string False = spanString cs string        True
+spanString (c:cs)    string False = spanString cs (c:string)    False
+spanString ('t':cs)  string True  = spanString cs ('\t':string) False
+spanString ('n':cs)  string True  = spanString cs ('\n':string) False
+spanString ('r':cs)  string True  = spanString cs ('\r':string) False
+spanString ('\\':cs) string True  = spanString cs ('\\':string) False
+spanString ('\'':cs) string True  = spanString cs ('\'':string) False
+spanString ('"':cs)  string True  = spanString cs ('"':string)  False
+spanString (c:cs)    string True  = error $ "Lexical error: invalid escaped character `" ++ [c::Char] ++ "`"
+spanString _         _      _     = error $ "Lexical error: unexpected input sequence"
+
+lexNumber :: String -> [Token]
+lexNumber cs = let (numStr, rest) = span isDigit cs
+                in TokenInt (read numStr::Integer) : (lexer rest)
+
+lexSymbol :: String -> [Token]
+lexSymbol [] = []
+lexSymbol ('-':'-':cs)  = lexComment cs
+lexSymbol ('=':'=':cs)  = TokenEq        : (lexer cs)
+lexSymbol ('-':'>':cs)  = TokenArrow     : (lexer cs)
+lexSymbol ('&':'&':cs)  = TokenAnd       : (lexer cs)
+lexSymbol ('|':'|':cs)  = TokenOr        : (lexer cs)
+lexSymbol ('!':'=':cs)  = TokenNe        : (lexer cs)
+lexSymbol ('>':'=':cs)  = TokenGe        : (lexer cs)
+lexSymbol ('<':'=':cs)  = TokenLe        : (lexer cs)
+lexSymbol ('=':cs)      = TokenDefEq     : (lexer cs)
+lexSymbol (';':cs)      = TokenSemicolon : (lexer cs)
+lexSymbol ('(':cs)      = TokenLParen    : (lexer cs)
+lexSymbol (')':cs)      = TokenRParen    : (lexer cs)
+lexSymbol ('\\':cs)     = TokenLambda    : (lexer cs)
+lexSymbol ('|':cs)      = TokenPipe      : (lexer cs)
+lexSymbol ('!':cs)      = TokenNot       : (lexer cs)
+lexSymbol ('>':cs)      = TokenGt        : (lexer cs)
+lexSymbol ('<':cs)      = TokenLt        : (lexer cs)
+lexSymbol ('+':cs)      = TokenPlus      : (lexer cs)
+lexSymbol ('-':cs)      = TokenMinus     : (lexer cs)
+lexSymbol ('*':cs)      = TokenTimes     : (lexer cs)
+lexSymbol ('/':cs)      = TokenDiv       : (lexer cs)
+lexSymbol ('%':cs)      = TokenMod       : (lexer cs)
+
+lexComment []        = []
+lexComment ('\n':cs) = lexer cs
+lexComment ('\r':cs) = lexer cs
+lexComment (c:cs)    = lexComment cs
+
+lexTokenOrLowerId :: String -> [Token]
+lexTokenOrLowerId input = let (word, rest) = spanId input 
+                            in case (lookupKeywordToken word) of 
+                                Just kwToken -> kwToken : (lexer rest)
+                                Nothing      -> (TokenLowerId word) : (lexer rest)
+
+lexUpperId :: String -> [Token]
+lexUpperId input = let (word, rest) = spanId input 
+                    in (TokenUpperId word) : (lexer rest)
+
+isSpaceOrSymbol :: Char -> Bool
+isSpaceOrSymbol c = isSpace c || isStartingSymbol c
+
+spanId :: [Char] -> ([Char], [Char])
+spanId = span (not . isSpaceOrSymbol) 
+
+isStartingSymbol :: Char -> Bool
+isStartingSymbol c = elem c startingSymbolsList  
+
+startingSymbolsList :: [Char]
+startingSymbolsList = head <$> (Map.keys symbolTokenMap)  -- "!%&()*+-/;<=>\\|" -- 
+
+--  keyword-token Mappings
+lookupKeywordToken word = Map.lookup word keywordTokenMap
+
+keywordTokenMap :: Map.Map String Token
+keywordTokenMap = Map.fromList [
+        ("def",     TokenDef),
+        ("if",      TokenIf),
+        ("then",    TokenThen),
+        ("else",    TokenElse),
+        ("elseif",  TokenElif),
+        ("case",    TokenCase),
+        ("let",     TokenLet),
+        ("in",      TokenIn)
+    ]
+
+--  symbol-token Mappings
+symbolTokenMap :: Map.Map String Token
+symbolTokenMap = Map.fromList [
+        ("=",   TokenDefEq),
+        (";",   TokenSemicolon),
+        ("(",   TokenLParen),
+        (")",   TokenRParen),
+        ("\\",  TokenLambda),
+        ("|",   TokenPipe),
+        ("->",  TokenArrow),
+        ("&&",  TokenAnd),
+        ("||",  TokenOr),
+        ("!",   TokenNot),
+        ("==",  TokenEq),
+        ("!=",  TokenNe),
+        (">=",  TokenGe),
+        ("<=",  TokenLe),
+        (">",   TokenGt),
+        ("<",   TokenLt),
+        ("+",   TokenPlus),
+        ("-",   TokenMinus),
+        ("*",   TokenTimes),
+        ("/",   TokenDiv),
+        ("%",   TokenMod)
+    ]
