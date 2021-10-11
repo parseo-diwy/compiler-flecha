@@ -25,5 +25,6 @@ library
                        Ast
                        Lexer
                        Parser
+                       Json
   -- ghc-options: -Wall
   default-language:    Haskell2010
