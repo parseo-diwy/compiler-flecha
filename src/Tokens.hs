@@ -1,6 +1,5 @@
 module Tokens where 
 
-
 data Token = TokenDef 
            | TokenLowerId String
            | TokenUpperId String
