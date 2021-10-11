@@ -44,7 +44,7 @@ spanString ('\\':cs) string True  = spanString cs ('\\':string) False
 spanString ('\'':cs) string True  = spanString cs ('\'':string) False
 spanString ('"':cs)  string True  = spanString cs ('"':string)  False
 spanString (c:cs)    string True  = error $ "Lexical error: invalid escaped character `" ++ [c::Char] ++ "`"
-spanString _         _      _     = error $ "Lexical error: unexpected input sequence"
+spanString _         _      _     = error "Lexical error: unexpected input sequence"
 
 lexNumber :: String -> [Token]
 lexNumber cs = let (numStr, rest) = span isDigit cs
@@ -74,6 +74,7 @@ lexSymbol ('-':cs)      = TokenMinus     : lexer cs
 lexSymbol ('*':cs)      = TokenTimes     : lexer cs
 lexSymbol ('/':cs)      = TokenDiv       : lexer cs
 lexSymbol ('%':cs)      = TokenMod       : lexer cs
+lexSymbol _             = error "Add 'otherwise' for 'Non-exhaustive Pattern matching' linting error. Add case if is a valid one."
 
 lexComment []        = []
 lexComment ('\n':cs) = lexer cs
@@ -84,7 +85,7 @@ lexTokenOrLowerId :: String -> [Token]
 lexTokenOrLowerId input = let (word, rest) = spanId input
                             in case lookupKeywordToken word of
                                 Just kwToken -> kwToken : lexer rest
-                                Nothing      -> (TokenLowerId word) : lexer rest
+                                Nothing      -> TokenLowerId word : lexer rest
 
 lexUpperId :: String -> [Token]
 lexUpperId input = let (word, rest) = spanId input
@@ -94,10 +95,10 @@ isSpaceOrSymbol :: Char -> Bool
 isSpaceOrSymbol c = isSpace c || isStartingSymbol c
 
 spanId :: [Char] -> ([Char], [Char])
-spanId = span (not . isSpaceOrSymbol)
+spanId = break isSpaceOrSymbol
 
 isStartingSymbol :: Char -> Bool
-isStartingSymbol c = elem c startingSymbolsList
+isStartingSymbol c = c `elem` startingSymbolsList
 
 startingSymbolsList :: [Char]
 startingSymbolsList = head <$> Map.keys symbolTokenMap  -- "!%&()*+-/;<=>\\|" -- 
