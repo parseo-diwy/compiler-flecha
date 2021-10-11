@@ -1,10 +1,10 @@
-module Lexer where
+module Lexer (lexer) where
 
-import Tokens
-import Data.Char
+import Tokens ( Token(..) )
+import Data.Char ( isDigit, isAlpha, isSpace, isLower, isUpper )
 import qualified Data.Map as Map
 
-
+-- TODO: analyze comments
 lexer :: String -> [Token]
 lexer [] = []
 lexer input@(c:cs)  | isSpace c                 = lexer cs
@@ -15,8 +15,6 @@ lexer input@(c:cs)  | isSpace c                 = lexer cs
                     | '"' == c                  = lexString input
                     | '\'' == c                 = lexChar input
                     | otherwise                 = error $ "Lexical error: unexpected character: `" ++ [c::Char] ++ "`"
-
--- TODO: analyze comments
 
 
 lexChar :: String -> [Token]
@@ -76,6 +74,7 @@ lexSymbol ('/':cs)      = TokenDiv       : lexer cs
 lexSymbol ('%':cs)      = TokenMod       : lexer cs
 lexSymbol _             = error "Add 'otherwise' for 'Non-exhaustive Pattern matching' linting error. Add case if is a valid one."
 
+lexComment :: [Char] -> [Token]
 lexComment []        = []
 lexComment ('\n':cs) = lexer cs
 lexComment ('\r':cs) = lexer cs
@@ -104,6 +103,7 @@ startingSymbolsList :: [Char]
 startingSymbolsList = head <$> Map.keys symbolTokenMap  -- "!%&()*+-/;<=>\\|" -- 
 
 --  keyword-token Mappings
+lookupKeywordToken :: String -> Maybe Token
 lookupKeywordToken word = Map.lookup word keywordTokenMap
 
 keywordTokenMap :: Map.Map String Token

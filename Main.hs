@@ -5,9 +5,11 @@ import Parser (flecha)
 import System.Environment (getArgs)
 
 main :: IO ()
-main = getArgs >>= parse >>= print . flecha . lexer
+main = getArgs >>= parse >>= evaluate
 
-evaluate = print . flecha . lexer
-
+parse :: [FilePath] -> IO String
 parse [] = getContents
 parse fs = concat `fmap` mapM readFile fs
+
+evaluate :: String -> IO ()
+evaluate = print . flecha . lexer
