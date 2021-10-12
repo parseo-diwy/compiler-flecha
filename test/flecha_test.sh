@@ -1,27 +1,34 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bats
 
-# first build cabal
-cabal build --verbose=silent
+setup() {
+  load 'test_helper/bats-support/load'
+  load 'test_helper/bats-assert/load'
 
-function test() {
-  SUITE=$1
-  NAME=$2
-  DIR="test/$SUITE"
-  cabal run --verbose=silent flecha -- "$DIR/$NAME.flecha" > "$DIR/$NAME.tmp"
-  pushd "$DIR" &> /dev/null|| exit 0
-  jq . "$NAME.tmp" > "$NAME.test"
-  jq . "$NAME.json" > "$NAME.expected"
-  TEST_COMMAND="diff '$NAME.expected' '$NAME.test' > '$NAME.diff'"
-  if eval "$TEST_COMMAND"; then
-    echo "OK $SUITE::$NAME"
-  else
-    echo "FAIL $SUITE::$NAME"
-    cat "$NAME.diff"
-  fi
-  rm "$NAME.tmp" "$NAME.test" "$NAME.expected" "$NAME.diff"
-  popd &> /dev/null || exit 0
+  cabal build --verbose=silent
 }
 
-test diwy "test00"
+teardown() {
+    rm -f test/diwy/*.expected
+    rm -f test/diwy/*.output
+    rm -f test/foones/*.expected
+    rm -f test/foones/*.output
+}
+
+# test diwy "test00"
+
+function run_test() {
+  TEST_NAME=$1
+  @test "$TEST_NAME" {
+    # [[ $BATS_RUN_SKIPPED == "true" ]] || skip
+    jq . "$TEST_NAME.json" > "$TEST_NAME.expected"
+    cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" | jq . > "$TEST_NAME.output"
+    run diff "$TEST_NAME.expected" "$TEST_NAME.output"
+
+    assert_success
+    assert_output ""
+  }
+}
+
+run_test test/diwy/test00
 
 # test foones "test00"
