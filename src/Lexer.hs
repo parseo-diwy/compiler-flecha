@@ -41,7 +41,7 @@ spanString ('r':cs)  string True  = spanString cs ('\r':string) False
 spanString ('\\':cs) string True  = spanString cs ('\\':string) False
 spanString ('\'':cs) string True  = spanString cs ('\'':string) False
 spanString ('"':cs)  string True  = spanString cs ('"':string)  False
-spanString (c:cs)    string True  = error $ "Lexical error: invalid escaped character `" ++ [c::Char] ++ "`"
+spanString (c:_)     _      True  = error $ "Lexical error: invalid escaped character `" ++ [c::Char] ++ "`"
 spanString _         _      _     = error "Lexical error: unexpected input sequence"
 
 lexNumber :: String -> [Token]
@@ -78,7 +78,7 @@ lexComment :: [Char] -> [Token]
 lexComment []        = []
 lexComment ('\n':cs) = lexer cs
 lexComment ('\r':cs) = lexer cs
-lexComment (c:cs)    = lexComment cs
+lexComment (_:cs)    = lexComment cs
 
 lexTokenOrLowerId :: String -> [Token]
 lexTokenOrLowerId input = let (word, rest) = spanId input
