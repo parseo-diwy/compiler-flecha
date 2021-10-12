@@ -1,0 +1,78 @@
+-- Case
+
+def t1 = case x -- Case vacio
+
+def t2 = case x
+         | True  -> a
+         | False -> b
+
+def t3 = case x
+         | X1 -> a
+
+def t4 = case x
+         | X1 -> a
+         | X2 -> b
+
+def t5 = case x
+         | X1 -> a
+         | X2 -> b
+         | X3 -> c
+
+def t6 = case x
+         | X1 -> a
+         | X2 -> b
+         | X3 -> c
+         | X4 -> d
+
+def t7 = case x
+         | Tupla x1 -> x1
+
+def t8 = case x
+         | Tupla x1 x2 -> x2
+
+def t9 = case x
+         | Tupla x1 x2 x3 -> x3
+
+def t10 = case x
+          | Tupla x1 x2 x3 x4 -> x4
+
+def t11 = case x
+          | Nil       -> a
+          | Bin x i d -> b
+
+def t12 = case x
+          | C1 x1 x2 x3 -> x3
+          | C2 x1 x2 x3 -> x2
+          | C3 x1 x2 x3 -> x1
+
+def t13 = case x|C1 x1 x2 x3->x3|C2 x1 x2 x3->x2|C3 x1 x2 x3->x1
+
+def t13 = case X
+          | C1 x1 x2 x3 -> X1
+          | C2 x1 x2 x3 -> X2
+          | C3 x1 x2 x3 -> X3
+
+def t14 = case 1
+          | C1 x1 x2 x3 -> 2
+          | C2 x1 x2 x3 -> 3
+          | C3 x1 x2 x3 -> 4
+
+def t15 = case 'A'
+          | C1 x1 x2 x3 -> 'B'
+          | C2 x1 x2 x3 -> 'C'
+          | C3 x1 x2 x3 -> 'D'
+
+def t16 = case "A"
+          | C1 x1 x2 x3 -> "B"
+          | C2 x1 x2 x3 -> "C"
+          | C3 x1 x2 x3 -> "D"
+
+def t17 = case x
+          | C1 x1 x2 x3 -> (case y)
+          | C2 x1 x2 x3 -> (case x | X1 -> a)
+          | C3 x1 x2 x3 -> (case x
+                            | X1 a -> 1
+                            | X2 a b -> 'b'
+                            | X3 a b c -> 'C'
+                            | X4 a b c d -> "d")
+

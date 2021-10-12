@@ -1,0 +1,46 @@
+-- If
+
+def t1 = if x then y else z
+def t2 = if x1 then y1 elif x2 then y2 else z
+def t3 = if x1 then y1
+         elif x2 then y2
+         elif x3 then y3
+         else z
+def t4 = if x1 then y1
+         elif x2 then y2
+         elif x3 then y3
+         elif x4 then y4
+         else z
+def t5 = if X1 then Y1
+         elif X2 then Y2
+         elif X3 then Y3
+         elif X4 then Y4
+         else Z
+def t6 = if 1 then 2
+         elif 3 then 4
+         elif 5 then 6
+         elif 7 then 8
+         else 9
+def t7 = if 'a' then 'b'
+         elif 'c' then 'd'
+         elif 'e' then 'f'
+         elif 'g' then 'h'
+         else 'i'
+def t8 = if "X1" then "Y1"
+         elif "X2" then "Y2"
+         elif "X3" then "Y3"
+         elif "X4" then "Y4"
+         else "Z"
+def t9 = if (if x1 then 1 else X1)
+		 then (if x2 then 2 else '2')
+		 elif (if x3 then 3 else "3")
+		 then (if x4 then 4 else X4)
+		 elif (if x5 then 5 else '5')
+		 then (if x6 then 6 else "6")
+		 elif (if x7 then 7 else X7)
+		 then (if x8 then 8 else '8')
+		 else (if x9 then 9 else "9")
+def t10 = if (if (if x then y else z) then y else z) then y else z
+def t11 = if x then (if x then (if x then y else z) else z) else z
+def t12 = if x then y else (if x then y else (if x then y else z))
+

@@ -1,0 +1,50 @@
+[
+ ["Def", "a",
+  ["ExprChar", 97]
+ ],
+ ["Def", "z",
+  ["ExprChar", 122]
+ ],
+ ["Def", "a_",
+  ["ExprChar", 65]
+ ],
+ ["Def", "z_",
+  ["ExprChar", 122]
+ ],
+ ["Def", "cero",
+  ["ExprChar", 48]
+ ],
+ ["Def", "nueve",
+  ["ExprChar", 57]
+ ],
+ ["Def", "espacio",
+  ["ExprChar", 32]
+ ],
+ ["Def", "tab",
+  ["ExprChar", 9]
+ ],
+ ["Def", "cr",
+  ["ExprChar", 13]
+ ],
+ ["Def", "lf",
+  ["ExprChar", 10]
+ ],
+ ["Def", "comilla",
+  ["ExprChar", 39]
+ ],
+ ["Def", "doble_comilla",
+  ["ExprChar", 34]
+ ],
+ ["Def", "contrabarra",
+  ["ExprChar", 92]
+ ],
+ ["Def", "igual",
+  ["ExprChar", 61]
+ ],
+ ["Def", "lparen",
+  ["ExprChar", 40]
+ ],
+ ["Def", "rparen",
+  ["ExprChar", 41]
+ ]
+]

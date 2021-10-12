@@ -1,0 +1,271 @@
+[
+ ["Def", "t1",
+  ["ExprLet", "x",
+   ["ExprVar", "y"],
+   ["ExprVar", "z"]
+  ]
+ ],
+ ["Def", "t2",
+  ["ExprLet", "x",
+   ["ExprVar", "y"],
+   ["ExprVar", "z"]
+  ]
+ ],
+ ["Def", "t3",
+  ["ExprLet", "x1",
+   ["ExprVar", "y1"],
+   ["ExprLet", "x2",
+    ["ExprVar", "y2"],
+    ["ExprLet", "x3",
+     ["ExprVar", "y3"],
+     ["ExprVar", "z"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t4",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprVar", "x"]
+   ],
+   ["ExprApply",
+    ["ExprVar", "f"],
+    ["ExprVar", "a"]
+   ]
+  ]
+ ],
+ ["Def", "t5",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprVar", "y"]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "f"],
+     ["ExprVar", "a"]
+    ],
+    ["ExprVar", "b"]
+   ]
+  ]
+ ],
+ ["Def", "t6",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprVar", "z"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "f"],
+      ["ExprVar", "a"]
+     ],
+     ["ExprVar", "b"]
+    ],
+    ["ExprVar", "c"]
+   ]
+  ]
+ ],
+ ["Def", "t7",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprVar", "z"]
+     ]
+    ]
+   ],
+   ["ExprLet", "g",
+    ["ExprLambda", "h",
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "h"],
+        ["ExprVar", "a"]
+       ],
+       ["ExprVar", "b"]
+      ],
+      ["ExprVar", "c"]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprVar", "g"],
+     ["ExprVar", "f"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t8",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprConstructor", "A"]
+     ]
+    ]
+   ],
+   ["ExprLet", "g",
+    ["ExprLambda", "h",
+     ["ExprConstructor", "B"]
+    ],
+    ["ExprLet", "x",
+     ["ExprConstructor", "C"],
+     ["ExprConstructor", "D"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t8",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprNumber", 1]
+     ]
+    ]
+   ],
+   ["ExprLet", "g",
+    ["ExprLambda", "h",
+     ["ExprNumber", 2]
+    ],
+    ["ExprLet", "x",
+     ["ExprNumber", 3],
+     ["ExprNumber", 4]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t9",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprChar", 97]
+     ]
+    ]
+   ],
+   ["ExprLet", "g",
+    ["ExprLambda", "h",
+     ["ExprChar", 98]
+    ],
+    ["ExprLet", "x",
+     ["ExprChar", 99],
+     ["ExprChar", 100]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t10",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 97]
+       ],
+       ["ExprConstructor", "Nil"]
+      ]
+     ]
+    ]
+   ],
+   ["ExprLet", "g",
+    ["ExprLambda", "h",
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 98]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ],
+    ["ExprLet", "x",
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 99]
+      ],
+      ["ExprConstructor", "Nil"]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 100]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t11",
+  ["ExprLet", "f",
+   ["ExprLambda", "x",
+    ["ExprLambda", "y",
+     ["ExprLambda", "z",
+      ["ExprLet", "x",
+       ["ExprVar", "y"],
+       ["ExprVar", "z"]
+      ]
+     ]
+    ]
+   ],
+   ["ExprLet", "g",
+    ["ExprLambda", "h",
+     ["ExprLet", "x1",
+      ["ExprVar", "y1"],
+      ["ExprLet", "x2",
+       ["ExprVar", "y2"],
+       ["ExprLet", "x3",
+        ["ExprVar", "y3"],
+        ["ExprVar", "z"]
+       ]
+      ]
+     ]
+    ],
+    ["ExprLet", "x",
+     ["ExprLet", "f",
+      ["ExprLambda", "x",
+       ["ExprLambda", "y",
+        ["ExprLambda", "z",
+         ["ExprVar", "z"]
+        ]
+       ]
+      ],
+      ["ExprLet", "g",
+       ["ExprLambda", "h",
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "h"],
+           ["ExprVar", "a"]
+          ],
+          ["ExprVar", "b"]
+         ],
+         ["ExprVar", "c"]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprVar", "g"],
+        ["ExprVar", "f"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 100]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ]
+]

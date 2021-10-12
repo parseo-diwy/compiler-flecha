@@ -1,0 +1,212 @@
+[
+ ["Def", "lista_vacia",
+  ["ExprConstructor", "Nil"]
+ ],
+ ["Def", "lista1",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprNumber", 1]
+   ],
+   ["ExprVar", "lista_vacia"]
+  ]
+ ],
+ ["Def", "lista123",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprNumber", 1]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprNumber", 2]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprNumber", 3]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "listaABC",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 97]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 98]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 99]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "listaStrings",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprConstructor", "Nil"]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 97]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 97]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 98]
+        ],
+        ["ExprConstructor", "Nil"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 97]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 98]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 99]
+          ],
+          ["ExprConstructor", "Nil"]
+         ]
+        ]
+       ]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "arbolBinario",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Bin"],
+     ["ExprVar", "x"]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Bin"],
+       ["ExprVar", "y"]
+      ],
+      ["ExprConstructor", "Nil"]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Bin"],
+      ["ExprVar", "z"]
+     ],
+     ["ExprConstructor", "Nil"]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "natural",
+  ["ExprApply",
+   ["ExprConstructor", "S"],
+   ["ExprApply",
+    ["ExprConstructor", "S"],
+    ["ExprApply",
+     ["ExprConstructor", "S"],
+     ["ExprApply",
+      ["ExprConstructor", "S"],
+      ["ExprApply",
+       ["ExprConstructor", "S"],
+       ["ExprApply",
+        ["ExprConstructor", "S"],
+        ["ExprApply",
+         ["ExprConstructor", "S"],
+         ["ExprApply",
+          ["ExprConstructor", "S"],
+          ["ExprApply",
+           ["ExprConstructor", "S"],
+           ["ExprApply",
+            ["ExprConstructor", "S"],
+            ["ExprApply",
+             ["ExprConstructor", "S"],
+             ["ExprApply",
+              ["ExprConstructor", "S"],
+              ["ExprApply",
+               ["ExprConstructor", "S"],
+               ["ExprApply",
+                ["ExprConstructor", "S"],
+                ["ExprApply",
+                 ["ExprConstructor", "S"],
+                 ["ExprApply",
+                  ["ExprConstructor", "S"],
+                  ["ExprApply",
+                   ["ExprConstructor", "S"],
+                   ["ExprApply",
+                    ["ExprConstructor", "S"],
+                    ["ExprApply",
+                     ["ExprConstructor", "S"],
+                     ["ExprApply",
+                      ["ExprConstructor", "S"],
+                      ["ExprConstructor", "O"]
+                     ]
+                    ]
+                   ]
+                  ]
+                 ]
+                ]
+               ]
+              ]
+             ]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ]
+]

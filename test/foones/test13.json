@@ -1,0 +1,650 @@
+[
+ ["Def", "t1",
+  ["ExprCase",
+   ["ExprCase",
+    ["ExprVar", "x"],
+    [
+     ["CaseBranch", "A", [],
+      ["ExprVar", "a"]
+     ],
+     ["CaseBranch", "B", [],
+      ["ExprVar", "b"]
+     ]
+    ]
+   ],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprCase",
+      ["ExprVar", "y"],
+      [
+       ["CaseBranch", "A", ["x"],
+        ["ExprVar", "a"]
+       ],
+       ["CaseBranch", "B", [],
+        ["ExprVar", "b"]
+       ]
+      ]
+     ]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprCase",
+      ["ExprVar", "z"],
+      [
+       ["CaseBranch", "A", [],
+        ["ExprVar", "a"]
+       ],
+       ["CaseBranch", "B", ["x", "y", "z"],
+        ["ExprVar", "b"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t2",
+  ["ExprCase",
+   ["ExprLet", "x",
+    ["ExprNumber", 1],
+    ["ExprNumber", 2]
+   ],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprLet", "y",
+      ["ExprLambda", "w",
+       ["ExprNumber", 1]
+      ],
+      ["ExprNumber", 2]
+     ]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprLet", "z",
+      ["ExprLambda", "a",
+       ["ExprLambda", "b",
+        ["ExprLambda", "c",
+         ["ExprNumber", 1]
+        ]
+       ]
+      ],
+      ["ExprNumber", 2]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t3",
+  ["ExprCase",
+   ["ExprLambda", "x",
+    ["ExprVar", "x"]
+   ],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprLambda", "y1",
+      ["ExprLambda", "y2",
+       ["ExprLambda", "y3",
+        ["ExprVar", "y1"]
+       ]
+      ]
+     ]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprLambda", "z",
+      ["ExprVar", "z"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t4",
+  ["ExprCase",
+   ["ExprLet", "_",
+    ["ExprVar", "a"],
+    ["ExprVar", "b"]
+   ],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprLet", "_",
+      ["ExprVar", "c"],
+      ["ExprVar", "d"]
+     ]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprLet", "_",
+      ["ExprVar", "e"],
+      ["ExprLet", "_",
+       ["ExprVar", "f"],
+       ["ExprVar", "g"]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t5",
+  ["ExprCase",
+   ["ExprVar", "a"],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprVar", "b"]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprCase",
+      ["ExprCase",
+       ["ExprVar", "c"],
+       [
+        ["CaseBranch", "A", [],
+         ["ExprVar", "a"]
+        ],
+        ["CaseBranch", "B", [],
+         ["ExprVar", "b"]
+        ]
+       ]
+      ],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprCase",
+         ["ExprVar", "d"],
+         [
+          ["CaseBranch", "A", [],
+           ["ExprVar", "a"]
+          ],
+          ["CaseBranch", "B", [],
+           ["ExprVar", "b"]
+          ]
+         ]
+        ]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprVar", "e"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t6",
+  ["ExprCase",
+   ["ExprVar", "a"],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprVar", "b"]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprCase",
+      ["ExprLet", "x",
+       ["ExprChar", 97],
+       ["ExprVar", "x"]
+      ],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprLet", "x",
+         ["ExprChar", 98],
+         ["ExprVar", "x"]
+        ]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprVar", "e"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t7",
+  ["ExprCase",
+   ["ExprVar", "a"],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprVar", "b"]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprCase",
+      ["ExprLambda", "c1",
+       ["ExprLambda", "c2",
+        ["ExprApply",
+         ["ExprVar", "c2"],
+         ["ExprVar", "c1"]
+        ]
+       ]
+      ],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprLambda", "d1",
+         ["ExprLambda", "d2",
+          ["ExprLambda", "d3",
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "C"],
+              ["ExprVar", "d1"]
+             ],
+             ["ExprVar", "d2"]
+            ],
+            ["ExprVar", "d3"]
+           ]
+          ]
+         ]
+        ]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprVar", "e"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t8",
+  ["ExprCase",
+   ["ExprVar", "a"],
+   [
+    ["CaseBranch", "True", [],
+     ["ExprVar", "b"]
+    ],
+    ["CaseBranch", "False", [],
+     ["ExprCase",
+      ["ExprLet", "_",
+       ["ExprVar", "a"],
+       ["ExprVar", "b"]
+      ],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprLet", "_",
+         ["ExprVar", "d"],
+         ["ExprVar", "e"]
+        ]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprVar", "e"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t9",
+  ["ExprCase",
+   ["ExprCase",
+    ["ExprVar", "x"],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprVar", "x"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprNumber", 0]
+     ]
+    ]
+   ],
+   [
+    ["CaseBranch", "Nil", [],
+     ["ExprCase",
+      ["ExprVar", "x"],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprVar", "x"]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprCase",
+         ["ExprVar", "y"],
+         [
+          ["CaseBranch", "True", [],
+           ["ExprVar", "y"]
+          ],
+          ["CaseBranch", "False", [],
+           ["ExprNumber", 0]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ],
+    ["CaseBranch", "Cons", ["x", "xs"],
+     ["ExprCase",
+      ["ExprVar", "x"],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprVar", "x"]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprNumber", 0]
+       ]
+      ]
+     ]
+    ],
+    ["CaseBranch", "Bin", ["i", "r", "d"],
+     ["ExprCase",
+      ["ExprVar", "x"],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprVar", "x"]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprNumber", 0]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t10",
+  ["ExprCase",
+   ["ExprLet", "x1",
+    ["ExprVar", "y1"],
+    ["ExprVar", "z1"]
+   ],
+   [
+    ["CaseBranch", "Nil", [],
+     ["ExprLet", "x2",
+      ["ExprVar", "y2"],
+      ["ExprVar", "z2"]
+     ]
+    ],
+    ["CaseBranch", "Cons", ["x", "xs"],
+     ["ExprLet", "x3",
+      ["ExprVar", "y3"],
+      ["ExprVar", "z3"]
+     ]
+    ],
+    ["CaseBranch", "Bin", ["i", "r", "d"],
+     ["ExprLet", "x4",
+      ["ExprVar", "y4"],
+      ["ExprVar", "z4"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t11",
+  ["ExprCase",
+   ["ExprLambda", "x1",
+    ["ExprVar", "x1"]
+   ],
+   [
+    ["CaseBranch", "Nil", [],
+     ["ExprLambda", "x2",
+      ["ExprVar", "x2"]
+     ]
+    ],
+    ["CaseBranch", "Cons", ["x", "xs"],
+     ["ExprLambda", "x3",
+      ["ExprVar", "x3"]
+     ]
+    ],
+    ["CaseBranch", "Bin", ["i", "r", "d"],
+     ["ExprLambda", "x4",
+      ["ExprVar", "x4"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t12",
+  ["ExprCase",
+   ["ExprLet", "_",
+    ["ExprVar", "a"],
+    ["ExprVar", "b"]
+   ],
+   [
+    ["CaseBranch", "Nil", [],
+     ["ExprLet", "_",
+      ["ExprVar", "c"],
+      ["ExprVar", "d"]
+     ]
+    ],
+    ["CaseBranch", "Cons", ["x", "xs"],
+     ["ExprLet", "_",
+      ["ExprVar", "e"],
+      ["ExprLet", "_",
+       ["ExprVar", "f"],
+       ["ExprVar", "g"]
+      ]
+     ]
+    ],
+    ["CaseBranch", "Bin", ["i", "r", "d"],
+     ["ExprLet", "_",
+      ["ExprVar", "h"],
+      ["ExprLet", "_",
+       ["ExprVar", "i"],
+       ["ExprVar", "j"]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t13",
+  ["ExprLet", "x",
+   ["ExprCase",
+    ["ExprVar", "a1"],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprVar", "b1"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprVar", "c1"]
+     ]
+    ]
+   ],
+   ["ExprCase",
+    ["ExprVar", "a2"],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprVar", "b2"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprVar", "c2"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t14",
+  ["ExprLet", "x",
+   ["ExprCase",
+    ["ExprVar", "a1"],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprVar", "b1"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprCase",
+       ["ExprVar", "c1"],
+       [
+        ["CaseBranch", "True", [],
+         ["ExprVar", "d1"]
+        ],
+        ["CaseBranch", "False", [],
+         ["ExprCase",
+          ["ExprVar", "e1"],
+          [
+           ["CaseBranch", "True", [],
+            ["ExprVar", "f1"]
+           ],
+           ["CaseBranch", "False", [],
+            ["ExprVar", "g1"]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   ["ExprCase",
+    ["ExprVar", "a2"],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprVar", "b2"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprCase",
+       ["ExprVar", "c2"],
+       [
+        ["CaseBranch", "True", [],
+         ["ExprVar", "d2"]
+        ],
+        ["CaseBranch", "False", [],
+         ["ExprCase",
+          ["ExprVar", "e2"],
+          [
+           ["CaseBranch", "True", [],
+            ["ExprVar", "f2"]
+           ],
+           ["CaseBranch", "False", [],
+            ["ExprVar", "g2"]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t15",
+  ["ExprLet", "x",
+   ["ExprCase",
+    ["ExprVar", "a1"],
+    [
+     ["CaseBranch", "Nil", [],
+      ["ExprVar", "b1"]
+     ],
+     ["CaseBranch", "Cons", ["x", "xs"],
+      ["ExprVar", "c1"]
+     ],
+     ["CaseBranch", "Bin", ["i", "r", "d"],
+      ["ExprVar", "d1"]
+     ]
+    ]
+   ],
+   ["ExprCase",
+    ["ExprVar", "a2"],
+    [
+     ["CaseBranch", "Nil", [],
+      ["ExprVar", "b2"]
+     ],
+     ["CaseBranch", "Cons", ["x", "xs"],
+      ["ExprVar", "c2"]
+     ],
+     ["CaseBranch", "Bin", ["i", "r", "d"],
+      ["ExprVar", "d2"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t16",
+  ["ExprLet", "x",
+   ["ExprLambda", "x1",
+    ["ExprLambda", "y1",
+     ["ExprVar", "z1"]
+    ]
+   ],
+   ["ExprLambda", "x2",
+    ["ExprLambda", "y2",
+     ["ExprVar", "z2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t17",
+  ["ExprLet", "x",
+   ["ExprLet", "_",
+    ["ExprVar", "a"],
+    ["ExprLet", "_",
+     ["ExprVar", "b"],
+     ["ExprVar", "c"]
+    ]
+   ],
+   ["ExprLet", "_",
+    ["ExprVar", "d"],
+    ["ExprLet", "_",
+     ["ExprVar", "e"],
+     ["ExprVar", "f"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t18",
+  ["ExprLambda", "x",
+   ["ExprLambda", "y",
+    ["ExprLambda", "z",
+     ["ExprCase",
+      ["ExprVar", "a"],
+      [
+       ["CaseBranch", "True", [],
+        ["ExprVar", "b"]
+       ],
+       ["CaseBranch", "False", [],
+        ["ExprVar", "c"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t19",
+  ["ExprLambda", "x",
+   ["ExprCase",
+    ["ExprVar", "a"],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprVar", "b"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprCase",
+       ["ExprVar", "c"],
+       [
+        ["CaseBranch", "True", [],
+         ["ExprVar", "d"]
+        ],
+        ["CaseBranch", "False", [],
+         ["ExprVar", "e"]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t20",
+  ["ExprLambda", "x",
+   ["ExprLambda", "y",
+    ["ExprCase",
+     ["ExprVar", "y"],
+     []
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t21",
+  ["ExprLambda", "x",
+   ["ExprLet", "a",
+    ["ExprVar", "b"],
+    ["ExprVar", "c"]
+   ]
+  ]
+ ],
+ ["Def", "t22",
+  ["ExprLambda", "x",
+   ["ExprLet", "_",
+    ["ExprVar", "a"],
+    ["ExprLet", "_",
+     ["ExprVar", "b"],
+     ["ExprVar", "c"]
+    ]
+   ]
+  ]
+ ]
+]

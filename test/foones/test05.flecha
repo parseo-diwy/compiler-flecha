@@ -1,0 +1,12 @@
+-- Estructuras
+def lista_vacia = Nil
+def lista1      = Cons 1 lista_vacia
+def lista123    = Cons 1 (Cons 2 (Cons 3 Nil))
+def listaABC    = Cons 'a' (Cons 'b' (Cons 'c' Nil))
+def listaStrings =
+  Cons "" (Cons "a" (Cons "ab" (Cons "abc" Nil)))
+def arbolBinario =
+  Bin x
+      (Bin y Nil Nil)
+      (Bin z Nil Nil)
+def natural = S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S O)))))))))))))))))))

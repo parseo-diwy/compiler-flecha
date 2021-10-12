@@ -1,0 +1,6 @@
+def a = 'a' def z = 'z' def a_ = 'A' def z_ = 'z'
+def cero = '0' def nueve = '9' def espacio = ' ' def tab = '\t'
+def cr = '\r' def lf = '\n' def comilla = '\'' def doble_comilla = '\"'
+def contrabarra = '\\' def igual = '=' def lparen = '(' def rparen = ')'
+-- Caracteres
+
