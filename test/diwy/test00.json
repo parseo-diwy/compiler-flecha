@@ -1,0 +1,7 @@
+[
+  [
+    "ExprApply",
+    ["ExprApply", ["ExprVar", "ADD"], ["ExprNumber", 1]],
+    ["ExprNumber", 2]
+  ]
+]
