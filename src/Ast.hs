@@ -1,24 +1,19 @@
 module Ast where 
 
-
-
 type Program = [Definition]
 
-type Id = String
-type ConsId = String
+type ID = String
 
-data Definition = Def Id Expr 
-                    deriving Show
+data Definition = Def ID Expr deriving Show
 
-data Expr   = ExprVar Id
-            | ExprConstructor ConsId 
+data Expr   = ExprVar ID
+            | ExprConstructor ID
             | ExprNumber Integer 
             | ExprChar Char 
             | ExprCase Expr [CaseBranch]
-            | ExprLet Id Expr Expr 
-            | ExprLambda Id Expr
+            | ExprLet ID Expr Expr 
+            | ExprLambda ID Expr
             | ExprApply Expr Expr
             deriving Show
 
-data CaseBranch = CaseBranch Id [Id] Expr 
-                    deriving Show
+data CaseBranch = CaseBranch ID [ID] Expr deriving Show
