@@ -24,11 +24,94 @@ function run_test() {
   assert_output ""
 }
 
+# Diwy Test Suite
+
 @test "diwy::test00" {
   run_test "test/diwy/test00"
 }
+
+# Foones Test Suite
 
 @test "foones::test00" {
   run_test "test/foones/test00"
 }
 
+@test "foones::test01" {
+  run_test "test/foones/test01"
+}
+
+@test "foones::test02" {
+  run_test "test/foones/test02"
+}
+
+@test "foones::test03" {
+  run_test "test/foones/test03"
+}
+
+@test "foones::test04" {
+  skip
+  run_test "test/foones/test04"
+}
+
+@test "foones::test05" {
+  run_test "test/foones/test05"
+}
+
+@test "foones::test06" {
+  run_test "test/foones/test06"
+}
+
+@test "foones::test07" {
+  skip
+  run_test "test/foones/test07"
+}
+
+@test "foones::test08" {
+  skip
+  run_test "test/foones/test08"
+}
+
+@test "foones::test09" {
+  run_test "test/foones/test09"
+}
+
+@test "foones::test10" {
+  run_test "test/foones/test10"
+}
+
+@test "foones::test11" {
+  run_test "test/foones/test11"
+}
+
+@test "foones::test12" {
+  skip
+  run_test "test/foones/test12"
+}
+
+@test "foones::test13" {
+  skip
+  run_test "test/foones/test13"
+}
+
+@test "foones::test14" {
+  run_test "test/foones/test14"
+}
+
+@test "foones::test15" {
+  skip
+  run_test "test/foones/test15"
+}
+
+@test "foones::test16" {
+  run_test "test/foones/test16"
+}
+
+@test "foones::test17" {
+  skip
+  run_test "test/foones/test17"
+}
+
+@test "foones::test18" {
+  skip
+  run_test "test/foones/test18"
+}
