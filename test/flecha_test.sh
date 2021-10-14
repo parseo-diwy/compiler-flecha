@@ -30,7 +30,7 @@ function run_test() {
   run_test "test/diwy/test00"
 }
 
-# Foones Test Suite
+# # Foones Test Suite
 
 @test "foones::test00" {
   run_test "test/foones/test00"
@@ -49,7 +49,6 @@ function run_test() {
 }
 
 @test "foones::test04" {
-  skip
   run_test "test/foones/test04"
 }
 
@@ -62,12 +61,10 @@ function run_test() {
 }
 
 @test "foones::test07" {
-  skip
   run_test "test/foones/test07"
 }
 
 @test "foones::test08" {
-  skip
   run_test "test/foones/test08"
 }
 
@@ -84,12 +81,10 @@ function run_test() {
 }
 
 @test "foones::test12" {
-  skip
   run_test "test/foones/test12"
 }
 
 @test "foones::test13" {
-  skip
   run_test "test/foones/test13"
 }
 

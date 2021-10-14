@@ -60,7 +60,7 @@ exprApply :: StrExp -> StrExp -> String
 exprApply e1 e2 = "[\"ExprApply\", " ++ e1 ++ ", " ++ e2 ++ "]"
 
 exprCaseBranch :: StrID -> [StrID] -> StrExp -> String
-exprCaseBranch i ids e = "[\"CaseBranch\", " ++ quote i ++ ", [" ++ exprCaseBranchList ids ++ "], "++ e ++ "]"
+exprCaseBranch i ids e = "[\"CaseBranch\", " ++ quote i ++ ", " ++ exprCaseBranchList ids ++ ", "++ e ++ "]"
 
 exprCaseBranchList :: [StrID] -> String
 exprCaseBranchList ids = "[" ++ intercalate "," (map quote ids) ++ "]"

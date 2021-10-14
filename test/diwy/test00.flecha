@@ -1,1 +1,3 @@
-def s = 1 + 2
+-- Asociatividad
+
+def t1=a||b||c||d

@@ -26,13 +26,13 @@ ignoreToEndLine ('\n':cs) = cs
 ignoreToEndLine (_:cs) = cs
 
 lexChar :: String -> [Token]
-lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\'' : lexer rest
-lexChar ('\'':'\\':'\\':'\'':rest) = TokenChar '"'  : lexer rest
-lexChar ('\'':'\\':'"':'\'':rest)  = TokenChar '"'  : lexer rest
-lexChar ('\'':'\\':'t':'\'':rest)  = TokenChar '"'  : lexer rest
-lexChar ('\'':'\\':'n':'\'':rest)  = TokenChar '"'  : lexer rest
-lexChar ('\'':'\\':'r':'\'':rest)  = TokenChar '"'  : lexer rest
-lexChar ('\'': c : '\'':rest)      = TokenChar c    : lexer rest
+lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\''  : lexer rest
+lexChar ('\'':'\\':'\\':'\'':rest) = TokenChar '\\'  : lexer rest
+lexChar ('\'':'\\':'\"':'\'':rest) = TokenChar '\"'  : lexer rest
+lexChar ('\'':'\\':'t':'\'':rest)  = TokenChar '\t'  : lexer rest
+lexChar ('\'':'\\':'n':'\'':rest)  = TokenChar '\n'  : lexer rest
+lexChar ('\'':'\\':'r':'\'':rest)  = TokenChar '\r'  : lexer rest
+lexChar ('\'': c : '\'':rest)      = TokenChar c     : lexer rest
 lexChar _ = error "Lexical error: expected a char"
 
 lexString :: String -> [Token]
@@ -120,7 +120,7 @@ keywordTokenMap = Map.fromList [
         ("if",      TokenIf),
         ("then",    TokenThen),
         ("else",    TokenElse),
-        ("elseif",  TokenElif),
+        ("elif",    TokenElif),
         ("case",    TokenCase),
         ("let",     TokenLet),
         ("in",      TokenIn)

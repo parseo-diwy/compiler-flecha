@@ -67,11 +67,10 @@ ExternalExpression      : IfExpression          { $1 }
                         | LambdaExpression      { $1 }
                         | InternalExpression    { $1 }
 
-IfExpression      : if InternalExpression then InternalExpression ElseBranches      { ExprCase $2 ((CaseBranch "True" [] $4):$5) }
+IfExpression      : if InternalExpression then InternalExpression ElseBranches      { mkIfAsCase $2 $4 $5 }
 
-ElseBranches      : elif  InternalExpression then InternalExpression ElseBranches   { [ CaseBranch "False" [] 
-                                                                                          (ExprCase $2 ((CaseBranch "True" [] $4):$5))] }
-                  | else InternalExpression                                         { [ CaseBranch "False" [] $2 ] }
+ElseBranches      : elif  InternalExpression then InternalExpression ElseBranches   { mkElseBranches (mkIfAsCase $2 $4 $5)  }
+                  | else InternalExpression                                         { mkElseBranches $2 }
 
 CaseExpression    : case InternalExpression CaseBranches                            { ExprCase $2 $3 }
 
@@ -129,5 +128,11 @@ mkStringAsCons (c:cs) = ExprApply (ExprApply (ExprConstructor "Cons") (ExprChar 
 mkLambda :: [String] -> Expr -> Expr
 mkLambda [] expr = expr
 mkLambda (p:ps) expr = ExprLambda p (mkLambda ps expr)
+
+mkIfAsCase :: Expr -> Expr -> [CaseBranch] -> Expr
+mkIfAsCase condExpr thenExpr elseBranches = ExprCase condExpr ((CaseBranch "True" [] thenExpr):elseBranches)
+
+mkElseBranches :: Expr -> [ CaseBranch ]
+mkElseBranches elseExpr = [ CaseBranch "False" [] elseExpr ]
 }
 
