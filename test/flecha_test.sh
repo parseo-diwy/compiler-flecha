@@ -14,21 +14,21 @@ teardown() {
     rm -f test/foones/*.output
 }
 
-# test diwy "test00"
-
 function run_test() {
   TEST_NAME=$1
-  @test "$TEST_NAME" {
-    # [[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    jq . "$TEST_NAME.json" > "$TEST_NAME.expected"
-    cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" | jq . > "$TEST_NAME.output"
-    run diff "$TEST_NAME.expected" "$TEST_NAME.output"
+  jq . "$TEST_NAME.json" > "$TEST_NAME.expected"
+  cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" | jq . > "$TEST_NAME.output"
+  run diff "$TEST_NAME.expected" "$TEST_NAME.output"
 
-    assert_success
-    assert_output ""
-  }
+  assert_success
+  assert_output ""
 }
 
-run_test test/diwy/test00
+@test "diwy::test00" {
+  run_test "test/diwy/test00"
+}
 
-# test foones "test00"
+@test "foones::test00" {
+  run_test "test/foones/test00"
+}
+
