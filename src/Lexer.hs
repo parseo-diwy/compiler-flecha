@@ -4,18 +4,26 @@ import Tokens ( Token(..) )
 import Data.Char ( isDigit, isAlpha, isSpace, isLower, isUpper )
 import qualified Data.Map as Map
 
--- TODO: analyze comments
 lexer :: String -> [Token]
 lexer [] = []
-lexer input@(c:cs)  | isSpace c                 = lexer cs
+lexer input@(c:cs)  | isSpace c                   = lexer cs
                     | isDigit c                 = lexNumber input
                     | isLower c && isAlpha c    = lexTokenOrLowerId input
                     | isUpper c && isAlpha c    = lexUpperId input
                     | isStartingSymbol c        = lexSymbol input
                     | '"' == c                  = lexString input
                     | '\'' == c                 = lexChar input
+                    | '-' == c                  = lexer $ removeComment cs
                     | otherwise                 = error $ "Lexical error: unexpected character: `" ++ [c::Char] ++ "`"
 
+removeComment :: String -> String
+removeComment ('-':cs) = ignoreToEndLine cs
+removeComment cs = cs
+
+ignoreToEndLine :: String -> String
+ignoreToEndLine "" = ""
+ignoreToEndLine ('\n':cs) = cs
+ignoreToEndLine (_:cs) = cs
 
 lexChar :: String -> [Token]
 lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\'' : lexer rest
@@ -46,7 +54,7 @@ spanString _         _      _     = error "Lexical error: unexpected input seque
 
 lexNumber :: String -> [Token]
 lexNumber cs = let (numStr, rest) = span isDigit cs
-                in TokenInt (read numStr::Integer) : lexer rest
+                in TokenNumber (read numStr::Integer) : lexer rest
 
 lexSymbol :: String -> [Token]
 lexSymbol [] = []
