@@ -1,8 +1,9 @@
-# TP1 $ Parser $ flecha
+# Compiler $ Flecha
 
 ## TL;DR
 
 ```sh
+git clone https://github.com/parseo-diwy/compiler-flecha.git
 cabal build
 cabal run flecha -- example.flecha
 ```
