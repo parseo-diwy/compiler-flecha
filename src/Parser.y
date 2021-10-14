@@ -50,38 +50,38 @@ import Ast
       
 %%
 
-Program     : Program Definition    { $1 ++ [$2] }
-            | {- empty -}           { [] }
+Program                 : Program Definition                                  { $1 ++ [$2] }
+                        | {- empty -}                                         { [] }
 
-Definition  : def lowerid Parameters '=' Expression   { Def $2 (mkLambda $3 $5) }
+Definition              : def lowerid Parameters '=' Expression               { Def $2 (mkLambda $3 $5) }
 
-Parameters  : lowerid  Parameters               { [$1] ++ $2 }
-            | {- empty -}                       { [] }
+Parameters              : lowerid  Parameters                                 { [$1] ++ $2 }
+                        | {- empty -}                                         { [] }
 
-Expression  : ExternalExpression                { $1 }
-            | ExternalExpression ';' Expression { ExprLet "_" $1 $3 }
+Expression              : ExternalExpression                                  { $1 }
+                        | ExternalExpression ';' Expression                   { ExprLet "_" $1 $3 }
 
-ExternalExpression      : IfExpression          { $1 }
-                        | CaseExpression        { $1 }
-                        | LetExpression         { $1 }
-                        | LambdaExpression      { $1 }
-                        | InternalExpression    { $1 }
+ExternalExpression      : IfExpression                                        { $1 }
+                        | CaseExpression                                      { $1 }
+                        | LetExpression                                       { $1 }
+                        | LambdaExpression                                    { $1 }
+                        | InternalExpression                                  { $1 }
 
-IfExpression      : if InternalExpression then InternalExpression ElseBranches      { mkIfAsCase $2 $4 $5 }
+IfExpression            : if InternalExpression then InternalExpression ElseBranches      { mkIfAsCase $2 $4 $5 }
 
-ElseBranches      : elif  InternalExpression then InternalExpression ElseBranches   { mkElseBranches (mkIfAsCase $2 $4 $5)  }
-                  | else InternalExpression                                         { mkElseBranches $2 }
+ElseBranches            : elif  InternalExpression then InternalExpression ElseBranches   { mkElseBranches (mkIfAsCase $2 $4 $5)  }
+                        | else InternalExpression                                         { mkElseBranches $2 }
 
-CaseExpression    : case InternalExpression CaseBranches                            { ExprCase $2 $3 }
+CaseExpression          : case InternalExpression CaseBranches                { ExprCase $2 $3 }
 
-CaseBranches      : CaseBranch CaseBranches                                         { [$1] ++ $2 } 
-                  | {- empty -}                                                     { [] }
+CaseBranches            : CaseBranch CaseBranches                             { [$1] ++ $2 } 
+                        | {- empty -}                                         { [] }
 
-CaseBranch        : '|' upperid Parameters arrow InternalExpression                 { CaseBranch $2 $3 $5 }
+CaseBranch              : '|' upperid Parameters arrow InternalExpression     { CaseBranch $2 $3 $5 }
 
-LetExpression     : let lowerid Parameters '=' InternalExpression in ExternalExpression { ExprLet $2 (mkLambda $3 $5) $7 }
+LetExpression           : let lowerid Parameters '=' InternalExpression in ExternalExpression { ExprLet $2 (mkLambda $3 $5) $7 }
 
-LambdaExpression  : lambda Parameters arrow ExternalExpression                      { mkLambda $2 $4 }
+LambdaExpression        : lambda Parameters arrow ExternalExpression          { mkLambda $2 $4 }
 
 InternalExpression      : AssociativeExpression                               { $1 }
 
@@ -119,32 +119,15 @@ UminusExpression        : minus UminusExpression                              { 
                         | AtomicExpression                                    { $1 }
                         | ApplicationExpression                               { $1 }
 
-BinaryOperator    : and   { ExprVar "AND"}
-                  | or    { ExprVar "OR"}
-                  | eq    { ExprVar "EQ"}
-                  | ne    { ExprVar "NE"}
-                  | ge    { ExprVar "GE"}
-                  | le    { ExprVar "LE"}
-                  | gt    { ExprVar "GT"}
-                  | lt    { ExprVar "LT"}
-                  | plus  { ExprVar "ADD"}
-                  | minus { ExprVar "SUB"}
-                  | times { ExprVar "MUL"}
-                  | div   { ExprVar "DIV"}
-                  | mod   { ExprVar "MOD"}
-                  
-UnaryOperator     : not   { ExprVar "NOT"}
-                  | minus { ExprVar "UMINUS"}
+ApplicationExpression   : AtomicExpression                                    { $1 }
+                        | ApplicationExpression AtomicExpression              {  ExprApply $1 $2 }
 
-ApplicationExpression   : AtomicExpression                        { $1 }
-                        | ApplicationExpression AtomicExpression  {  ExprApply $1 $2 }
-
-AtomicExpression        : lowerid   { ExprVar $1 }
-                        | upperid   { ExprConstructor $1}
-                        | number    { ExprNumber $1}
-                        | char      { ExprChar $1}
-                        | string    { mkStringAsCons $1 }
-                        | '(' Expression ')' { $2 }
+AtomicExpression        : lowerid                                             { ExprVar $1 }
+                        | upperid                                             { ExprConstructor $1}
+                        | number                                              { ExprNumber $1}
+                        | char                                                { ExprChar $1}
+                        | string                                              { mkStringAsCons $1 }
+                        | '(' Expression ')'                                  { $2 }
 
 {
 parseError :: [Token] -> a
