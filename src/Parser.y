@@ -43,5 +43,5 @@ Factor
 
 {
 parseError :: [Token] -> a
-parseError s = error $ "Parse error:\n\t+ " ++ (show s) 
+parseError s = error $ "Parse error:\n\t+ " ++ (show s)
 }

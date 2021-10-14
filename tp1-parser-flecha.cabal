@@ -14,16 +14,17 @@ cabal-version:       >=1.8
 
 executable flecha
   main-is:             Main.hs
-  build-depends:       base >= 4.11 && < 5, array, containers, tp1-parser-flecha
+  build-depends:       base >= 4.11 && < 5, array, containers, text, tp1-parser-flecha
   build-tools:         happy
   -- ghc-options: -Wall
   default-language:    Haskell2010
 library
-  build-depends:       base >=4.11 && < 5, array, containers
+  build-depends:       base >=4.11 && < 5, array, containers, text
   hs-source-dirs:      src
   exposed-modules:     Tokens
                        Ast
                        Lexer
                        Parser
+                       Json
   -- ghc-options: -Wall
   default-language:    Haskell2010
