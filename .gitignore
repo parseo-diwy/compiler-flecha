@@ -1,3 +1,5 @@
 *.hi
 *.o
 dist-*
+src/Parser.hs
+dist
