@@ -123,11 +123,8 @@ parseError s = error $ "Parse error:\n\t+ " ++ (show s)
 -- Definitions 
 
 mkStringAsCons :: [Char] -> Expr
-mkStringAsCons s = mkStringAsCons $ reverse s
-
-mkStringAsCons' :: [Char] -> Expr
-mkStringAsCons' [] = ExprConstructor "Nil"
-mkStringAsCons' (c:cs) = ExprApply (ExprApply (ExprConstructor "Cons") (ExprChar c))  (mkStringAsCons cs) 
+mkStringAsCons [] = ExprConstructor "Nil"
+mkStringAsCons (c:cs) = ExprApply (ExprApply (ExprConstructor "Cons") (ExprChar c))  (mkStringAsCons cs) 
 
 mkLambda :: [String] -> Expr -> Expr
 mkLambda [] expr = expr
