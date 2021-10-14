@@ -1,0 +1,26 @@
+-- Funciones anonimas
+
+def t1 = \ x -> x
+def t2=\x->x
+def t3=\x->
+--
+x
+def t4 = \ x y -> y
+def t5 = \ x y z -> z
+def t6 = \ x -> \ y z -> z
+def t7 = \ x y z -> \ a b c -> \ d e f -> d
+def t8 = \ x y z -> \ a b c -> \ d e f -> F
+def t9 = \ x y z -> \ a b c -> \ d e f -> 1
+def t10 = \ x y z -> \ a b c -> \ d e f -> 'a'
+def t11 = \ x y z -> \ a b c ->
+          \ x1 y1 z1 -> \ a1 b1 c1 ->
+            "aa"
+def t12 = \ x -> x y z
+def t13 = (\ x -> x y z)
+def t14 = (\ x -> x y) z
+def t15 = (\ x -> x) y z
+def t16 = \ x -> x y (z)
+def t17 = \ x -> x (y z)
+def t18 = \ -> v -- lambda vacia
+def t19 = \ x y z -> a b c
+

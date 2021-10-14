@@ -1,0 +1,1622 @@
+[
+ ["Def", "t1",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "SUB"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "MOD"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "DIV"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "MOD"],
+                ["ExprApply",
+                 ["ExprVar", "UMINUS"],
+                 ["ExprApply",
+                  ["ExprVar", "a"],
+                  ["ExprVar", "a"]
+                 ]
+                ]
+               ],
+               ["ExprApply",
+                ["ExprVar", "UMINUS"],
+                ["ExprNumber", 0]
+               ]
+              ]
+             ],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprConstructor", "A"]
+             ]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprVar", "UMINUS"],
+            ["ExprChar", 97]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "MOD"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "DIV"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "MOD"],
+               ["ExprApply",
+                ["ExprVar", "UMINUS"],
+                ["ExprApply",
+                 ["ExprVar", "b"],
+                 ["ExprVar", "b"]
+                ]
+               ]
+              ],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprNumber", 1]
+              ]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprVar", "UMINUS"],
+             ["ExprConstructor", "B"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprVar", "UMINUS"],
+           ["ExprChar", 98]
+          ]
+         ]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "MOD"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "DIV"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "MOD"],
+               ["ExprApply",
+                ["ExprVar", "UMINUS"],
+                ["ExprApply",
+                 ["ExprVar", "c"],
+                 ["ExprVar", "c"]
+                ]
+               ]
+              ],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprNumber", 2]
+              ]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprVar", "UMINUS"],
+             ["ExprConstructor", "C"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprVar", "UMINUS"],
+           ["ExprChar", 99]
+          ]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MOD"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprApply",
+                ["ExprVar", "d"],
+                ["ExprVar", "d"]
+               ]
+              ]
+             ],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprNumber", 3]
+             ]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprVar", "UMINUS"],
+            ["ExprConstructor", "D"]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprVar", "UMINUS"],
+          ["ExprChar", 100]
+         ]
+        ]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "MUL"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MOD"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprApply",
+               ["ExprVar", "e"],
+               ["ExprVar", "e"]
+              ]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprVar", "UMINUS"],
+             ["ExprNumber", 4]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprVar", "UMINUS"],
+           ["ExprConstructor", "E"]
+          ]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprVar", "UMINUS"],
+         ["ExprChar", 101]
+        ]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "MOD"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "DIV"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "MOD"],
+            ["ExprApply",
+             ["ExprVar", "UMINUS"],
+             ["ExprApply",
+              ["ExprVar", "f"],
+              ["ExprVar", "f"]
+             ]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprVar", "UMINUS"],
+            ["ExprNumber", 5]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprVar", "UMINUS"],
+          ["ExprConstructor", "F"]
+         ]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprVar", "UMINUS"],
+        ["ExprChar", 102]
+       ]
+      ]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "MUL"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "MOD"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "DIV"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "MOD"],
+           ["ExprApply",
+            ["ExprVar", "UMINUS"],
+            ["ExprApply",
+             ["ExprVar", "g"],
+             ["ExprVar", "g"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprVar", "UMINUS"],
+           ["ExprNumber", 6]
+          ]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprVar", "UMINUS"],
+         ["ExprConstructor", "G"]
+        ]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprVar", "UMINUS"],
+       ["ExprChar", 103]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "MOD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "DIV"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MOD"],
+          ["ExprApply",
+           ["ExprVar", "UMINUS"],
+           ["ExprApply",
+            ["ExprVar", "h"],
+            ["ExprVar", "h"]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprVar", "UMINUS"],
+          ["ExprNumber", 7]
+         ]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprVar", "UMINUS"],
+        ["ExprConstructor", "H"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprVar", "UMINUS"],
+      ["ExprChar", 104]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t2",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "EQ"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprVar", "a"]
+              ]
+             ],
+             ["ExprNumber", 0]
+            ]
+           ],
+           ["ExprChar", 97]
+          ]
+         ],
+         ["ExprChar", 65]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "A"],
+         ["ExprVar", "a1"]
+        ],
+        ["ExprVar", "a2"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "a"],
+       ["ExprConstructor", "A1"]
+      ],
+      ["ExprConstructor", "A2"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "ADD"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprVar", "b"]
+             ]
+            ],
+            ["ExprNumber", 0]
+           ]
+          ],
+          ["ExprChar", 98]
+         ]
+        ],
+        ["ExprChar", 66]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "B"],
+        ["ExprVar", "b1"]
+       ],
+       ["ExprVar", "b2"]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "b"],
+      ["ExprConstructor", "B1"]
+     ],
+     ["ExprConstructor", "B2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t3",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "NE"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprVar", "a"]
+              ]
+             ],
+             ["ExprNumber", 0]
+            ]
+           ],
+           ["ExprChar", 97]
+          ]
+         ],
+         ["ExprChar", 65]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "A"],
+         ["ExprVar", "a1"]
+        ],
+        ["ExprVar", "a2"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "a"],
+       ["ExprConstructor", "A1"]
+      ],
+      ["ExprConstructor", "A2"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "ADD"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprVar", "b"]
+             ]
+            ],
+            ["ExprNumber", 0]
+           ]
+          ],
+          ["ExprChar", 98]
+         ]
+        ],
+        ["ExprChar", 66]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "B"],
+        ["ExprVar", "b1"]
+       ],
+       ["ExprVar", "b2"]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "b"],
+      ["ExprConstructor", "B1"]
+     ],
+     ["ExprConstructor", "B2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t4",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "GE"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprVar", "a"]
+              ]
+             ],
+             ["ExprNumber", 0]
+            ]
+           ],
+           ["ExprChar", 97]
+          ]
+         ],
+         ["ExprChar", 65]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "A"],
+         ["ExprVar", "a1"]
+        ],
+        ["ExprVar", "a2"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "a"],
+       ["ExprConstructor", "A1"]
+      ],
+      ["ExprConstructor", "A2"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "ADD"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprVar", "b"]
+             ]
+            ],
+            ["ExprNumber", 0]
+           ]
+          ],
+          ["ExprChar", 98]
+         ]
+        ],
+        ["ExprChar", 66]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "B"],
+        ["ExprVar", "b1"]
+       ],
+       ["ExprVar", "b2"]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "b"],
+      ["ExprConstructor", "B1"]
+     ],
+     ["ExprConstructor", "B2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t5",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "LE"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprVar", "a"]
+              ]
+             ],
+             ["ExprNumber", 0]
+            ]
+           ],
+           ["ExprChar", 97]
+          ]
+         ],
+         ["ExprChar", 65]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "A"],
+         ["ExprVar", "a1"]
+        ],
+        ["ExprVar", "a2"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "a"],
+       ["ExprConstructor", "A1"]
+      ],
+      ["ExprConstructor", "A2"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "ADD"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprVar", "b"]
+             ]
+            ],
+            ["ExprNumber", 0]
+           ]
+          ],
+          ["ExprChar", 98]
+         ]
+        ],
+        ["ExprChar", 66]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "B"],
+        ["ExprVar", "b1"]
+       ],
+       ["ExprVar", "b2"]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "b"],
+      ["ExprConstructor", "B1"]
+     ],
+     ["ExprConstructor", "B2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t6",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "GT"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprVar", "a"]
+              ]
+             ],
+             ["ExprNumber", 0]
+            ]
+           ],
+           ["ExprChar", 97]
+          ]
+         ],
+         ["ExprChar", 65]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "A"],
+         ["ExprVar", "a1"]
+        ],
+        ["ExprVar", "a2"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "a"],
+       ["ExprConstructor", "A1"]
+      ],
+      ["ExprConstructor", "A2"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "ADD"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprVar", "b"]
+             ]
+            ],
+            ["ExprNumber", 0]
+           ]
+          ],
+          ["ExprChar", 98]
+         ]
+        ],
+        ["ExprChar", 66]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "B"],
+        ["ExprVar", "b1"]
+       ],
+       ["ExprVar", "b2"]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "b"],
+      ["ExprConstructor", "B1"]
+     ],
+     ["ExprConstructor", "B2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t7",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "LT"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "ADD"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "SUB"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "MUL"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "DIV"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MOD"],
+              ["ExprApply",
+               ["ExprVar", "UMINUS"],
+               ["ExprVar", "a"]
+              ]
+             ],
+             ["ExprNumber", 0]
+            ]
+           ],
+           ["ExprChar", 97]
+          ]
+         ],
+         ["ExprChar", 65]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "A"],
+         ["ExprVar", "a1"]
+        ],
+        ["ExprVar", "a2"]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "a"],
+       ["ExprConstructor", "A1"]
+      ],
+      ["ExprConstructor", "A2"]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "ADD"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "MUL"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "DIV"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MOD"],
+             ["ExprApply",
+              ["ExprVar", "UMINUS"],
+              ["ExprVar", "b"]
+             ]
+            ],
+            ["ExprNumber", 0]
+           ]
+          ],
+          ["ExprChar", 98]
+         ]
+        ],
+        ["ExprChar", 66]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "B"],
+        ["ExprVar", "b1"]
+       ],
+       ["ExprVar", "b2"]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "b"],
+      ["ExprConstructor", "B1"]
+     ],
+     ["ExprConstructor", "B2"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t8",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "OR"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "OR"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "AND"],
+        ["ExprApply",
+         ["ExprVar", "NOT"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "EQ"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "ADD"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "SUB"],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprVar", "MUL"],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprVar", "DIV"],
+                   ["ExprApply",
+                    ["ExprApply",
+                     ["ExprVar", "MOD"],
+                     ["ExprApply",
+                      ["ExprVar", "UMINUS"],
+                      ["ExprVar", "a"]
+                     ]
+                    ],
+                    ["ExprNumber", 0]
+                   ]
+                  ],
+                  ["ExprChar", 97]
+                 ]
+                ],
+                ["ExprChar", 65]
+               ]
+              ],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprConstructor", "A"],
+                ["ExprVar", "a1"]
+               ],
+               ["ExprVar", "a2"]
+              ]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "a"],
+              ["ExprConstructor", "A1"]
+             ],
+             ["ExprConstructor", "A2"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "ADD"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "SUB"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "MUL"],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprVar", "DIV"],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprVar", "MOD"],
+                    ["ExprApply",
+                     ["ExprVar", "UMINUS"],
+                     ["ExprVar", "b"]
+                    ]
+                   ],
+                   ["ExprNumber", 0]
+                  ]
+                 ],
+                 ["ExprChar", 98]
+                ]
+               ],
+               ["ExprChar", 66]
+              ]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "B"],
+               ["ExprVar", "b1"]
+              ],
+              ["ExprVar", "b2"]
+             ]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "b"],
+             ["ExprConstructor", "B1"]
+            ],
+            ["ExprConstructor", "B2"]
+           ]
+          ]
+         ]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprVar", "NOT"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "NE"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "ADD"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "SUB"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "MUL"],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprVar", "DIV"],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprVar", "MOD"],
+                    ["ExprApply",
+                     ["ExprVar", "UMINUS"],
+                     ["ExprVar", "c"]
+                    ]
+                   ],
+                   ["ExprNumber", 0]
+                  ]
+                 ],
+                 ["ExprChar", 99]
+                ]
+               ],
+               ["ExprChar", 67]
+              ]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "C"],
+               ["ExprVar", "c1"]
+              ],
+              ["ExprVar", "c2"]
+             ]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "c"],
+             ["ExprConstructor", "C1"]
+            ],
+            ["ExprConstructor", "C2"]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "ADD"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "SUB"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "MUL"],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprVar", "DIV"],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprVar", "MOD"],
+                   ["ExprApply",
+                    ["ExprVar", "UMINUS"],
+                    ["ExprVar", "d"]
+                   ]
+                  ],
+                  ["ExprNumber", 0]
+                 ]
+                ],
+                ["ExprChar", 100]
+               ]
+              ],
+              ["ExprChar", 68]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "D"],
+              ["ExprVar", "d1"]
+             ],
+             ["ExprVar", "d2"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "d"],
+            ["ExprConstructor", "D1"]
+           ],
+           ["ExprConstructor", "D2"]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "AND"],
+       ["ExprApply",
+        ["ExprVar", "NOT"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "GE"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "ADD"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "SUB"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "MUL"],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprVar", "DIV"],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprVar", "MOD"],
+                    ["ExprApply",
+                     ["ExprVar", "UMINUS"],
+                     ["ExprVar", "e"]
+                    ]
+                   ],
+                   ["ExprNumber", 0]
+                  ]
+                 ],
+                 ["ExprChar", 101]
+                ]
+               ],
+               ["ExprChar", 69]
+              ]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "E"],
+               ["ExprVar", "e1"]
+              ],
+              ["ExprVar", "e2"]
+             ]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "e"],
+             ["ExprConstructor", "E1"]
+            ],
+            ["ExprConstructor", "E2"]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "ADD"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "SUB"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "MUL"],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprVar", "DIV"],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprVar", "MOD"],
+                   ["ExprApply",
+                    ["ExprVar", "UMINUS"],
+                    ["ExprVar", "f"]
+                   ]
+                  ],
+                  ["ExprNumber", 0]
+                 ]
+                ],
+                ["ExprChar", 102]
+               ]
+              ],
+              ["ExprChar", 70]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "F"],
+              ["ExprVar", "f1"]
+             ],
+             ["ExprVar", "f2"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "f"],
+            ["ExprConstructor", "F1"]
+           ],
+           ["ExprConstructor", "F2"]
+          ]
+         ]
+        ]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprVar", "NOT"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "LE"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "ADD"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "SUB"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "MUL"],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprVar", "DIV"],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprVar", "MOD"],
+                   ["ExprApply",
+                    ["ExprVar", "UMINUS"],
+                    ["ExprVar", "g"]
+                   ]
+                  ],
+                  ["ExprNumber", 0]
+                 ]
+                ],
+                ["ExprChar", 103]
+               ]
+              ],
+              ["ExprChar", 71]
+             ]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "G"],
+              ["ExprVar", "g1"]
+             ],
+             ["ExprVar", "g2"]
+            ]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "g"],
+            ["ExprConstructor", "G1"]
+           ],
+           ["ExprConstructor", "G2"]
+          ]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "ADD"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "SUB"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MUL"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "DIV"],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprVar", "MOD"],
+                  ["ExprApply",
+                   ["ExprVar", "UMINUS"],
+                   ["ExprVar", "h"]
+                  ]
+                 ],
+                 ["ExprNumber", 0]
+                ]
+               ],
+               ["ExprChar", 104]
+              ]
+             ],
+             ["ExprChar", 72]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "H"],
+             ["ExprVar", "h1"]
+            ],
+            ["ExprVar", "h2"]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "h"],
+           ["ExprConstructor", "H1"]
+          ],
+          ["ExprConstructor", "H2"]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "AND"],
+     ["ExprApply",
+      ["ExprVar", "NOT"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "GT"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "ADD"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "SUB"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "MUL"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "DIV"],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprVar", "MOD"],
+                  ["ExprApply",
+                   ["ExprVar", "UMINUS"],
+                   ["ExprVar", "i"]
+                  ]
+                 ],
+                 ["ExprNumber", 0]
+                ]
+               ],
+               ["ExprChar", 105]
+              ]
+             ],
+             ["ExprChar", 73]
+            ]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "I"],
+             ["ExprVar", "i1"]
+            ],
+            ["ExprVar", "i2"]
+           ]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "i"],
+           ["ExprConstructor", "I1"]
+          ],
+          ["ExprConstructor", "I2"]
+         ]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "ADD"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "SUB"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MUL"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "DIV"],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprVar", "MOD"],
+                 ["ExprApply",
+                  ["ExprVar", "UMINUS"],
+                  ["ExprVar", "j"]
+                 ]
+                ],
+                ["ExprNumber", 0]
+               ]
+              ],
+              ["ExprChar", 106]
+             ]
+            ],
+            ["ExprChar", 74]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "J"],
+            ["ExprVar", "j1"]
+           ],
+           ["ExprVar", "j2"]
+          ]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "j"],
+          ["ExprConstructor", "J1"]
+         ],
+         ["ExprConstructor", "J2"]
+        ]
+       ]
+      ]
+     ]
+    ],
+    ["ExprApply",
+     ["ExprVar", "NOT"],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "LT"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "ADD"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "SUB"],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprVar", "MUL"],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprVar", "DIV"],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprVar", "MOD"],
+                 ["ExprApply",
+                  ["ExprVar", "UMINUS"],
+                  ["ExprVar", "k"]
+                 ]
+                ],
+                ["ExprNumber", 0]
+               ]
+              ],
+              ["ExprChar", 107]
+             ]
+            ],
+            ["ExprChar", 75]
+           ]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "K"],
+            ["ExprVar", "k1"]
+           ],
+           ["ExprVar", "k2"]
+          ]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "k"],
+          ["ExprConstructor", "K1"]
+         ],
+         ["ExprConstructor", "K2"]
+        ]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "ADD"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "SUB"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "MUL"],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprVar", "DIV"],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprVar", "MOD"],
+                ["ExprApply",
+                 ["ExprVar", "UMINUS"],
+                 ["ExprVar", "l"]
+                ]
+               ],
+               ["ExprNumber", 0]
+              ]
+             ],
+             ["ExprChar", 108]
+            ]
+           ],
+           ["ExprChar", 76]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "L"],
+           ["ExprVar", "l1"]
+          ],
+          ["ExprVar", "l2"]
+         ]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "l"],
+         ["ExprConstructor", "L1"]
+        ],
+        ["ExprConstructor", "L2"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "t9",
+  ["ExprApply",
+   ["ExprVar", "UMINUS"],
+   ["ExprLet", "_",
+    ["ExprVar", "a"],
+    ["ExprVar", "b"]
+   ]
+  ]
+ ],
+ ["Def", "t10",
+  ["ExprApply",
+   ["ExprVar", "UMINUS"],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "AND"],
+     ["ExprVar", "a"]
+    ],
+    ["ExprVar", "b"]
+   ]
+  ]
+ ],
+ ["Def", "t11",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprVar", "MUL"],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "MUL"],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "MUL"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "EQ"],
+          ["ExprVar", "a"]
+         ],
+         ["ExprVar", "b"]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "ADD"],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprVar", "NE"],
+           ["ExprVar", "a"]
+          ],
+          ["ExprVar", "b"]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "LT"],
+          ["ExprVar", "a"]
+         ],
+         ["ExprVar", "b"]
+        ]
+       ]
+      ]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "SUB"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "LE"],
+         ["ExprVar", "a"]
+        ],
+        ["ExprVar", "b"]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "GE"],
+        ["ExprVar", "a"]
+       ],
+       ["ExprVar", "b"]
+      ]
+     ]
+    ]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprVar", "GT"],
+     ["ExprVar", "a"]
+    ],
+    ["ExprVar", "b"]
+   ]
+  ]
+ ]
+]

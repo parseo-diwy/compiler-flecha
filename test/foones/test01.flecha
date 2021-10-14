@@ -1,0 +1,22 @@
+-- Numeros
+def uno = 1
+def dos =2--comentario
+def tres= 3  -- otro comentario
+def
+cuatro=4--comentario
+def cinco = 5 def seis = 6def siete = 7
+  def
+    ocho
+      =
+         8 def
+nueve
+=9
+def cero=0
+def cerocero=00
+def cerocerocero=000
+def def_=10
+def ifthenelse=11
+def p_r_u_e_b_a=1987654321
+def camelCase=12
+def x1 = 11
+def x2 = 12

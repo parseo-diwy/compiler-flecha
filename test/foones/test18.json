@@ -1,0 +1,172 @@
+[
+ ["Def", "null",
+  ["ExprLambda", "list",
+   ["ExprCase",
+    ["ExprVar", "list"],
+    [
+     ["CaseBranch", "Nil", [],
+      ["ExprConstructor", "True"]
+     ],
+     ["CaseBranch", "Cons", ["x", "xs"],
+      ["ExprConstructor", "False"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "head",
+  ["ExprLambda", "list",
+   ["ExprCase",
+    ["ExprVar", "list"],
+    [
+     ["CaseBranch", "Cons", ["x", "xs"],
+      ["ExprVar", "x"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "tail",
+  ["ExprLambda", "list",
+   ["ExprCase",
+    ["ExprVar", "list"],
+    [
+     ["CaseBranch", "Cons", ["x", "xs"],
+      ["ExprVar", "xs"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "take",
+  ["ExprLambda", "n",
+   ["ExprLambda", "list",
+    ["ExprCase",
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprVar", "OR"],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprVar", "EQ"],
+         ["ExprVar", "n"]
+        ],
+        ["ExprNumber", 0]
+       ]
+      ],
+      ["ExprApply",
+       ["ExprVar", "null"],
+       ["ExprVar", "list"]
+      ]
+     ],
+     [
+      ["CaseBranch", "True", [],
+       ["ExprConstructor", "Nil"]
+      ],
+      ["CaseBranch", "False", [],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprApply",
+          ["ExprVar", "head"],
+          ["ExprVar", "list"]
+         ]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "take"],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprVar", "SUB"],
+            ["ExprVar", "n"]
+           ],
+           ["ExprNumber", 1]
+          ]
+         ],
+         ["ExprApply",
+          ["ExprVar", "tail"],
+          ["ExprVar", "list"]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "sum",
+  ["ExprLambda", "list",
+   ["ExprCase",
+    ["ExprApply",
+     ["ExprVar", "null"],
+     ["ExprVar", "list"]
+    ],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprNumber", 0]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprVar", "ADD"],
+        ["ExprApply",
+         ["ExprVar", "head"],
+         ["ExprVar", "list"]
+        ]
+       ],
+       ["ExprApply",
+        ["ExprVar", "tail"],
+        ["ExprVar", "list"]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "gen",
+  ["ExprLambda", "n",
+   ["ExprCase",
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprVar", "EQ"],
+      ["ExprVar", "n"]
+     ],
+     ["ExprNumber", 0]
+    ],
+    [
+     ["CaseBranch", "True", [],
+      ["ExprConstructor", "Nil"]
+     ],
+     ["CaseBranch", "False", [],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprVar", "n"]
+       ],
+       ["ExprApply",
+        ["ExprVar", "gen"],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprVar", "SUB"],
+          ["ExprVar", "n"]
+         ],
+         ["ExprNumber", 1]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "main",
+  ["ExprApply",
+   ["ExprVar", "sum"],
+   ["ExprApply",
+    ["ExprVar", "gen"],
+    ["ExprNumber", 100]
+   ]
+  ]
+ ]
+]

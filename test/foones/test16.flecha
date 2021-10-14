@@ -1,0 +1,18 @@
+-- Anidamiento operadores/aplicación
+
+def t1 = f a b || g c d
+def t2 = f a b && g c d
+def t3 = ! f a b
+def t4 = f a b == g c d
+def t5 = f a b != g c d
+def t6 = f a b >= g c d
+def t7 = f a b <= g c d
+def t8 = f a b > g c d
+def t9 = f a b < g c d
+def t10 = f a b + g c d
+def t11 = f a b - g c d
+def t12 = f a b * g c d
+def t13 = f a b / g c d
+def t14 = f a b % g c d
+def t15 = - f a b
+

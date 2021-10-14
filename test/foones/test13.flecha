@@ -1,0 +1,118 @@
+-- Anidamiento de estructuras de control
+
+-- If/case
+
+def t1 = if (case x | A -> a | B -> b) then (case y | A x -> a | B -> b) else (case z | A -> a | B x y z -> b)
+
+-- If/let
+
+def t2 = if (let x = 1 in 2) then (let y w = 1 in 2) else (let z a b c = 1 in 2)
+
+-- If/lambda
+
+def t3 = if (\ x -> x) then (\ y1 y2 y3 -> y1) else (\ z -> z)
+
+-- If/secuencia
+
+def t4 = if (a ; b) then (c ; d) else (e ; f ; g)
+
+-- Elif/case
+
+def t5 = if a then b elif (case c | A -> a | B -> b) then (case d | A -> a | B -> b) else e
+
+-- Elif/let
+
+def t6 = if a then b elif (let x = 'a' in x) then (let x = 'b' in x) else e
+
+-- Elif/lambda
+
+def t7 = if a then b elif (\ c1 c2 -> c2 c1) then (\ d1 d2 d3 -> C d1 d2 d3) else e
+
+-- Elif/secuencia
+
+def t8 = if a then b elif (a ; b) then (d ; e) else e
+
+-- Case/if
+
+def t9 = case (if x then x else 0)
+         | Nil -> (if x then x elif y then y else 0)
+         | Cons x xs -> (if x then x else 0)
+         | Bin i r d -> (if x then x else 0)
+
+-- Case/let
+
+def t10 = case (let x1 = y1 in z1)
+           | Nil -> (let x2 = y2 in z2)
+           | Cons x xs -> (let x3 = y3 in z3)
+           | Bin i r d -> (let x4 = y4 in z4)
+
+-- Case/lambda
+
+def t11 = case (\x1->x1)
+          | Nil -> (\x2->x2)
+          | Cons x xs -> (\x3->x3)
+          | Bin i r d -> (\x4->x4)
+
+-- Case/secuencia
+
+def t12 = case (a ; b)
+          | Nil -> (c ; d)
+          | Cons x xs -> (e ; f ; g)
+          | Bin i r d -> (h ; i ; j)
+
+-- Let/if
+
+def t13 = let x = (if a1 then b1 else c1) in
+            if a2 then b2 else c2
+
+-- Let/elif
+
+def t14 = let x = (if a1 then b1 elif c1 then d1 elif e1 then f1 else g1) in
+            if a2 then b2
+          elif c2 then d2
+          elif e2 then f2
+                  else g2
+
+-- Let/case
+
+def t15 = let x = (case a1
+                  | Nil -> b1
+                  | Cons x xs -> c1
+                  | Bin i r d -> d1)
+            in case a2
+                  | Nil -> b2
+                  | Cons x xs -> c2
+                  | Bin i r d -> d2
+
+-- Let/lambda
+
+def t16 = let x = (\ x1 y1 -> z1)
+            in \ x2 y2 -> z2
+
+-- Let/secuencia
+
+def t17 = let x = (
+a;b;c
+)in(d;e;f
+)
+
+-- Lambda/if
+
+def t18 = \ x y z -> if a then b else c
+
+-- Lambda/elif
+
+def t19 = \ x -> if a then b elif c then d else e
+
+-- Lambda/case
+
+def t20 = \ x y -> case y
+
+-- Lambda/let
+
+def t21 = \ x -> let a = b in c
+
+-- Lambda/secuencia
+
+def t22 = \ x -> (a ; b ; c)
+

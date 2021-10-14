@@ -1,0 +1,56 @@
+[
+ ["Def", "uno",
+  ["ExprNumber", 1]
+ ],
+ ["Def", "dos",
+  ["ExprNumber", 2]
+ ],
+ ["Def", "tres",
+  ["ExprNumber", 3]
+ ],
+ ["Def", "cuatro",
+  ["ExprNumber", 4]
+ ],
+ ["Def", "cinco",
+  ["ExprNumber", 5]
+ ],
+ ["Def", "seis",
+  ["ExprNumber", 6]
+ ],
+ ["Def", "siete",
+  ["ExprNumber", 7]
+ ],
+ ["Def", "ocho",
+  ["ExprNumber", 8]
+ ],
+ ["Def", "nueve",
+  ["ExprNumber", 9]
+ ],
+ ["Def", "cero",
+  ["ExprNumber", 0]
+ ],
+ ["Def", "cerocero",
+  ["ExprNumber", 0]
+ ],
+ ["Def", "cerocerocero",
+  ["ExprNumber", 0]
+ ],
+ ["Def", "def_",
+  ["ExprNumber", 10]
+ ],
+ ["Def", "ifthenelse",
+  ["ExprNumber", 11]
+ ],
+ ["Def", "p_r_u_e_b_a",
+  ["ExprNumber", 1987654321]
+ ],
+ ["Def", "camelCase",
+  ["ExprNumber", 12]
+ ],
+ ["Def", "x1",
+  ["ExprNumber", 11]
+ ],
+ ["Def", "x2",
+  ["ExprNumber", 12]
+ ]
+]

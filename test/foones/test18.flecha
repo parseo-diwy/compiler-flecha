@@ -1,0 +1,32 @@
+
+def null list =
+  case list
+  | Nil       -> True
+  | Cons x xs -> False
+
+def head list =
+  case list
+  | Cons x xs -> x
+
+def tail list =
+  case list
+  | Cons x xs -> xs
+
+def take n list =
+  if n == 0 || null list
+   then Nil
+   else Cons (head list) (take (n - 1) (tail list))
+
+def sum list =
+  if null list
+   then 0
+   else head list + tail list
+
+def gen n =
+  if n == 0
+   then Nil
+   else Cons n (gen (n - 1))
+
+def main =
+  sum (gen 100)
+

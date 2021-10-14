@@ -1,0 +1,18 @@
+-- Operadores
+
+def t1 = a || b
+def t2 = a && b
+def t3 = ! a
+def t4 = a == b
+def t5 = a != b
+def t6 = a >= b
+def t7 = a <= b
+def t8 = a > b
+def t9 = a < b
+def t10 = a + b
+def t11 = a - b
+def t12 = a * b
+def t13 = a / b
+def t14 = a % b
+def t15 = - a
+

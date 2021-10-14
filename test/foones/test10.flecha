@@ -1,0 +1,41 @@
+-- Declaraciones locales
+
+def t1 = let x = y in z
+def t2 = let x=y in z
+def t3 = let x1 = y1 in
+         let x2 = y2 in
+         let x3 = y3
+           in z
+def t4 = let f x = x in f a
+def t5 = let f x y = y in f a b
+def t6 = let f x y z = z in f a b c
+def t7 = let f x y z = z in
+         let g h = h a b c in
+           g f
+def t8 = let f x y z = A in
+         let g h = B in
+         let x = C in
+           D
+def t8 = let f x y z = 1 in
+         let g h = 2 in
+         let x = 3 in
+           4
+def t9 = let f x y z = 'a' in
+         let g h = 'b' in
+         let x = 'c' in
+           'd'
+def t10 = let f x y z = "a" in
+          let g h = "b" in
+          let x = "c" in
+            "d"
+def t11 = let f x y z = (let x = y in z) in
+          let g h =
+			   (let x1 = y1 in
+						let x2 = y2 in
+						let x3 = y3
+						  in z) in
+          let x = (let f x y z = z in
+                   let g h = h a b c in
+                       g f) in
+            "d"
+

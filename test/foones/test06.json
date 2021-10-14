@@ -1,0 +1,2336 @@
+[
+ ["Def", "vacio",
+  ["ExprConstructor", "Nil"]
+ ],
+ ["Def", "a",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 97]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "abc",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 97]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 98]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 99]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "z",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 122]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "a_",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 65]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "z_",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 90]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 48]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "cero_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 48]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "cero_cero_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 48]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 48]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "nueve",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 57]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "espacio",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "tab",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 9]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "cr",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 13]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "lf",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 10]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "comilla",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 39]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "doble_comilla",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 34]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "contrabarra",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 92]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "contrabarra_n",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 92]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 110]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "igual",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 61]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "lparen",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 40]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "rparen",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 41]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "no_es_comentario",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 104]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 111]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 108]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 97]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 32]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 45]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 45]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 32]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "Cons"],
+            ["ExprChar", 101]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "Cons"],
+             ["ExprChar", 115]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "Cons"],
+              ["ExprChar", 116]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "Cons"],
+               ["ExprChar", 111]
+              ],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprConstructor", "Cons"],
+                ["ExprChar", 32]
+               ],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprConstructor", "Cons"],
+                 ["ExprChar", 110]
+                ],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprConstructor", "Cons"],
+                  ["ExprChar", 111]
+                 ],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprConstructor", "Cons"],
+                   ["ExprChar", 32]
+                  ],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprConstructor", "Cons"],
+                    ["ExprChar", 101]
+                   ],
+                   ["ExprApply",
+                    ["ExprApply",
+                     ["ExprConstructor", "Cons"],
+                     ["ExprChar", 115]
+                    ],
+                    ["ExprApply",
+                     ["ExprApply",
+                      ["ExprConstructor", "Cons"],
+                      ["ExprChar", 32]
+                     ],
+                     ["ExprApply",
+                      ["ExprApply",
+                       ["ExprConstructor", "Cons"],
+                       ["ExprChar", 117]
+                      ],
+                      ["ExprApply",
+                       ["ExprApply",
+                        ["ExprConstructor", "Cons"],
+                        ["ExprChar", 110]
+                       ],
+                       ["ExprApply",
+                        ["ExprApply",
+                         ["ExprConstructor", "Cons"],
+                         ["ExprChar", 32]
+                        ],
+                        ["ExprApply",
+                         ["ExprApply",
+                          ["ExprConstructor", "Cons"],
+                          ["ExprChar", 99]
+                         ],
+                         ["ExprApply",
+                          ["ExprApply",
+                           ["ExprConstructor", "Cons"],
+                           ["ExprChar", 111]
+                          ],
+                          ["ExprApply",
+                           ["ExprApply",
+                            ["ExprConstructor", "Cons"],
+                            ["ExprChar", 109]
+                           ],
+                           ["ExprApply",
+                            ["ExprApply",
+                             ["ExprConstructor", "Cons"],
+                             ["ExprChar", 101]
+                            ],
+                            ["ExprApply",
+                             ["ExprApply",
+                              ["ExprConstructor", "Cons"],
+                              ["ExprChar", 110]
+                             ],
+                             ["ExprApply",
+                              ["ExprApply",
+                               ["ExprConstructor", "Cons"],
+                               ["ExprChar", 116]
+                              ],
+                              ["ExprApply",
+                               ["ExprApply",
+                                ["ExprConstructor", "Cons"],
+                                ["ExprChar", 97]
+                               ],
+                               ["ExprApply",
+                                ["ExprApply",
+                                 ["ExprConstructor", "Cons"],
+                                 ["ExprChar", 114]
+                                ],
+                                ["ExprApply",
+                                 ["ExprApply",
+                                  ["ExprConstructor", "Cons"],
+                                  ["ExprChar", 105]
+                                 ],
+                                 ["ExprApply",
+                                  ["ExprApply",
+                                   ["ExprConstructor", "Cons"],
+                                   ["ExprChar", 111]
+                                  ],
+                                  ["ExprConstructor", "Nil"]
+                                 ]
+                                ]
+                               ]
+                              ]
+                             ]
+                            ]
+                           ]
+                          ]
+                         ]
+                        ]
+                       ]
+                      ]
+                     ]
+                    ]
+                   ]
+                  ]
+                 ]
+                ]
+               ]
+              ]
+             ]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "no_es_definicion",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 100]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 101]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 102]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 32]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 98]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 97]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 115]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 117]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "Cons"],
+            ["ExprChar", 114]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "Cons"],
+             ["ExprChar", 97]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "Cons"],
+              ["ExprChar", 32]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "Cons"],
+               ["ExprChar", 61]
+              ],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprConstructor", "Cons"],
+                ["ExprChar", 32]
+               ],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprConstructor", "Cons"],
+                 ["ExprChar", 55]
+                ],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprConstructor", "Cons"],
+                  ["ExprChar", 32]
+                 ],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprConstructor", "Cons"],
+                   ["ExprChar", 45]
+                  ],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprConstructor", "Cons"],
+                    ["ExprChar", 45]
+                   ],
+                   ["ExprApply",
+                    ["ExprApply",
+                     ["ExprConstructor", "Cons"],
+                     ["ExprChar", 32]
+                    ],
+                    ["ExprApply",
+                     ["ExprApply",
+                      ["ExprConstructor", "Cons"],
+                      ["ExprChar", 110]
+                     ],
+                     ["ExprApply",
+                      ["ExprApply",
+                       ["ExprConstructor", "Cons"],
+                       ["ExprChar", 111]
+                      ],
+                      ["ExprApply",
+                       ["ExprApply",
+                        ["ExprConstructor", "Cons"],
+                        ["ExprChar", 32]
+                       ],
+                       ["ExprApply",
+                        ["ExprApply",
+                         ["ExprConstructor", "Cons"],
+                         ["ExprChar", 101]
+                        ],
+                        ["ExprApply",
+                         ["ExprApply",
+                          ["ExprConstructor", "Cons"],
+                          ["ExprChar", 115]
+                         ],
+                         ["ExprApply",
+                          ["ExprApply",
+                           ["ExprConstructor", "Cons"],
+                           ["ExprChar", 32]
+                          ],
+                          ["ExprApply",
+                           ["ExprApply",
+                            ["ExprConstructor", "Cons"],
+                            ["ExprChar", 112]
+                           ],
+                           ["ExprApply",
+                            ["ExprApply",
+                             ["ExprConstructor", "Cons"],
+                             ["ExprChar", 97]
+                            ],
+                            ["ExprApply",
+                             ["ExprApply",
+                              ["ExprConstructor", "Cons"],
+                              ["ExprChar", 114]
+                             ],
+                             ["ExprApply",
+                              ["ExprApply",
+                               ["ExprConstructor", "Cons"],
+                               ["ExprChar", 116]
+                              ],
+                              ["ExprApply",
+                               ["ExprApply",
+                                ["ExprConstructor", "Cons"],
+                                ["ExprChar", 101]
+                               ],
+                               ["ExprApply",
+                                ["ExprApply",
+                                 ["ExprConstructor", "Cons"],
+                                 ["ExprChar", 32]
+                                ],
+                                ["ExprApply",
+                                 ["ExprApply",
+                                  ["ExprConstructor", "Cons"],
+                                  ["ExprChar", 100]
+                                 ],
+                                 ["ExprApply",
+                                  ["ExprApply",
+                                   ["ExprConstructor", "Cons"],
+                                   ["ExprChar", 101]
+                                  ],
+                                  ["ExprApply",
+                                   ["ExprApply",
+                                    ["ExprConstructor", "Cons"],
+                                    ["ExprChar", 108]
+                                   ],
+                                   ["ExprApply",
+                                    ["ExprApply",
+                                     ["ExprConstructor", "Cons"],
+                                     ["ExprChar", 32]
+                                    ],
+                                    ["ExprApply",
+                                     ["ExprApply",
+                                      ["ExprConstructor", "Cons"],
+                                      ["ExprChar", 112]
+                                     ],
+                                     ["ExprApply",
+                                      ["ExprApply",
+                                       ["ExprConstructor", "Cons"],
+                                       ["ExprChar", 114]
+                                      ],
+                                      ["ExprApply",
+                                       ["ExprApply",
+                                        ["ExprConstructor", "Cons"],
+                                        ["ExprChar", 111]
+                                       ],
+                                       ["ExprApply",
+                                        ["ExprApply",
+                                         ["ExprConstructor", "Cons"],
+                                         ["ExprChar", 103]
+                                        ],
+                                        ["ExprApply",
+                                         ["ExprApply",
+                                          ["ExprConstructor", "Cons"],
+                                          ["ExprChar", 114]
+                                         ],
+                                         ["ExprApply",
+                                          ["ExprApply",
+                                           ["ExprConstructor", "Cons"],
+                                           ["ExprChar", 97]
+                                          ],
+                                          ["ExprApply",
+                                           ["ExprApply",
+                                            ["ExprConstructor", "Cons"],
+                                            ["ExprChar", 109]
+                                           ],
+                                           ["ExprApply",
+                                            ["ExprApply",
+                                             ["ExprConstructor", "Cons"],
+                                             ["ExprChar", 97]
+                                            ],
+                                            ["ExprConstructor", "Nil"]
+                                           ]
+                                          ]
+                                         ]
+                                        ]
+                                       ]
+                                      ]
+                                     ]
+                                    ]
+                                   ]
+                                  ]
+                                 ]
+                                ]
+                               ]
+                              ]
+                             ]
+                            ]
+                           ]
+                          ]
+                         ]
+                        ]
+                       ]
+                      ]
+                     ]
+                    ]
+                   ]
+                  ]
+                 ]
+                ]
+               ]
+              ]
+             ]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "hola_mundo",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 104]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 111]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 108]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 97]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 32]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 109]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 117]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 110]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "Cons"],
+            ["ExprChar", 100]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "Cons"],
+             ["ExprChar", 111]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "Cons"],
+              ["ExprChar", 10]
+             ],
+             ["ExprConstructor", "Nil"]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "hola_mundo_escapado",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 112]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 114]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 105]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 110]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 116]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 32]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 34]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 104]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "Cons"],
+            ["ExprChar", 111]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "Cons"],
+             ["ExprChar", 108]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "Cons"],
+              ["ExprChar", 97]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "Cons"],
+               ["ExprChar", 32]
+              ],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprConstructor", "Cons"],
+                ["ExprChar", 109]
+               ],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprConstructor", "Cons"],
+                 ["ExprChar", 117]
+                ],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprConstructor", "Cons"],
+                  ["ExprChar", 110]
+                 ],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprConstructor", "Cons"],
+                   ["ExprChar", 100]
+                  ],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprConstructor", "Cons"],
+                    ["ExprChar", 111]
+                   ],
+                   ["ExprApply",
+                    ["ExprApply",
+                     ["ExprConstructor", "Cons"],
+                     ["ExprChar", 92]
+                    ],
+                    ["ExprApply",
+                     ["ExprApply",
+                      ["ExprConstructor", "Cons"],
+                      ["ExprChar", 110]
+                     ],
+                     ["ExprApply",
+                      ["ExprApply",
+                       ["ExprConstructor", "Cons"],
+                       ["ExprChar", 34]
+                      ],
+                      ["ExprConstructor", "Nil"]
+                     ]
+                    ]
+                   ]
+                  ]
+                 ]
+                ]
+               ]
+              ]
+             ]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "contrabarras",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 92]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 92]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 92]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 92]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "espacios",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 32]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 32]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 32]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 32]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 32]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 32]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "Cons"],
+            ["ExprChar", 32]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "Cons"],
+             ["ExprChar", 32]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "Cons"],
+              ["ExprChar", 32]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "Cons"],
+               ["ExprChar", 32]
+              ],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprConstructor", "Cons"],
+                ["ExprChar", 32]
+               ],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprConstructor", "Cons"],
+                 ["ExprChar", 32]
+                ],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprConstructor", "Cons"],
+                  ["ExprChar", 32]
+                 ],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprConstructor", "Cons"],
+                   ["ExprChar", 32]
+                  ],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprConstructor", "Cons"],
+                    ["ExprChar", 32]
+                   ],
+                   ["ExprApply",
+                    ["ExprApply",
+                     ["ExprConstructor", "Cons"],
+                     ["ExprChar", 32]
+                    ],
+                    ["ExprApply",
+                     ["ExprApply",
+                      ["ExprConstructor", "Cons"],
+                      ["ExprChar", 32]
+                     ],
+                     ["ExprApply",
+                      ["ExprApply",
+                       ["ExprConstructor", "Cons"],
+                       ["ExprChar", 32]
+                      ],
+                      ["ExprApply",
+                       ["ExprApply",
+                        ["ExprConstructor", "Cons"],
+                        ["ExprChar", 32]
+                       ],
+                       ["ExprApply",
+                        ["ExprApply",
+                         ["ExprConstructor", "Cons"],
+                         ["ExprChar", 32]
+                        ],
+                        ["ExprApply",
+                         ["ExprApply",
+                          ["ExprConstructor", "Cons"],
+                          ["ExprChar", 32]
+                         ],
+                         ["ExprApply",
+                          ["ExprApply",
+                           ["ExprConstructor", "Cons"],
+                           ["ExprChar", 32]
+                          ],
+                          ["ExprApply",
+                           ["ExprApply",
+                            ["ExprConstructor", "Cons"],
+                            ["ExprChar", 32]
+                           ],
+                           ["ExprApply",
+                            ["ExprApply",
+                             ["ExprConstructor", "Cons"],
+                             ["ExprChar", 32]
+                            ],
+                            ["ExprApply",
+                             ["ExprApply",
+                              ["ExprConstructor", "Cons"],
+                              ["ExprChar", 32]
+                             ],
+                             ["ExprApply",
+                              ["ExprApply",
+                               ["ExprConstructor", "Cons"],
+                               ["ExprChar", 32]
+                              ],
+                              ["ExprApply",
+                               ["ExprApply",
+                                ["ExprConstructor", "Cons"],
+                                ["ExprChar", 32]
+                               ],
+                               ["ExprApply",
+                                ["ExprApply",
+                                 ["ExprConstructor", "Cons"],
+                                 ["ExprChar", 32]
+                                ],
+                                ["ExprApply",
+                                 ["ExprApply",
+                                  ["ExprConstructor", "Cons"],
+                                  ["ExprChar", 32]
+                                 ],
+                                 ["ExprApply",
+                                  ["ExprApply",
+                                   ["ExprConstructor", "Cons"],
+                                   ["ExprChar", 32]
+                                  ],
+                                  ["ExprConstructor", "Nil"]
+                                 ]
+                                ]
+                               ]
+                              ]
+                             ]
+                            ]
+                           ]
+                          ]
+                         ]
+                        ]
+                       ]
+                      ]
+                     ]
+                    ]
+                   ]
+                  ]
+                 ]
+                ]
+               ]
+              ]
+             ]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "b_vacio",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprConstructor", "Nil"]
+  ]
+ ],
+ ["Def", "b_a",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 97]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_abc",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 97]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 98]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 99]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "b_z",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 122]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_a_",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 65]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_z_",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 90]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_cero_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 48]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "b_cero_cero_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 48]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 48]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "b_nueve",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 57]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_espacio",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 32]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_tab",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 9]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_cr",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 13]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_lf",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 10]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_comilla",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 39]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_doble_comilla",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 34]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_contrabarra",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 92]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_contrabarra_n",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 92]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 110]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "b_igual",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 61]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_lparen",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 40]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "b_rparen",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 41]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "c_vacio",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 32]
+    ],
+    ["ExprConstructor", "Nil"]
+   ]
+  ]
+ ],
+ ["Def", "c_a",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 97]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_abc",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 97]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 98]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 99]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 32]
+       ],
+       ["ExprConstructor", "Nil"]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_z",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 122]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_a_",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 65]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_z_",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 90]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_cero_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 48]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 32]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_cero_cero_cero",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 48]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 48]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 48]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 32]
+       ],
+       ["ExprConstructor", "Nil"]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_nueve",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 57]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_espacio",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 32]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_tab",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 9]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_cr",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 13]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_lf",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 10]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_comilla",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 39]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_doble_comilla",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 34]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_contrabarra",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 92]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_contrabarra_n",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 92]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 110]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 32]
+      ],
+      ["ExprConstructor", "Nil"]
+     ]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_igual",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 61]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_lparen",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 40]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "c_rparen",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 32]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 41]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 32]
+     ],
+     ["ExprConstructor", "Nil"]
+    ]
+   ]
+  ]
+ ],
+ ["Def", "larga",
+  ["ExprApply",
+   ["ExprApply",
+    ["ExprConstructor", "Cons"],
+    ["ExprChar", 97]
+   ],
+   ["ExprApply",
+    ["ExprApply",
+     ["ExprConstructor", "Cons"],
+     ["ExprChar", 98]
+    ],
+    ["ExprApply",
+     ["ExprApply",
+      ["ExprConstructor", "Cons"],
+      ["ExprChar", 99]
+     ],
+     ["ExprApply",
+      ["ExprApply",
+       ["ExprConstructor", "Cons"],
+       ["ExprChar", 100]
+      ],
+      ["ExprApply",
+       ["ExprApply",
+        ["ExprConstructor", "Cons"],
+        ["ExprChar", 101]
+       ],
+       ["ExprApply",
+        ["ExprApply",
+         ["ExprConstructor", "Cons"],
+         ["ExprChar", 102]
+        ],
+        ["ExprApply",
+         ["ExprApply",
+          ["ExprConstructor", "Cons"],
+          ["ExprChar", 103]
+         ],
+         ["ExprApply",
+          ["ExprApply",
+           ["ExprConstructor", "Cons"],
+           ["ExprChar", 104]
+          ],
+          ["ExprApply",
+           ["ExprApply",
+            ["ExprConstructor", "Cons"],
+            ["ExprChar", 105]
+           ],
+           ["ExprApply",
+            ["ExprApply",
+             ["ExprConstructor", "Cons"],
+             ["ExprChar", 106]
+            ],
+            ["ExprApply",
+             ["ExprApply",
+              ["ExprConstructor", "Cons"],
+              ["ExprChar", 107]
+             ],
+             ["ExprApply",
+              ["ExprApply",
+               ["ExprConstructor", "Cons"],
+               ["ExprChar", 108]
+              ],
+              ["ExprApply",
+               ["ExprApply",
+                ["ExprConstructor", "Cons"],
+                ["ExprChar", 109]
+               ],
+               ["ExprApply",
+                ["ExprApply",
+                 ["ExprConstructor", "Cons"],
+                 ["ExprChar", 110]
+                ],
+                ["ExprApply",
+                 ["ExprApply",
+                  ["ExprConstructor", "Cons"],
+                  ["ExprChar", 111]
+                 ],
+                 ["ExprApply",
+                  ["ExprApply",
+                   ["ExprConstructor", "Cons"],
+                   ["ExprChar", 112]
+                  ],
+                  ["ExprApply",
+                   ["ExprApply",
+                    ["ExprConstructor", "Cons"],
+                    ["ExprChar", 113]
+                   ],
+                   ["ExprApply",
+                    ["ExprApply",
+                     ["ExprConstructor", "Cons"],
+                     ["ExprChar", 114]
+                    ],
+                    ["ExprApply",
+                     ["ExprApply",
+                      ["ExprConstructor", "Cons"],
+                      ["ExprChar", 115]
+                     ],
+                     ["ExprApply",
+                      ["ExprApply",
+                       ["ExprConstructor", "Cons"],
+                       ["ExprChar", 116]
+                      ],
+                      ["ExprApply",
+                       ["ExprApply",
+                        ["ExprConstructor", "Cons"],
+                        ["ExprChar", 117]
+                       ],
+                       ["ExprApply",
+                        ["ExprApply",
+                         ["ExprConstructor", "Cons"],
+                         ["ExprChar", 118]
+                        ],
+                        ["ExprApply",
+                         ["ExprApply",
+                          ["ExprConstructor", "Cons"],
+                          ["ExprChar", 119]
+                         ],
+                         ["ExprApply",
+                          ["ExprApply",
+                           ["ExprConstructor", "Cons"],
+                           ["ExprChar", 120]
+                          ],
+                          ["ExprApply",
+                           ["ExprApply",
+                            ["ExprConstructor", "Cons"],
+                            ["ExprChar", 121]
+                           ],
+                           ["ExprApply",
+                            ["ExprApply",
+                             ["ExprConstructor", "Cons"],
+                             ["ExprChar", 122]
+                            ],
+                            ["ExprApply",
+                             ["ExprApply",
+                              ["ExprConstructor", "Cons"],
+                              ["ExprChar", 48]
+                             ],
+                             ["ExprApply",
+                              ["ExprApply",
+                               ["ExprConstructor", "Cons"],
+                               ["ExprChar", 49]
+                              ],
+                              ["ExprApply",
+                               ["ExprApply",
+                                ["ExprConstructor", "Cons"],
+                                ["ExprChar", 50]
+                               ],
+                               ["ExprApply",
+                                ["ExprApply",
+                                 ["ExprConstructor", "Cons"],
+                                 ["ExprChar", 51]
+                                ],
+                                ["ExprApply",
+                                 ["ExprApply",
+                                  ["ExprConstructor", "Cons"],
+                                  ["ExprChar", 52]
+                                 ],
+                                 ["ExprApply",
+                                  ["ExprApply",
+                                   ["ExprConstructor", "Cons"],
+                                   ["ExprChar", 53]
+                                  ],
+                                  ["ExprApply",
+                                   ["ExprApply",
+                                    ["ExprConstructor", "Cons"],
+                                    ["ExprChar", 54]
+                                   ],
+                                   ["ExprApply",
+                                    ["ExprApply",
+                                     ["ExprConstructor", "Cons"],
+                                     ["ExprChar", 55]
+                                    ],
+                                    ["ExprApply",
+                                     ["ExprApply",
+                                      ["ExprConstructor", "Cons"],
+                                      ["ExprChar", 56]
+                                     ],
+                                     ["ExprApply",
+                                      ["ExprApply",
+                                       ["ExprConstructor", "Cons"],
+                                       ["ExprChar", 57]
+                                      ],
+                                      ["ExprApply",
+                                       ["ExprApply",
+                                        ["ExprConstructor", "Cons"],
+                                        ["ExprChar", 57]
+                                       ],
+                                       ["ExprApply",
+                                        ["ExprApply",
+                                         ["ExprConstructor", "Cons"],
+                                         ["ExprChar", 56]
+                                        ],
+                                        ["ExprApply",
+                                         ["ExprApply",
+                                          ["ExprConstructor", "Cons"],
+                                          ["ExprChar", 55]
+                                         ],
+                                         ["ExprApply",
+                                          ["ExprApply",
+                                           ["ExprConstructor", "Cons"],
+                                           ["ExprChar", 54]
+                                          ],
+                                          ["ExprApply",
+                                           ["ExprApply",
+                                            ["ExprConstructor", "Cons"],
+                                            ["ExprChar", 53]
+                                           ],
+                                           ["ExprApply",
+                                            ["ExprApply",
+                                             ["ExprConstructor", "Cons"],
+                                             ["ExprChar", 52]
+                                            ],
+                                            ["ExprApply",
+                                             ["ExprApply",
+                                              ["ExprConstructor", "Cons"],
+                                              ["ExprChar", 51]
+                                             ],
+                                             ["ExprApply",
+                                              ["ExprApply",
+                                               ["ExprConstructor", "Cons"],
+                                               ["ExprChar", 50]
+                                              ],
+                                              ["ExprApply",
+                                               ["ExprApply",
+                                                ["ExprConstructor", "Cons"],
+                                                ["ExprChar", 49]
+                                               ],
+                                               ["ExprApply",
+                                                ["ExprApply",
+                                                 ["ExprConstructor", "Cons"],
+                                                 ["ExprChar", 48]
+                                                ],
+                                                ["ExprApply",
+                                                 ["ExprApply",
+                                                  ["ExprConstructor", "Cons"],
+                                                  ["ExprChar", 122]
+                                                 ],
+                                                 ["ExprApply",
+                                                  ["ExprApply",
+                                                   ["ExprConstructor", "Cons"],
+                                                   ["ExprChar", 121]
+                                                  ],
+                                                  ["ExprApply",
+                                                   ["ExprApply",
+                                                    ["ExprConstructor", "Cons"],
+                                                    ["ExprChar", 120]
+                                                   ],
+                                                   ["ExprApply",
+                                                    ["ExprApply",
+                                                     ["ExprConstructor", "Cons"],
+                                                     ["ExprChar", 119]
+                                                    ],
+                                                    ["ExprApply",
+                                                     ["ExprApply",
+                                                      ["ExprConstructor", "Cons"],
+                                                      ["ExprChar", 118]
+                                                     ],
+                                                     ["ExprApply",
+                                                      ["ExprApply",
+                                                       ["ExprConstructor", "Cons"],
+                                                       ["ExprChar", 117]
+                                                      ],
+                                                      ["ExprApply",
+                                                       ["ExprApply",
+                                                        ["ExprConstructor", "Cons"],
+                                                        ["ExprChar", 116]
+                                                       ],
+                                                       ["ExprApply",
+                                                        ["ExprApply",
+                                                         ["ExprConstructor", "Cons"],
+                                                         ["ExprChar", 115]
+                                                        ],
+                                                        ["ExprApply",
+                                                         ["ExprApply",
+                                                          ["ExprConstructor", "Cons"],
+                                                          ["ExprChar", 114]
+                                                         ],
+                                                         ["ExprApply",
+                                                          ["ExprApply",
+                                                           ["ExprConstructor", "Cons"],
+                                                           ["ExprChar", 113]
+                                                          ],
+                                                          ["ExprApply",
+                                                           ["ExprApply",
+                                                            ["ExprConstructor", "Cons"],
+                                                            ["ExprChar", 112]
+                                                           ],
+                                                           ["ExprApply",
+                                                            ["ExprApply",
+                                                             ["ExprConstructor", "Cons"],
+                                                             ["ExprChar", 111]
+                                                            ],
+                                                            ["ExprApply",
+                                                             ["ExprApply",
+                                                              ["ExprConstructor", "Cons"],
+                                                              ["ExprChar", 110]
+                                                             ],
+                                                             ["ExprApply",
+                                                              ["ExprApply",
+                                                               ["ExprConstructor", "Cons"],
+                                                               ["ExprChar", 109]
+                                                              ],
+                                                              ["ExprApply",
+                                                               ["ExprApply",
+                                                                ["ExprConstructor", "Cons"],
+                                                                ["ExprChar", 108]
+                                                               ],
+                                                               ["ExprApply",
+                                                                ["ExprApply",
+                                                                 ["ExprConstructor", "Cons"],
+                                                                 ["ExprChar", 107]
+                                                                ],
+                                                                ["ExprApply",
+                                                                 ["ExprApply",
+                                                                  ["ExprConstructor", "Cons"],
+                                                                  ["ExprChar", 106]
+                                                                 ],
+                                                                 ["ExprApply",
+                                                                  ["ExprApply",
+                                                                   ["ExprConstructor", "Cons"],
+                                                                   ["ExprChar", 105]
+                                                                  ],
+                                                                  ["ExprApply",
+                                                                   ["ExprApply",
+                                                                    ["ExprConstructor", "Cons"],
+                                                                    ["ExprChar", 104]
+                                                                   ],
+                                                                   ["ExprApply",
+                                                                    ["ExprApply",
+                                                                     ["ExprConstructor", "Cons"],
+                                                                     ["ExprChar", 103]
+                                                                    ],
+                                                                    ["ExprApply",
+                                                                     ["ExprApply",
+                                                                      ["ExprConstructor", "Cons"],
+                                                                      ["ExprChar", 102]
+                                                                     ],
+                                                                     ["ExprApply",
+                                                                      ["ExprApply",
+                                                                       ["ExprConstructor", "Cons"],
+                                                                       ["ExprChar", 101]
+                                                                      ],
+                                                                      ["ExprApply",
+                                                                       ["ExprApply",
+                                                                        ["ExprConstructor", "Cons"],
+                                                                        ["ExprChar", 100]
+                                                                       ],
+                                                                       ["ExprApply",
+                                                                        ["ExprApply",
+                                                                         ["ExprConstructor", "Cons"],
+                                                                         ["ExprChar", 99]
+                                                                        ],
+                                                                        ["ExprApply",
+                                                                         ["ExprApply",
+                                                                          ["ExprConstructor", "Cons"],
+                                                                          ["ExprChar", 98]
+                                                                         ],
+                                                                         ["ExprApply",
+                                                                          ["ExprApply",
+                                                                           ["ExprConstructor", "Cons"],
+                                                                           ["ExprChar", 97]
+                                                                          ],
+                                                                          ["ExprConstructor", "Nil"]
+                                                                         ]
+                                                                        ]
+                                                                       ]
+                                                                      ]
+                                                                     ]
+                                                                    ]
+                                                                   ]
+                                                                  ]
+                                                                 ]
+                                                                ]
+                                                               ]
+                                                              ]
+                                                             ]
+                                                            ]
+                                                           ]
+                                                          ]
+                                                         ]
+                                                        ]
+                                                       ]
+                                                      ]
+                                                     ]
+                                                    ]
+                                                   ]
+                                                  ]
+                                                 ]
+                                                ]
+                                               ]
+                                              ]
+                                             ]
+                                            ]
+                                           ]
+                                          ]
+                                         ]
+                                        ]
+                                       ]
+                                      ]
+                                     ]
+                                    ]
+                                   ]
+                                  ]
+                                 ]
+                                ]
+                               ]
+                              ]
+                             ]
+                            ]
+                           ]
+                          ]
+                         ]
+                        ]
+                       ]
+                      ]
+                     ]
+                    ]
+                   ]
+                  ]
+                 ]
+                ]
+               ]
+              ]
+             ]
+            ]
+           ]
+          ]
+         ]
+        ]
+       ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ]
+]
