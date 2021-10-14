@@ -1,7 +1,11 @@
 [
   [
-    "ExprApply",
-    ["ExprApply", ["ExprVar", "ADD"], ["ExprNumber", 1]],
-    ["ExprNumber", 2]
+    "Def",
+    "s",
+    [
+      "ExprApply",
+      ["ExprApply", ["ExprVar", "ADD"], ["ExprNumber", 1]],
+      ["ExprNumber", 2]
+    ]
   ]
 ]
