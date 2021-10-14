@@ -12,6 +12,7 @@ cabal run flecha -- example.flecha
 [Bats](https://github.com/bats-core/bats-core) needed.
 
 ```sh
+git submodule init
 git submodule update --recursive
 bats test/flecha_test.sh
 ```
