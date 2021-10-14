@@ -3,7 +3,7 @@ module Main (main) where
 import Lexer (lexer)
 import Parser (flecha)
 import System.Environment (getArgs)
-import Json (jsonProgram)
+-- import Json (jsonProgram)
 
 main :: IO ()
 main = getArgs >>= parse >>= evaluate
@@ -13,4 +13,5 @@ parse [] = getContents
 parse fs = concat `fmap` mapM readFile fs
 
 evaluate :: String -> IO ()
-evaluate = putStrLn . jsonProgram . flecha . lexer
+evaluate = print . flecha . lexer
+-- evaluate = putStrLn . jsonProgram . flecha . lexer

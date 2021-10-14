@@ -34,4 +34,4 @@ data Token = TokenDef
            | TokenTimes
            | TokenDiv
            | TokenMod 
-           deriving (Show)
+           deriving (Show, Eq)

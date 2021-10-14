@@ -6,7 +6,7 @@ import qualified Data.Map as Map
 
 lexer :: String -> [Token]
 lexer [] = []
-lexer input@(c:cs)  | isSpace c                   = lexer cs
+lexer input@(c:cs)  | isSpace c                 = lexer cs
                     | isDigit c                 = lexNumber input
                     | isLower c && isAlpha c    = lexTokenOrLowerId input
                     | isUpper c && isAlpha c    = lexUpperId input
