@@ -93,7 +93,6 @@ function run_test() {
 }
 
 @test "foones::test15" {
-  skip
   run_test "test/foones/test15"
 }
 
@@ -102,11 +101,9 @@ function run_test() {
 }
 
 @test "foones::test17" {
-  skip
   run_test "test/foones/test17"
 }
 
 @test "foones::test18" {
-  skip
   run_test "test/foones/test18"
 }

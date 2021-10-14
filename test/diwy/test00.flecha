@@ -1,3 +1,1 @@
--- Asociatividad
-
-def t1=a||b||c||d
+-- Tests aislados

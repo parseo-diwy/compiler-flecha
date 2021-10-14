@@ -83,10 +83,41 @@ LetExpression     : let lowerid Parameters '=' InternalExpression in ExternalExp
 
 LambdaExpression  : lambda Parameters arrow ExternalExpression                      { mkLambda $2 $4 }
 
-InternalExpression      : UnaryOperator InternalExpression                          { ExprApply $1 $2 }
-                        | ApplicationExpression                                     { $1 }
-                        | InternalExpression BinaryOperator InternalExpression      { ExprApply (ExprApply $2 $1) $3 }
+InternalExpression      : AssociativeExpression                               { $1 }
 
+AssociativeExpression   : BinaryExpressionOR                                  { $1 }
+
+BinaryExpressionOR      : BinaryExpressionOR or BinaryExpressionAnd           { mkBinOperation "OR" $1 $3 }
+                        | BinaryExpressionAnd                                 { $1 }
+
+BinaryExpressionAnd     : BinaryExpressionAnd and UnaryExpresionNot           { mkBinOperation "AND" $1 $3 }
+                        | UnaryExpresionNot                                   { $1 }
+
+UnaryExpresionNot       : not UnaryExpresionNot                               { ExprApply (ExprVar "NOT") $2}
+                        | OrdinalExpression                                   { $1 }
+
+OrdinalExpression       : OrdinalExpression eq AdditiveExpression             { mkBinOperation "EQ" $1 $3 }
+                        | OrdinalExpression ne AdditiveExpression             { mkBinOperation "NE" $1 $3 }
+                        | OrdinalExpression ge AdditiveExpression             { mkBinOperation "GE" $1 $3 }
+                        | OrdinalExpression le AdditiveExpression             { mkBinOperation "LE" $1 $3 }
+                        | OrdinalExpression gt AdditiveExpression             { mkBinOperation "GT" $1 $3 }
+                        | OrdinalExpression lt AdditiveExpression             { mkBinOperation "LT" $1 $3 }
+                        | AdditiveExpression                                  { $1 }
+
+AdditiveExpression      : AdditiveExpression plus TimesExpression             { mkBinOperation "ADD" $1 $3 }
+                        | AdditiveExpression minus TimesExpression            { mkBinOperation "SUB" $1 $3 }
+                        | TimesExpression                                     { $1 }
+
+TimesExpression         : TimesExpression times DivExpression                 { mkBinOperation "MUL" $1 $3 }
+                        | DivExpression                                       { $1 }
+
+DivExpression           : DivExpression div UminusExpression                  { mkBinOperation "DIV" $1 $3 }
+                        | DivExpression mod UminusExpression                  { mkBinOperation "MOD" $1 $3 }
+                        | UminusExpression                                    { $1 }
+
+UminusExpression        : minus UminusExpression                              { ExprApply (ExprVar "UMINUS") $2}
+                        | AtomicExpression                                    { $1 }
+                        | ApplicationExpression                               { $1 }
 
 BinaryOperator    : and   { ExprVar "AND"}
                   | or    { ExprVar "OR"}
@@ -134,5 +165,7 @@ mkIfAsCase condExpr thenExpr elseBranches = ExprCase condExpr ((CaseBranch "True
 
 mkElseBranches :: Expr -> [ CaseBranch ]
 mkElseBranches elseExpr = [ CaseBranch "False" [] elseExpr ]
+
+mkBinOperation op left right = ExprApply (ExprApply (ExprVar op) left) right
 }
 
