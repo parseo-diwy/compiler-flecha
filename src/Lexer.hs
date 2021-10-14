@@ -13,17 +13,7 @@ lexer input@(c:cs)  | isSpace c                 = lexer cs
                     | isStartingSymbol c        = lexSymbol input
                     | '"' == c                  = lexString input
                     | '\'' == c                 = lexChar input
-                    | '-' == c                  = lexer $ removeComment cs
                     | otherwise                 = error $ "Lexical error: unexpected character: `" ++ [c::Char] ++ "`"
-
-removeComment :: String -> String
-removeComment ('-':cs) = ignoreToEndLine cs
-removeComment cs = cs
-
-ignoreToEndLine :: String -> String
-ignoreToEndLine "" = ""
-ignoreToEndLine ('\n':cs) = cs
-ignoreToEndLine (_:cs) = cs
 
 lexChar :: String -> [Token]
 lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\''  : lexer rest
