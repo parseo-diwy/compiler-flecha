@@ -16,7 +16,7 @@ import Ast
       in          { TokenIn }
       number      { TokenNumber $$ }
       lowerid     { TokenLowerId $$ }
-      eq          { TokenDefEq }
+      eq          { TokenEq }
       plus        { TokenPlus }
       minus       { TokenMinus }
       times       { TokenTimes }
