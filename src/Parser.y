@@ -80,7 +80,7 @@ CaseBranches      : CaseBranch CaseBranches                                     
 
 CaseBranch        : '|' upperid Parameters arrow InternalExpression                 { CaseBranch $2 $3 $5 }
 
-LetExpression     : let lowerid Parameters '=' InternalExpression in ExternalExpression { ExprLet $2 (mkLambda $3 $5) $7}
+LetExpression     : let lowerid Parameters '=' InternalExpression in ExternalExpression { ExprLet $2 (mkLambda $3 $5) $7 }
 
 LambdaExpression  : lambda Parameters arrow ExternalExpression                      { mkLambda $2 $4 }
 
@@ -107,7 +107,7 @@ UnaryOperator     : not   { ExprVar "NOT"}
                   | minus { ExprVar "UMINUS"}
 
 ApplicationExpression   : AtomicExpression                        { $1 }
-                        | ApplicationExpression AtomicExpression  {  $1 $2 }
+                        | ApplicationExpression AtomicExpression  {  ExprApply $1 $2 }
 
 AtomicExpression        : lowerid   { ExprVar $1 }
                         | upperid   { ExprConstructor $1}
