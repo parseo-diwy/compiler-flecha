@@ -1,24 +1,24 @@
 module Ast where 
 
-data Exp  
-    = Let String Exp Exp
-    | Exp1 Exp1
-    deriving Show
 
-data Exp1 
-    = Plus Exp1 Term 
-    | Minus Exp1 Term 
-    | Term Term
-    deriving Show
 
-data Term 
-    = Times Term Factor 
-    | Div Term Factor 
-    | Factor Factor
-    deriving Show
+type Program = [Definition]
 
-data Factor 
-    = Int Integer
-    | Var String 
-    | Brack Exp
-    deriving Show
+type Id = String
+type ConsId = String
+
+data Definition = Def Id Expr 
+                    deriving Show
+
+data Expr   = ExprVar Id
+            | ExprConstructor ConsId 
+            | ExprNumber Integer 
+            | ExprChar Char 
+            | ExprCase Expr [CaseBranch]
+            | ExprLet Id Expr Expr 
+            | ExprLambda Id Expr
+            | ExprApply Expr Expr
+            deriving Show
+
+data CaseBranch = CaseBranch Id [Id] Expr 
+                    deriving Show

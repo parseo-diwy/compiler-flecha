@@ -3,7 +3,7 @@ module Tokens where
 data Token = TokenDef 
            | TokenLowerId String
            | TokenUpperId String
-           | TokenInt Integer
+           | TokenNumber Integer
            | TokenChar Char
            | TokenString String
            | TokenIf

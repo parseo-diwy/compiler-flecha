@@ -74,7 +74,7 @@ lexSymbol ('/':cs)      = TokenDiv       : lexer cs
 lexSymbol ('%':cs)      = TokenMod       : lexer cs
 lexSymbol _             = error "Add 'otherwise' for 'Non-exhaustive Pattern matching' linting error. Add case if is a valid one."
 
-lexComment :: [Char] -> [Token]
+lexComment :: String -> [Token]
 lexComment []        = []
 lexComment ('\n':cs) = lexer cs
 lexComment ('\r':cs) = lexer cs
