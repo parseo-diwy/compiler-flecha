@@ -8,12 +8,13 @@ lexer :: String -> [Token]
 lexer [] = []
 lexer input@(c:cs)  | isSpace c                 = lexer cs
                     | isDigit c                 = lexNumber input
-                    | isLower c && isAlpha c    = lexTokenOrLowerId input
-                    | isUpper c && isAlpha c    = lexUpperId input
+                    | isAlpha c && isLower c    = lexTokenOrLowerId input
+                    | isAlpha c && isUpper c    = lexUpperId input
                     | isStartingSymbol c        = lexSymbol input
                     | '"' == c                  = lexString input
                     | '\'' == c                 = lexChar input
                     | otherwise                 = error $ "Lexical error: unexpected character: `" ++ [c::Char] ++ "`"
+-- TODO add line:char position on error (it needs add line:char args to lexer)
 
 lexChar :: String -> [Token]
 lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\''  : lexer rest
@@ -26,21 +27,25 @@ lexChar ('\'': c : '\'':rest)      = TokenChar c     : lexer rest
 lexChar _ = error "Lexical error: expected a char"
 
 lexString :: String -> [Token]
-lexString input = let (string, rest) = spanString (tail input) "" False
+lexString input = let (string, rest) = spanString $ tail input
                     in TokenString (reverse string) : lexer rest
 
-spanString :: String -> String -> Bool -> (String, String)
-spanString ('"':cs)  string False = (string, cs)
-spanString ('\\':cs) string False = spanString cs string        True
-spanString (c:cs)    string False = spanString cs (c:string)    False
-spanString ('t':cs)  string True  = spanString cs ('\t':string) False
-spanString ('n':cs)  string True  = spanString cs ('\n':string) False
-spanString ('r':cs)  string True  = spanString cs ('\r':string) False
-spanString ('\\':cs) string True  = spanString cs ('\\':string) False
-spanString ('\'':cs) string True  = spanString cs ('\'':string) False
-spanString ('"':cs)  string True  = spanString cs ('"':string)  False
-spanString (c:_)     _      True  = error $ "Lexical error: invalid escaped character `" ++ [c::Char] ++ "`"
-spanString _         _      _     = error "Lexical error: unexpected input sequence"
+spanString :: String -> (String, String)
+spanString cs = spanString' cs "" False
+
+-- This could be improved
+spanString' :: String -> String -> Bool -> (String, String)
+spanString' ('"':cs)  string False = (string, cs)
+spanString' ('\\':cs) string False = spanString' cs string        True
+spanString' (c:cs)    string False = spanString' cs (c:string)    False
+spanString' ('t':cs)  string True  = spanString' cs ('\t':string) False
+spanString' ('n':cs)  string True  = spanString' cs ('\n':string) False
+spanString' ('r':cs)  string True  = spanString' cs ('\r':string) False
+spanString' ('\\':cs) string True  = spanString' cs ('\\':string) False
+spanString' ('\'':cs) string True  = spanString' cs ('\'':string) False
+spanString' ('"':cs)  string True  = spanString' cs ('"':string)  False
+spanString' (c:_)     _      True  = error $ "Lexical error: invalid escaped character `" ++ [c::Char] ++ "`"
+spanString' _         _      _     = error "Lexical error: unexpected input sequence"
 
 lexNumber :: String -> [Token]
 lexNumber cs = let (numStr, rest) = span isDigit cs
@@ -79,20 +84,17 @@ lexComment ('\r':cs) = lexer cs
 lexComment (_:cs)    = lexComment cs
 
 lexTokenOrLowerId :: String -> [Token]
-lexTokenOrLowerId input = let (word, rest) = spanId input
+lexTokenOrLowerId input = let (word, rest) = break isSpaceOrSymbol input
                             in case lookupKeywordToken word of
                                 Just kwToken -> kwToken : lexer rest
                                 Nothing      -> TokenLowerId word : lexer rest
 
 lexUpperId :: String -> [Token]
-lexUpperId input = let (word, rest) = spanId input
+lexUpperId input = let (word, rest) = break isSpaceOrSymbol input
                     in TokenUpperId word : lexer rest
 
 isSpaceOrSymbol :: Char -> Bool
 isSpaceOrSymbol c = isSpace c || isStartingSymbol c
-
-spanId :: [Char] -> ([Char], [Char])
-spanId = break isSpaceOrSymbol
 
 isStartingSymbol :: Char -> Bool
 isStartingSymbol c = c `elem` startingSymbolsList

@@ -32,7 +32,6 @@ import Ast
       else        { TokenElse }
       elif        { TokenElif }
       case        { TokenCase }
-      int         { TokenIn }
       '='         { TokenDefEq }
       ';'         { TokenSemicolon }
       lambda      { TokenLambda }
@@ -67,10 +66,10 @@ ExternalExpression      : IfExpression                                        { 
                         | LambdaExpression                                    { $1 }
                         | InternalExpression                                  { $1 }
 
-IfExpression            : if InternalExpression then InternalExpression ElseBranches      { mkIfAsCase $2 $4 $5 }
+IfExpression            : if InternalExpression then InternalExpression ElseBranches   { mkIfAsCase $2 $4 $5 }
 
-ElseBranches            : elif  InternalExpression then InternalExpression ElseBranches   { mkElseBranches (mkIfAsCase $2 $4 $5)  }
-                        | else InternalExpression                                         { mkElseBranches $2 }
+ElseBranches            : elif InternalExpression then InternalExpression ElseBranches { mkElseBranches (mkIfAsCase $2 $4 $5)  }
+                        | else InternalExpression                                      { mkElseBranches $2 }
 
 CaseExpression          : case InternalExpression CaseBranches                { ExprCase $2 $3 }
 
