@@ -1,8 +1,8 @@
-name:                tp1-parser-flecha
+name:                compiler-flecha
 version:             1.0.0
 synopsis:            Flecha Parser for Parseo at UNQ
 -- description:
-homepage:            https://github.com/parseo-diwy/tp1-parser-flecha 
+homepage:            https://github.com/parseo-diwy/compiler-flecha 
 license:             BSD3
 license-file:        LICENSE
 author:              Dan, Lean
@@ -14,7 +14,7 @@ cabal-version:       >=1.10
 
 executable flecha
   main-is:             Main.hs
-  build-depends:       base >= 4.11 && < 5, array, containers, text, tp1-parser-flecha
+  build-depends:       base >= 4.11 && < 5, array, containers, text, compiler-flecha
   build-tools:         happy
   ghc-options:         -Wall
   default-language:    Haskell2010
@@ -33,5 +33,5 @@ test-suite test
   type:             exitcode-stdio-1.0
   main-is:          Tests.hs
   hs-source-dirs:   test
-  build-depends:    base >=4.11 && < 5, HUnit, tp1-parser-flecha
+  build-depends:    base >=4.11 && < 5, HUnit, compiler-flecha
   default-language: Haskell2010
