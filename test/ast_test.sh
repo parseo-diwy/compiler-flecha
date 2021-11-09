@@ -15,7 +15,7 @@ teardown() {
 function run_test() {
   TEST_NAME=$1
   jq . "$TEST_NAME.json" > "$TEST_NAME.expected"
-  cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" | jq . > "$TEST_NAME.output"
+  cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --json | jq . > "$TEST_NAME.output"
   run diff "$TEST_NAME.expected" "$TEST_NAME.output"
 
   assert_success

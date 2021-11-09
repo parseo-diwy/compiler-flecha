@@ -21,17 +21,19 @@ executable flecha
 library
   build-depends:       base >=4.11 && < 5, array, containers, text
   hs-source-dirs:      src
-  exposed-modules:     Tokens
-                       Ast
-                       Lexer
-                       Parser
+  exposed-modules:     Ast
+                       Environment
                        Json
+                       Lexer
+                       Mamarracho
+                       Parser
+                       Tokens
   ghc-options:         -Wall
   default-language:    Haskell2010
 
 test-suite test
-  type:             exitcode-stdio-1.0
-  main-is:          Tests.hs
-  hs-source-dirs:   test
-  build-depends:    base >=4.11 && < 5, HUnit, compiler-flecha
-  default-language: Haskell2010
+  main-is:             Tests.hs
+  hs-source-dirs:      test
+  type:                exitcode-stdio-1.0
+  build-depends:       base >=4.11 && < 5, HUnit, compiler-flecha
+  default-language:    Haskell2010

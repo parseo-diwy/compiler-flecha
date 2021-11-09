@@ -1,10 +1,12 @@
 module Main (main) where
 
-import Ast ( Program )
+import Ast (Program)
 import Json (toJsonProgram)
 import Lexer (lexer)
 import Parser (flecha)
 import System.Environment (getArgs)
+import Mamarracho (compile)
+import Environment (emptyEnv)
 
 main :: IO ()
 main = do
@@ -17,8 +19,9 @@ main = do
       error "Invalid arguments.\nUsage: cabal run flecha -- example.flecha"
 
 printResult :: String -> [String] -> IO ()
-printResult file ("--ast":_) = printAST $ parse file
-printResult file _           = printJSON $ parse file
+printResult file ("--ast":_)  = printAST  $ parse file
+printResult file ("--json":_) = printJSON $ parse file
+printResult file _            = printMAM  $ parse file
 
 parse :: String -> Program
 parse = flecha . lexer
@@ -28,3 +31,6 @@ printAST = print
 
 printJSON :: Program -> IO ()
 printJSON = putStrLn . toJsonProgram
+
+printMAM :: Program -> IO ()
+printMAM = putStrLn . compile emptyEnv
