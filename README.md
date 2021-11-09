@@ -15,5 +15,5 @@ cabal run flecha -- example.flecha
 ```sh
 git submodule init
 git submodule update --recursive
-bats test/flecha_test.sh
+bats test/ast_test.sh
 ```
