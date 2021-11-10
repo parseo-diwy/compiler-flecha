@@ -6,7 +6,6 @@ import Lexer (lexer)
 import Parser (flecha)
 import System.Environment (getArgs)
 import Mamarracho (compile)
-import Environment (emptyEnv)
 
 main :: IO ()
 main = do
@@ -33,4 +32,4 @@ printJSON :: Program -> IO ()
 printJSON = putStrLn . toJsonProgram
 
 printMAM :: Program -> IO ()
-printMAM = putStrLn . compile emptyEnv
+printMAM = putStrLn . compile
