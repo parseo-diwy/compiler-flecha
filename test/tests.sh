@@ -4,13 +4,20 @@ setup() {
   load 'test_helper/bats-support/load'
   load 'test_helper/bats-assert/load'
 
+  ## build flecha
   cabal build --verbose=silent
+
+  ## compile mamarracho
+  pushd mamarracho || exit
+  make mam
+  popd || exit
 }
 
 teardown() {
     rm -f test/ast/*.expected
     rm -f test/ast/*.output
-    rm -f test/mam/*.output
+    rm -f test/mamarracho/*.mam
+    rm -f test/mamarracho/*.output
 }
 
 function ast_test() {
@@ -25,7 +32,8 @@ function ast_test() {
 
 function mam_test() {
   TEST_NAME=$1
-  cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --mam > "$TEST_NAME.output"
+  cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --mam > "$TEST_NAME.mam"
+  ./mamarracho/mam "$TEST_NAME.mam" > "$TEST_NAME.output"
   run diff "$TEST_NAME.expected" "$TEST_NAME.output"
 
   assert_success
@@ -117,7 +125,6 @@ function mam_test() {
 # Mamarracho Test Suite
 
 @test "mam::test01" {
-  skip
   mam_test "test/mamarracho/test01"
 }
 
