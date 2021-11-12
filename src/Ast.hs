@@ -8,7 +8,7 @@ data Definition = Def ID Expr deriving Show
 
 data Expr   = ExprVar ID
             | ExprConstructor ID
-            | ExprNumber Integer 
+            | ExprNumber Int
             | ExprChar Char 
             | ExprCase Expr [CaseBranch]
             | ExprLet ID Expr Expr 

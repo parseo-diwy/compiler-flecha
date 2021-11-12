@@ -14,7 +14,6 @@ lexer input@(c:cs)  | isSpace c                 = lexer cs
                     | '"' == c                  = lexString input
                     | '\'' == c                 = lexChar input
                     | otherwise                 = error $ "Lexical error: unexpected character: `" ++ [c::Char] ++ "`"
--- TODO add line:char position on error (it needs add line:char args to lexer)
 
 lexChar :: String -> [Token]
 lexChar ('\'':'\\':'\'':'\'':rest) = TokenChar '\''  : lexer rest
@@ -49,7 +48,7 @@ spanString' _         _      _     = error "Lexical error: unexpected input sequ
 
 lexNumber :: String -> [Token]
 lexNumber cs = let (numStr, rest) = span isDigit cs
-                in TokenNumber (read numStr::Integer) : lexer rest
+                in TokenNumber (read numStr::Int) : lexer rest
 
 lexSymbol :: String -> [Token]
 lexSymbol [] = []

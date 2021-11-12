@@ -41,7 +41,7 @@ exprVar i = "[\"ExprVar\", " ++ quote i ++ "]"
 exprConstructor :: StrID -> String
 exprConstructor i = "[\"ExprConstructor\", " ++ quote i ++ "]"
 
-exprNumber :: Integer -> String
+exprNumber :: Int -> String
 exprNumber n = "[\"ExprNumber\", " ++ show n ++ "]"
 
 exprChar :: Char -> String

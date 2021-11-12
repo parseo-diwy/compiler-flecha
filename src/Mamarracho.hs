@@ -1,5 +1,6 @@
 module Mamarracho (compile, MamCode) where
 
+import Constants
 import Ast (Definition (..), Expr (..), Program)
 import Data.Char (ord)
 import Environment (Env, emptyEnv, extendEnv, lookupEnv)
@@ -22,21 +23,25 @@ compileDef env (Def _id e) =
        in (env2, ins ++ [MovReg (Global "main") reg])
 
 compileExpr :: Env Binding -> Expr -> Reg -> (Env Binding, [Instruction])
-compileExpr env (ExprVar "unsafePrintChar") reg =
-  let (env', lreg) = freshLocalReg env
-   in (env',
-        [ Load lreg reg 1,
-          PrintChar lreg
-        ]
-      )
+compileExpr env (ExprVar "unsafePrintChar") reg = compilePrintPrimitive PrintChar env reg
+compileExpr env (ExprVar "unsafePrintInt") reg = compilePrintPrimitive Print env reg
 compileExpr env (ExprVar _id)         reg = error "not implemented"
 compileExpr env (ExprConstructor _id) reg = error "not implemented"
-compileExpr env (ExprNumber n)        reg = error "not implemented"
+compileExpr env (ExprNumber n)        reg = 
+  let lreg = Local "t"
+   in (env,
+        [ Alloc reg 2,
+          MovInt lreg tagNumber, 
+          Store reg 0 lreg,
+          MovInt lreg n,
+          Store reg 1 lreg
+        ]
+      )
 compileExpr env (ExprChar c)          reg =
   let lreg = Local "t"
    in (env,
         [ Alloc reg 2,
-          MovInt lreg 2,
+          MovInt lreg tagChar, 
           Store reg 0 lreg,
           MovInt lreg (ord c),
           Store reg 1 lreg
@@ -69,3 +74,13 @@ freshLocalReg env =
               env' = extendEnv env regName next
            in (env', reg)
         _ -> error "invalid lookupEnv result in freshLocalReg"
+
+
+compilePrintPrimitive :: (Reg -> Instruction) ->  Env Binding -> Reg ->  (Env Binding, [Instruction])
+compilePrintPrimitive cons env reg =   
+  let (env', lreg) = freshLocalReg env
+   in (env',
+        [ Load lreg reg 1,
+          cons lreg
+        ]
+      )
