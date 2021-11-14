@@ -27,7 +27,6 @@ library
                        Json
                        Lexer
                        Mamarracho
-                       MamDumper
                        MamTypes
                        Parser
                        Tokens

@@ -1,14 +1,14 @@
 module Mamarracho (compile, MamCode) where
 
-import Constants
 import Ast (Definition (..), Expr (..), Program)
+import Constants (tagNumber, tagChar)
 import Data.Char (ord)
+import Data.List (intercalate)
 import Environment (Env, emptyEnv, extendEnv, lookupEnv)
-import MamDumper (dumpMam)
 import MamTypes (Binding (..), Instruction (..), MamCode, Reg (..))
 
 compile :: Program -> MamCode
-compile = dumpMam . compile' startingEnv
+compile = intercalate "\n" . map show . compile' startingEnv
 
 compile' :: Env Binding -> Program -> [Instruction]
 compile' _ [] = []
