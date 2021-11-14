@@ -39,19 +39,24 @@ data Instruction = MovReg Reg Reg
 
 instance Show Instruction where
   show (Add reg1 reg2 reg3)     = error "not implemented"
-  show (Alloc reg n)            = "alloc(" ++ show reg ++ ", " ++ show n ++ ")"
+  show (Alloc reg n)            = "alloc"      ++ show (reg, n)
   show (Call label )            = error "not implemented"
   show (Div reg1 reg2 reg3)     = error "not implemented"
   show (Jump label)             = error "not implemented"
   show (JumpEq reg1 reg2 label) = error "not implemented"
   show (JumpLt reg1 reg2 label) = error "not implemented"
-  show (Load reg1 reg2 n)       = "load(" ++ show reg1 ++ ", " ++ show reg2 ++ ", " ++ show n ++ ")"
+  show (Load reg1 reg2 n)       = "load"       ++ show (reg1, reg2, n)
   show (Mod reg1 reg2 reg3)     = error "not implemented"
-  show (MovInt reg n)           = "mov_int(" ++ show reg ++ ", " ++ show n ++ ")"
+  show (MovInt reg n)           = "mov_int"    ++ show (reg, n)
   show (MovLabel reg label)     = error "not implemented"
-  show (MovReg reg1 reg2)       = "mov_reg(" ++ show reg1 ++ ", " ++ show reg2 ++ ")"
+  show (MovReg reg1 reg2)       = "mov_reg"    ++ show (reg1, reg2)
   show (Mul reg1 reg2 reg3)     = error "not implemented"
-  show (Print reg)              = "print(" ++ show reg ++ ")"
-  show (PrintChar reg)          = "print_char(" ++ show reg ++ ")"
-  show (Store reg1 n reg2)      = "store(" ++ show reg1 ++ ", " ++ show n ++ ", " ++ show reg2 ++ ")"
+  show (Print reg)              = "print"      ++ arg1 reg
+  show (PrintChar reg)          = "print_char" ++ arg1 reg
+  show (Store reg1 n reg2)      = "store"      ++ show (reg1, n, reg2)
   show (Sub reg1 reg2 reg3)     = error "not implemented"
+
+--
+
+arg1 :: Show a => a -> String
+arg1 a = "(" ++ show a  ++ ")"
