@@ -38,23 +38,23 @@ data Instruction = MovReg Reg Reg
                  | Call Label
 
 instance Show Instruction where
-  show (Add reg1 reg2 reg3)     = error "not implemented"
+  show (Add reg1 reg2 reg3)     = "add"        ++ show (reg1, reg2, reg3)
   show (Alloc reg n)            = "alloc"      ++ show (reg, n)
-  show (Call label )            = error "not implemented"
-  show (Div reg1 reg2 reg3)     = error "not implemented"
-  show (Jump label)             = error "not implemented"
-  show (JumpEq reg1 reg2 label) = error "not implemented"
-  show (JumpLt reg1 reg2 label) = error "not implemented"
+  show (Call label )            = "call"       ++ arg1 label
+  show (Div reg1 reg2 reg3)     = "div"        ++ show (reg1, reg2, reg3)
+  show (Jump label)             = "jump"       ++ arg1 label
+  show (JumpEq reg1 reg2 label) = "jump_eq"     ++ show (reg1, reg2, label)
+  show (JumpLt reg1 reg2 label) = "jump_lt"     ++ show (reg1, reg2, label)
   show (Load reg1 reg2 n)       = "load"       ++ show (reg1, reg2, n)
-  show (Mod reg1 reg2 reg3)     = error "not implemented"
+  show (Mod reg1 reg2 reg3)     = "mod"        ++ show (reg1, reg2, reg3)
   show (MovInt reg n)           = "mov_int"    ++ show (reg, n)
-  show (MovLabel reg label)     = error "not implemented"
+  show (MovLabel reg label)     = "mov_label"  ++ show (reg, label)
   show (MovReg reg1 reg2)       = "mov_reg"    ++ show (reg1, reg2)
-  show (Mul reg1 reg2 reg3)     = error "not implemented"
+  show (Mul reg1 reg2 reg3)     = "mul"        ++ show (reg1, reg2, reg3)
   show (Print reg)              = "print"      ++ arg1 reg
   show (PrintChar reg)          = "print_char" ++ arg1 reg
   show (Store reg1 n reg2)      = "store"      ++ show (reg1, n, reg2)
-  show (Sub reg1 reg2 reg3)     = error "not implemented"
+  show (Sub reg1 reg2 reg3)     = "sub"        ++ show (reg1, reg2, reg3)
 
 --
 
