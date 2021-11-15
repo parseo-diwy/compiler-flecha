@@ -19,46 +19,46 @@ data Val = VInt I64
          | VPtr U64
          | VLoc U64
 
-data Instruction = MovReg    Reg Reg
-                 | MovInt    Reg I64
-                 | MovLabel  Reg Label
-                 | Alloc     Reg U64
-                 | Load      Reg Reg U64
-                 | Store     Reg U64 Reg
+data Instruction = MovReg    (Reg, Reg)
+                 | MovInt    (Reg, I64)
+                 | MovLabel  (Reg, Label)
+                 | Alloc     (Reg, U64)
+                 | Load      (Reg, Reg, U64)
+                 | Store     (Reg, U64, Reg)
                  | Print     Reg
                  | PrintChar Reg
                  | Jump      Label
-                 | JumpEq    Reg Reg Label
-                 | JumpLt    Reg Reg Label
-                 | Add       Reg Reg Reg
-                 | Sub       Reg Reg Reg
-                 | Mul       Reg Reg Reg
-                 | Div       Reg Reg Reg
-                 | Mod       Reg Reg Reg
+                 | JumpEq    (Reg, Reg, Label)
+                 | JumpLt    (Reg, Reg, Label)
+                 | Add       (Reg, Reg, Reg)
+                 | Sub       (Reg, Reg, Reg)
+                 | Mul       (Reg, Reg, Reg)
+                 | Div       (Reg, Reg, Reg)
+                 | Mod       (Reg, Reg, Reg)
                  | Call      Label
                  | ICall     Reg
                  | Return
 
 instance Show Instruction where
-  show (MovReg    reg1 reg2)       = "mov_reg"    ++ show (reg1, reg2)
-  show (MovInt    reg n)           = "mov_int"    ++ show (reg, n)
-  show (MovLabel  reg label)       = "mov_label"  ++ show (reg, label)
-  show (Alloc     reg n)           = "alloc"      ++ show (reg, n)
-  show (Load      reg1 reg2 n)     = "load"       ++ show (reg1, reg2, n)
-  show (Store     reg1 n reg2)     = "store"      ++ show (reg1, n, reg2)
-  show (Print     reg)             = "print"      ++ arg1 reg
-  show (PrintChar reg)             = "print_char" ++ arg1 reg
-  show (Jump      label)           = "jump"       ++ arg1 label
-  show (JumpEq    reg1 reg2 label) = "jump_eq"    ++ show (reg1, reg2, label)
-  show (JumpLt    reg1 reg2 label) = "jump_lt"    ++ show (reg1, reg2, label)
-  show (Add       reg1 reg2 reg3)  = "add"        ++ show (reg1, reg2, reg3)
-  show (Sub       reg1 reg2 reg3)  = "sub"        ++ show (reg1, reg2, reg3)
-  show (Mul       reg1 reg2 reg3)  = "mul"        ++ show (reg1, reg2, reg3)
-  show (Div       reg1 reg2 reg3)  = "div"        ++ show (reg1, reg2, reg3)
-  show (Mod       reg1 reg2 reg3)  = "mod"        ++ show (reg1, reg2, reg3)
-  show (Call      label)           = "call"       ++ arg1 label
-  show (ICall     reg)             = "icall"      ++ arg1 reg
-  show Return                      = "return()"
+  show (MovReg    args)  = "mov_reg"    ++ show args
+  show (MovInt    args)  = "mov_int"    ++ show args
+  show (MovLabel  args)  = "mov_label"  ++ show args
+  show (Alloc     args)  = "alloc"      ++ show args
+  show (Load      args)  = "load"       ++ show args
+  show (Store     args)  = "store"      ++ show args
+  show (Print     reg)   = "print"      ++ arg1 reg
+  show (PrintChar reg)   = "print_char" ++ arg1 reg
+  show (Jump      label) = "jump"       ++ arg1 label
+  show (JumpEq    args)  = "jump_eq"    ++ show args
+  show (JumpLt    args)  = "jump_lt"    ++ show args
+  show (Add       args)  = "add"        ++ show args
+  show (Sub       args)  = "sub"        ++ show args
+  show (Mul       args)  = "mul"        ++ show args
+  show (Div       args)  = "div"        ++ show args
+  show (Mod       args)  = "mod"        ++ show args
+  show (Call      label) = "call"       ++ arg1 label
+  show (ICall     reg)   = "icall"      ++ arg1 reg
+  show Return            = "return()"
 
 --
 
