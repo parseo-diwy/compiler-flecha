@@ -1,11 +1,11 @@
 module Mamarracho (compile) where
 
-import Ast (Program, Expr (..), Definition(..))
-import Constants (tagNumber, tagChar)
+import Ast (Program, Expr(..), Definition(..))
+import Constants (tagNumber, tagChar, TagType)
 import Control.Monad.State (evalState, MonadState(put, get), State)
 import Data.Char (ord)
 import Data.List (intercalate)
-import MamTypes (Instruction (..), MamCode, Reg (..))
+import MamTypes (Instruction(..), MamCode, Reg(..))
 
 -- get       :: State s a                        -- Retrieves the state, like Reader.ask
 -- put       :: s -> State s ()                  -- Overwrites the existing state
@@ -44,34 +44,29 @@ compileDef (Def _id e) = do
   }
 
 compileExpr :: Expr -> Reg -> State MamState [Instruction]
-compileExpr (ExprVar "unsafePrintInt")  reg = compilePrintPrimitive Print reg
-compileExpr (ExprVar "unsafePrintChar") reg = compilePrintPrimitive PrintChar reg
-compileExpr (ExprNumber n) reg = do
-  let temp = Local "t"
-  return [
-    Alloc  (reg, 2),
-    MovInt (temp, tagNumber),
-    Store  (reg, 0, temp),
-    MovInt (temp, n),
-    Store  (reg, 1, temp)
-    ]
-compileExpr (ExprChar c)  reg = do
-  let temp = Local "t"
-  return [
-    Alloc  (reg, 2),
-    MovInt (temp, tagChar),
-    Store  (reg, 0, temp),
-    MovInt (temp, ord c),
-    Store  (reg, 1, temp)
-    ]
-compileExpr (ExprApply e1 e2) reg = do
+compileExpr (ExprVar "unsafePrintInt")  reg = compilePrimitivePrint Print reg
+compileExpr (ExprVar "unsafePrintChar") reg = compilePrimitivePrint PrintChar reg
+compileExpr (ExprNumber n)              reg = compilePrimitiveValue tagNumber n reg
+compileExpr (ExprChar c)                reg = compilePrimitiveValue tagChar (ord c) reg
+compileExpr (ExprApply e1 e2)           reg = do
   ins2 <- compileExpr e2 reg
   ins1 <- compileExpr e1 reg
   return $ ins2 ++ ins1
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
-compilePrintPrimitive :: (Reg -> Instruction) -> Reg -> State MamState [Instruction]
-compilePrintPrimitive cons reg = do
+compilePrimitiveValue :: TagType -> Int -> Reg -> State MamState [Instruction]
+compilePrimitiveValue tag val reg = do
+  let temp = Local "t"
+  return [
+    Alloc  (reg, 2),
+    MovInt (temp, tag),
+    Store  (reg, 0, temp),
+    MovInt (temp, val),
+    Store  (reg, 1, temp)
+    ]
+
+compilePrimitivePrint :: (Reg -> Instruction) -> Reg -> State MamState [Instruction]
+compilePrimitivePrint cons reg = do
   lreg <- localReg
   return [
     Load (lreg, reg, 1),
