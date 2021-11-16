@@ -47,12 +47,8 @@ compileDef (Def _id e) = do
   }
 
 compileExpr :: Expr -> Reg -> State MAMState [Instruction]
-compileExpr (ExprVar "unsafePrintChar") reg = do
-  lreg <- localReg
-  return [
-    Load      (lreg, reg, 1),
-    PrintChar lreg
-    ]
+compileExpr (ExprVar "unsafePrintInt")  reg = compilePrintPrimitive Print reg
+compileExpr (ExprVar "unsafePrintChar") reg = compilePrintPrimitive PrintChar reg
 compileExpr (ExprNumber n) reg = do
   let temp = Local "t"
   return [
@@ -76,6 +72,14 @@ compileExpr (ExprApply e1 e2) reg = do
   ins1 <- compileExpr e1 reg
   return $ ins2 ++ ins1
 compileExpr e _ = error $ "NOT implemented " ++ show e
+
+compilePrintPrimitive :: (Reg -> Instruction) -> Reg -> State MAMState [Instruction]
+compilePrintPrimitive cons reg = do
+  lreg <- localReg
+  return [
+    Load (lreg, reg, 1),
+    cons lreg
+    ]
 
 -- helpers
 
