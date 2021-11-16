@@ -1,5 +1,7 @@
 module Constants where
 
+type TagType = Int
+
 tagNumber :: Int
 tagNumber = 1
 

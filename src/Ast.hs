@@ -4,7 +4,8 @@ type Program = [Definition]
 
 type ID = String
 
-data Definition = Def ID Expr deriving Show
+data Definition = Def ID Expr
+  deriving Show
 
 data Expr   = ExprVar ID
             | ExprConstructor ID

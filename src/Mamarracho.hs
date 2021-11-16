@@ -1,86 +1,89 @@
-module Mamarracho (compile, MamCode) where
+module Mamarracho (compile) where
 
-import Constants
-import Ast (Definition (..), Expr (..), Program)
+import Ast (Program, Expr(..), Definition(..))
+import Constants (tagNumber, tagChar, TagType)
+import Control.Monad.State (evalState, MonadState(put, get), State)
 import Data.Char (ord)
-import Environment (Env, emptyEnv, extendEnv, lookupEnv)
-import MamDumper (dumpMam)
-import MamTypes (Binding (..), Instruction (..), MamCode, Reg (..))
+import Data.List (intercalate)
+import MamTypes (Instruction(..), MamCode, Reg(..))
+
+-- get       :: State s a                        -- Retrieves the state, like Reader.ask
+-- put       :: s -> State s ()                  -- Overwrites the existing state
+-- runState  :: s -> State s a -> (a, s)
+-- evalState :: State s a -> s -> a
+-- execState :: State s a -> s -> s
+data MamState = MamState {
+  nextReg :: Int,
+  instructions :: [Instruction]
+}
+
+initState :: MamState
+initState = MamState {
+  nextReg = 0,
+  instructions = []
+}
+
+-- Compilation
 
 compile :: Program -> MamCode
-compile = dumpMam . compile' startingEnv
+compile prog = showMam $ getAST $ evalState (compile' prog) initState
 
-compile' :: Env Binding -> Program -> [Instruction]
-compile' _ [] = []
-compile' env (def : prog) =
-  let (env', mam) = compileDef env def
-   in mam ++ compile' env' prog
+compile' :: Program -> State MamState MamState
+compile' [] = do get
+compile' (def:program) = do
+  compileDef def >>= put
+  compile' program
 
-compileDef :: Env Binding -> Definition -> (Env Binding, [Instruction])
-compileDef env (Def _id e) =
-  let (env1, reg) = freshLocalReg env
-   in let (env2, ins) = compileExpr env1 e reg
-       in (env2, ins ++ [MovReg (Global "main") reg])
+compileDef :: Definition -> State MamState MamState
+compileDef (Def _id e) = do
+  mam <- get
+  reg <-localReg
+  ins <- compileExpr e reg
+  return $ mam {
+    instructions = instructions mam ++ ins ++ [MovReg (Global "main", reg)]
+  }
 
-compileExpr :: Env Binding -> Expr -> Reg -> (Env Binding, [Instruction])
-compileExpr env (ExprVar "unsafePrintChar") reg = compilePrintPrimitive PrintChar env reg
-compileExpr env (ExprVar "unsafePrintInt") reg = compilePrintPrimitive Print env reg
-compileExpr env (ExprVar _id)         reg = error "not implemented"
-compileExpr env (ExprConstructor _id) reg = error "not implemented"
-compileExpr env (ExprNumber n)        reg = 
-  let lreg = Local "t"
-   in (env,
-        [ Alloc reg 2,
-          MovInt lreg tagNumber, 
-          Store reg 0 lreg,
-          MovInt lreg n,
-          Store reg 1 lreg
-        ]
-      )
-compileExpr env (ExprChar c)          reg =
-  let lreg = Local "t"
-   in (env,
-        [ Alloc reg 2,
-          MovInt lreg tagChar, 
-          Store reg 0 lreg,
-          MovInt lreg (ord c),
-          Store reg 1 lreg
-        ]
-      )
-compileExpr env (ExprCase e cases)  reg = error "not implemented"
-compileExpr env (ExprLet _id e1 e2) reg = error "not implemented"
-compileExpr env (ExprLambda _id e)  reg = error "not implemented"
-compileExpr env (ExprApply e1 e2)   reg =
-  let (env2, ins2) = compileExpr env e2 reg
-      (env1, ins1) = compileExpr env2 e1 reg
-   in (env1, ins2 ++ ins1)
+compileExpr :: Expr -> Reg -> State MamState [Instruction]
+compileExpr (ExprVar "unsafePrintInt")  reg = compilePrimitivePrint Print reg
+compileExpr (ExprVar "unsafePrintChar") reg = compilePrimitivePrint PrintChar reg
+compileExpr (ExprNumber n)              reg = compilePrimitiveValue tagNumber n reg
+compileExpr (ExprChar c)                reg = compilePrimitiveValue tagChar (ord c) reg
+compileExpr (ExprApply e1 e2)           reg = do
+  ins2 <- compileExpr e2 reg
+  ins1 <- compileExpr e1 reg
+  return $ ins2 ++ ins1
+compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
---
+compilePrimitiveValue :: TagType -> Int -> Reg -> State MamState [Instruction]
+compilePrimitiveValue tag val reg = do
+  let temp = Local "t"
+  return [
+    Alloc  (reg, 2),
+    MovInt (temp, tag),
+    Store  (reg, 0, temp),
+    MovInt (temp, val),
+    Store  (reg, 1, temp)
+    ]
 
-_localRegName :: String
-_localRegName = "next_local_reg"
+compilePrimitivePrint :: (Reg -> Instruction) -> Reg -> State MamState [Instruction]
+compilePrimitivePrint cons reg = do
+  lreg <- localReg
+  return [
+    Load (lreg, reg, 1),
+    cons lreg
+    ]
 
-startingEnv :: Env Binding
-startingEnv = extendEnv emptyEnv _localRegName (BEnclosed 0)
+-- helpers
 
-freshLocalReg :: Env Binding -> (Env Binding, Reg)
-freshLocalReg env =
-  let regName = _localRegName
-      bind = lookupEnv env regName
-   in case bind of
-        (BEnclosed n) ->
-          let next = BEnclosed $ n + 1
-              reg = Local $ "r" ++ show n
-              env' = extendEnv env regName next
-           in (env', reg)
-        _ -> error "invalid lookupEnv result in freshLocalReg"
+getAST :: MamState -> [Instruction]
+getAST MamState { instructions = ins } = ins
 
+showMam :: Show a => [a] -> [Char]
+showMam = intercalate "\n" . map show
 
-compilePrintPrimitive :: (Reg -> Instruction) ->  Env Binding -> Reg ->  (Env Binding, [Instruction])
-compilePrintPrimitive cons env reg =   
-  let (env', lreg) = freshLocalReg env
-   in (env',
-        [ Load lreg reg 1,
-          cons lreg
-        ]
-      )
+localReg :: State MamState Reg
+localReg = do
+  mam <- get
+  let n = nextReg mam
+  put $ mam { nextReg = n + 1 }
+  return $ Local $ "r" ++ show n
