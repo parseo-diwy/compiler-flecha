@@ -6,8 +6,6 @@ import Lexer (lexer)
 import Parser (flecha)
 import System.Environment (getArgs)
 import Mamarracho (compile)
-import MamarrachoState (compile2)
-
 
 main :: IO ()
 main = do
@@ -22,7 +20,6 @@ main = do
 printResult :: String -> [String] -> IO ()
 printResult file ("--ast":_)   = printAST  $ parse file
 printResult file ("--json":_)  = printJSON $ parse file
-printResult file ("--monad":_) = printMAMMonad $ parse file
 printResult file _             = printMAM  $ parse file
 
 parse :: String -> Program
@@ -33,9 +30,6 @@ printAST = print
 
 printJSON :: Program -> IO ()
 printJSON = putStrLn . toJsonProgram
-
-printMAMMonad :: Program -> IO ()
-printMAMMonad = putStrLn . compile2
 
 printMAM :: Program -> IO ()
 printMAM = putStrLn . compile

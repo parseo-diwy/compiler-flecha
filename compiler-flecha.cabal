@@ -23,11 +23,9 @@ library
   hs-source-dirs:      src
   exposed-modules:     Ast
                        Constants
-                       Environment
                        Json
                        Lexer
                        Mamarracho
-                       MamarrachoState
                        MamTypes
                        Parser
                        Tokens
