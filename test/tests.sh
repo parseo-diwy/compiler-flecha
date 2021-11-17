@@ -277,3 +277,7 @@ function mam_test() {
   skip
   mam_test "test/mamarracho/test31"
 }
+
+@test "mam::test43" {
+  mam_test "test/mamarracho/test43"
+}

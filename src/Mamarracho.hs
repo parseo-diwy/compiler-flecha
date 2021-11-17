@@ -1,7 +1,7 @@
 module Mamarracho (compile) where
 
 import Ast (Program, Expr(..), Definition(..))
-import Constants (tagNumber, tagChar, TagType)
+import Constants (tagChar, tagNumber, tagTrue, TagType)
 import Control.Monad.State (evalState, MonadState(put, get), State)
 import Data.Char (ord)
 import Data.List (intercalate)
@@ -52,6 +52,13 @@ compileExpr (ExprApply e1 e2)           reg = do
   ins2 <- compileExpr e2 reg
   ins1 <- compileExpr e1 reg
   return $ ins2 ++ ins1
+compileExpr (ExprConstructor "True") reg = do
+  let temp = Local "t"
+  return [
+    Alloc (reg, 1),
+    MovInt (temp, tagTrue),
+    Store (reg, 0, temp)
+    ]
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compilePrimitiveValue :: TagType -> Int -> Reg -> State MamState [Instruction]
