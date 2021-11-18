@@ -2,7 +2,7 @@ module Mamarracho (compile) where
 
 import Ast (Program, Expr(..), Definition(..), ID)
 import Constants (tagChar, tagNumber, tagTrue, TagType)
-import Control.Monad.State (evalState, MonadState(put, get), State)
+import Control.Monad.State (execState, MonadState(put, get), State)
 import Data.Char (ord)
 import Data.List (intercalate)
 import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode)
@@ -13,25 +13,27 @@ import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode)
 -- evalState :: State s a -> s -> a
 -- execState :: State s a -> s -> s
 data MamState = MamState {
-  nextReg :: Int,
-  bindings :: [Binding],
-  instructions :: [Instruction]
+  env     :: [(String, Binding)],
+  code    :: [Instruction],
+  nextReg :: Int
 }
 
 initState :: MamState
 initState = MamState {
-  nextReg = 0,
-  bindings = [],
-  instructions = []
+  env     = [],
+  code    = [],
+  nextReg = 0
 }
 
 -- Compilation
 
-compile :: Program -> MamCode
-compile prog = showMam $ getAST $ evalState (compile' prog) initState
+-- type Mam = State MamState
 
-compile' :: Program -> State MamState MamState
-compile' [] = do get
+compile :: Program -> MamCode
+compile prog = showCode $ getCode $ execState (compile' prog) initState
+
+compile' :: Program -> State MamState ()
+compile' []            = return ()
 compile' (def:program) = do
   compileDef def >>= put
   compile' program
@@ -40,11 +42,11 @@ compileDef :: Definition -> State MamState MamState
 compileDef (Def _id e) = do
   mam <- get
   reg <-localReg
-  ins <- compileExpr e reg
+  _code <- compileExpr e reg
   let greg = Global _id
   return $ mam {
-    bindings = bindings mam ++ [BRegister greg],
-    instructions = instructions mam ++ ins ++ [MovReg (greg, reg)]
+    env  = env  mam ++ [(_id, BRegister greg)],
+    code = code mam ++ _code ++ [MovReg (greg, reg)]
   }
 
 compileExpr :: Expr -> Reg -> State MamState [Instruction]
@@ -99,11 +101,11 @@ compilePrimitiveValue (tag, val, reg) = do
 
 -- helpers
 
-getAST :: MamState -> [Instruction]
-getAST MamState { instructions = ins } = ins
+getCode :: MamState -> [Instruction]
+getCode MamState { code = c } = c
 
-showMam :: Show a => [a] -> [Char]
-showMam = intercalate "\n" . map show
+showCode :: Show a => [a] -> [Char]
+showCode = intercalate "\n" . map show
 
 isPrimitivePrinter :: String -> Bool
 isPrimitivePrinter _id = _id `elem` ["unsafePrintInt", "unsafePrintChar"]
