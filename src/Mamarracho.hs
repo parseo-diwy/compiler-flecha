@@ -27,29 +27,30 @@ initState = MamState {
 
 -- Compilation
 
--- type Mam = State MamState
+type Mam = State MamState
 
 compile :: Program -> MamCode
 compile prog = showCode $ getCode $ execState (compile' prog) initState
 
-compile' :: Program -> State MamState ()
+compile' :: Program -> Mam ()
 compile' []            = return ()
 compile' (def:program) = do
-  compileDef def >>= put
+  compileDef def
   compile' program
 
-compileDef :: Definition -> State MamState MamState
+compileDef :: Definition -> Mam ()
 compileDef (Def _id e) = do
   mam <- get
   reg <-localReg
   _code <- compileExpr e reg
   let greg = Global _id
-  return $ mam {
+  put $ mam {
     env  = env  mam ++ [(_id, BRegister greg)],
     code = code mam ++ _code ++ [MovReg (greg, reg)]
   }
+  return ()
 
-compileExpr :: Expr -> Reg -> State MamState [Instruction]
+compileExpr :: Expr -> Reg -> Mam [Instruction]
 compileExpr (ExprVar _id)            reg = compileVariable (_id, reg)
 compileExpr (ExprNumber n)           reg = compilePrimitiveValue (tagNumber,   n, reg)
 compileExpr (ExprChar c)             reg = compilePrimitiveValue (tagChar, ord c, reg)
@@ -66,13 +67,13 @@ compileExpr (ExprConstructor "True") reg = do
     ]
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
-compileVariable :: (ID , Reg) -> State MamState [Instruction]
+compileVariable :: (ID , Reg) -> Mam [Instruction]
 compileVariable (_id, reg) = do
   if isPrimitivePrinter _id
     then compilePrimitivePrint (_id, reg)
     else compileVarValue (_id, reg)
 
-compilePrimitivePrint :: (String, Reg) -> State MamState [Instruction]
+compilePrimitivePrint :: (String, Reg) -> Mam [Instruction]
 compilePrimitivePrint (_id, reg) = do
   let printer = if _id == "unsafePrintChar" then PrintChar else Print
   lreg <- localReg
@@ -81,14 +82,14 @@ compilePrimitivePrint (_id, reg) = do
     printer lreg
     ]
 
-compileVarValue :: (ID, Reg) -> State MamState [Instruction]
+compileVarValue :: (ID, Reg) -> Mam [Instruction]
 compileVarValue (_id, reg) = do
   let greg = Global _id
   return [
     MovReg (reg, greg)
     ]
 
-compilePrimitiveValue :: (TagType, Int, Reg) -> State MamState [Instruction]
+compilePrimitiveValue :: (TagType, Int, Reg) -> Mam [Instruction]
 compilePrimitiveValue (tag, val, reg) = do
   let temp = Local "t"
   return [
@@ -110,7 +111,7 @@ showCode = intercalate "\n" . map show
 isPrimitivePrinter :: String -> Bool
 isPrimitivePrinter _id = _id `elem` ["unsafePrintInt", "unsafePrintChar"]
 
-localReg :: State MamState Reg
+localReg :: Mam Reg
 localReg = do
   mam <- get
   let n = nextReg mam
