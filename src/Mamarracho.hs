@@ -4,7 +4,7 @@ import Ast (Program, Expr(..), Definition(..), ID)
 import Constants (tagChar, tagNumber, tagTrue, TagType)
 import Control.Monad.State (execState, MonadState(put, get), State)
 import Data.Char (ord)
-import Data.List (intercalate)
+import Data.List (intercalate, find)
 import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode)
 
 -- get       :: State s a                        -- Retrieves the state, like Reader.ask
@@ -13,7 +13,7 @@ import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode)
 -- evalState :: State s a -> s -> a
 -- execState :: State s a -> s -> s
 data MamState = MamState {
-  env     :: [(String, Binding)],
+  env     :: [(ID, Binding)],
   code    :: [Instruction],
   nextReg :: Int
 }
@@ -84,10 +84,9 @@ compilePrimitivePrint (_id, reg) = do
 
 compileVarValue :: (ID, Reg) -> Mam [Instruction]
 compileVarValue (_id, reg) = do
-  let greg = Global _id
-  return [
-    MovReg (reg, greg)
-    ]
+  mam <- get
+  let greg = findVarReg _id (env mam)
+  return [MovReg (reg, greg)]
 
 compilePrimitiveValue :: (TagType, Int, Reg) -> Mam [Instruction]
 compilePrimitiveValue (tag, val, reg) = do
@@ -110,6 +109,13 @@ showCode = intercalate "\n" . map show
 
 isPrimitivePrinter :: String -> Bool
 isPrimitivePrinter _id = _id `elem` ["unsafePrintInt", "unsafePrintChar"]
+
+findVarReg :: ID -> [(ID, Binding)] -> Reg
+findVarReg _id _env =
+  let bind = find (\b -> _id == fst b) _env
+   in case bind of
+    Just (_, BRegister greg) -> greg
+    _ -> error $ "'"++ _id ++"' is not defined"
 
 localReg :: Mam Reg
 localReg = do
