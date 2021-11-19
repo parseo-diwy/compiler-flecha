@@ -13,7 +13,7 @@ import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode)
 -- evalState :: State s a -> s -> a
 -- execState :: State s a -> s -> s
 data MamState = MamState {
-  env     :: [(ID, Binding)],
+  env     :: [[(ID, Binding)]],
   code    :: [Instruction],
   nextReg :: Int
 }
@@ -45,7 +45,7 @@ compileDef (Def _id e) = do
   _code <- compileExpr e reg
   let greg = Global _id
   put $ mam {
-    env  = env  mam ++ [(_id, BRegister greg)],
+    env  = env  mam ++ [[(_id, BRegister greg)]],
     code = code mam ++ _code ++ [MovReg (greg, reg)]
   }
   return ()
@@ -65,6 +65,14 @@ compileExpr (ExprConstructor "True") reg = do
     MovInt (temp, tagTrue),
     Store (reg, 0, temp)
     ]
+compileExpr (ExprLet _id e1 e2) reg = do
+  let temp = Local "temp"
+  ins1 <- compileExpr e1 temp
+  pushEnv [(_id, BRegister temp)]
+  ins2 <- compileExpr e2 reg
+  popEnv
+  return $ ins1 ++ ins2
+
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: (ID , Reg) -> Mam [Instruction]
@@ -85,7 +93,8 @@ compilePrimitivePrint (_id, reg) = do
 compileVarValue :: (ID, Reg) -> Mam [Instruction]
 compileVarValue (_id, reg) = do
   mam <- get
-  let greg = findVarReg _id (env mam)
+  let [env'] = env mam
+  let greg = findVarReg _id env'
   return [MovReg (reg, greg)]
 
 compilePrimitiveValue :: (TagType, Int, Reg) -> Mam [Instruction]
@@ -116,6 +125,16 @@ findVarReg _id _env =
    in case bind of
     Just (_, BRegister greg) -> greg
     _ -> error $ "'"++ _id ++"' is not defined"
+
+pushEnv :: [(ID, Binding)] -> Mam ()
+pushEnv env' = do
+  mam <- get
+  put $ mam { env = env' : env mam }
+
+popEnv :: Mam ()
+popEnv = do
+  mam <- get
+  put $ mam { env = tail $ env mam }
 
 localReg :: Mam Reg
 localReg = do
