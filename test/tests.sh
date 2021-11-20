@@ -129,7 +129,6 @@ function mam_test() {
 }
 
 @test "mam::test02" {
-  
   mam_test "test/mamarracho/test02"
 }
 
@@ -142,7 +141,6 @@ function mam_test() {
 }
 
 @test "mam::test05" {
-  skip
   mam_test "test/mamarracho/test05"
 }
 

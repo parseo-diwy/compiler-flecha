@@ -1,11 +1,11 @@
 module Mamarracho (compile) where
 
 import Ast (Program, Expr(..), Definition(..), ID)
-import Constants (tagChar, tagNumber, tagTrue, TagType)
+import Constants (tagChar, tagNumber, TagType)
 import Control.Monad.State (execState, MonadState(put, get), State)
 import Data.Char (ord)
 import Data.List (intercalate, find)
-import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode)
+import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode, Tag(..), I64)
 
 -- get       :: State s a                        -- Retrieves the state, like Reader.ask
 -- put       :: s -> State s ()                  -- Overwrites the existing state
@@ -58,13 +58,11 @@ compileExpr (ExprApply e1 e2)        reg = do
   ins2 <- compileExpr e2 reg
   ins1 <- compileExpr e1 reg
   return $ ins2 ++ ins1
-compileExpr (ExprConstructor "True") reg = do
-  let temp = Local "t"
-  return [
-    Alloc (reg, 1),
-    MovInt (temp, tagTrue),
-    Store (reg, 0, temp)
-    ]
+compileExpr (ExprConstructor _id) reg = do
+  case tagOf _id of
+    TTrue  tag -> compileBoolean tag reg
+    TFalse tag -> compileBoolean tag reg
+    _ -> error $ "ExprConstructor " ++ _id ++ " NOT implemented"
 compileExpr (ExprLet _id e1 e2) reg = do
   let temp = Local "temp"
   ins1 <- compileExpr e1 temp
@@ -72,7 +70,6 @@ compileExpr (ExprLet _id e1 e2) reg = do
   ins2 <- compileExpr e2 reg
   popEnv
   return $ ins1 ++ ins2
-
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: (ID , Reg) -> Mam [Instruction]
@@ -108,6 +105,15 @@ compilePrimitiveValue (tag, val, reg) = do
     Store  (reg, 1, temp)
     ]
 
+compileBoolean :: I64 -> Reg -> Mam [Instruction]
+compileBoolean tag reg = do
+  let temp = Local "t"
+  return [
+    Alloc (reg, 1),
+    MovInt (temp, tag),
+    Store (reg, 0, temp)
+    ]
+
 -- helpers
 
 getCode :: MamState -> [Instruction]
@@ -119,12 +125,17 @@ showCode = intercalate "\n" . map show
 isPrimitivePrinter :: String -> Bool
 isPrimitivePrinter _id = _id `elem` ["unsafePrintInt", "unsafePrintChar"]
 
-findVarReg :: ID -> [(ID, Binding)] -> Reg
-findVarReg _id _env =
-  let bind = find (\b -> _id == fst b) _env
-   in case bind of
-    Just (_, BRegister greg) -> greg
-    _ -> error $ "'"++ _id ++"' is not defined"
+tagOf :: ID -> Tag
+tagOf _id =
+  case _id of
+    "Int"     -> TInt     1
+    "Char"    -> TChar    2
+    "Closure" -> TClosure 3
+    "True"    -> TTrue    4
+    "False"   -> TFalse   5
+    "Nil"     -> TNil     6
+    "Cons"    -> TCons    7
+    _ -> error $ "Invalid constructor " ++ _id
 
 pushEnv :: [(ID, Binding)] -> Mam ()
 pushEnv env' = do
@@ -135,6 +146,13 @@ popEnv :: Mam ()
 popEnv = do
   mam <- get
   put $ mam { env = tail $ env mam }
+
+findVarReg :: ID -> [(ID, Binding)] -> Reg
+findVarReg _id _env =
+  let bind = find (\b -> _id == fst b) _env
+   in case bind of
+    Just (_, BRegister greg) -> greg
+    _ -> error $ "'"++ _id ++"' is not defined"
 
 localReg :: Mam Reg
 localReg = do

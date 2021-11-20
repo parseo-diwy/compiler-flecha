@@ -19,6 +19,14 @@ data Val = VInt I64
          | VPtr U64
          | VLoc U64
 
+data Tag = TInt     I64
+         | TTrue    I64
+         | TFalse   I64
+         | TChar    I64
+         | TClosure I64
+         | TNil     I64
+         | TCons    I64
+
 data Instruction = MovReg    (Reg, Reg)
                  | MovInt    (Reg, I64)
                  | MovLabel  (Reg, Label)
