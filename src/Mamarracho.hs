@@ -5,7 +5,7 @@ import Constants (tagChar, tagNumber, TagType)
 import Control.Monad.State (execState, MonadState(put, get), State)
 import Data.Char (ord)
 import Data.List (intercalate, find)
-import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode, Tag(..), I64)
+import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode, Tag(..), I64, StackEnv)
 
 -- get       :: State s a                        -- Retrieves the state, like Reader.ask
 -- put       :: s -> State s ()                  -- Overwrites the existing state
@@ -13,7 +13,7 @@ import MamTypes (Instruction(..), Binding(..), Reg(..), MamCode, Tag(..), I64)
 -- evalState :: State s a -> s -> a
 -- execState :: State s a -> s -> s
 data MamState = MamState {
-  env     :: [[(ID, Binding)]],
+  env     :: StackEnv,
   code    :: [Instruction],
   nextReg :: Int
 }
@@ -64,7 +64,7 @@ compileExpr (ExprConstructor _id) reg = do
     TFalse tag -> compileBoolean tag reg
     _ -> error $ "ExprConstructor " ++ _id ++ " NOT implemented"
 compileExpr (ExprLet _id e1 e2) reg = do
-  let temp = Local "temp"
+  temp <- localReg
   ins1 <- compileExpr e1 temp
   pushEnv [(_id, BRegister temp)]
   ins2 <- compileExpr e2 reg
@@ -90,13 +90,12 @@ compilePrimitivePrint (_id, reg) = do
 compileVarValue :: (ID, Reg) -> Mam [Instruction]
 compileVarValue (_id, reg) = do
   mam <- get
-  let [env'] = env mam
-  let greg = findVarReg _id env'
+  greg <- findVarReg _id $ env mam
   return [MovReg (reg, greg)]
 
 compilePrimitiveValue :: (TagType, Int, Reg) -> Mam [Instruction]
 compilePrimitiveValue (tag, val, reg) = do
-  let temp = Local "t"
+  temp <- tempReg
   return [
     Alloc  (reg, 2),
     MovInt (temp, tag),
@@ -107,7 +106,7 @@ compilePrimitiveValue (tag, val, reg) = do
 
 compileBoolean :: I64 -> Reg -> Mam [Instruction]
 compileBoolean tag reg = do
-  let temp = Local "t"
+  temp <- tempReg
   return [
     Alloc (reg, 1),
     MovInt (temp, tag),
@@ -119,7 +118,7 @@ compileBoolean tag reg = do
 getCode :: MamState -> [Instruction]
 getCode MamState { code = c } = c
 
-showCode :: Show a => [a] -> [Char]
+showCode :: Show a => [a] -> String
 showCode = intercalate "\n" . map show
 
 isPrimitivePrinter :: String -> Bool
@@ -147,12 +146,16 @@ popEnv = do
   mam <- get
   put $ mam { env = tail $ env mam }
 
-findVarReg :: ID -> [(ID, Binding)] -> Reg
-findVarReg _id _env =
-  let bind = find (\b -> _id == fst b) _env
-   in case bind of
-    Just (_, BRegister greg) -> greg
-    _ -> error $ "'"++ _id ++"' is not defined"
+findVarReg :: ID -> StackEnv -> Mam Reg
+findVarReg _id [] = error $ "'"++ _id ++"' is not defined"
+findVarReg _id (env':envs) = do
+  let bind = find (\b -> _id == fst b) env'
+  case bind of
+    Just (_, BRegister greg) -> return greg
+    _ -> findVarReg _id envs
+
+tempReg :: Mam Reg
+tempReg = return $ Local "temp"
 
 localReg :: Mam Reg
 localReg = do

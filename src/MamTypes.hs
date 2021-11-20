@@ -1,9 +1,14 @@
 module MamTypes where
 
+import Ast (ID)
+
 type I64 = Int  -- entero con signo de 64 bits
 type U64 = Int  -- entero sin signo de 64 bits
 type Label   = String
 type MamCode = String
+
+type Env = [(ID, Binding)]
+type StackEnv = [Env]
 
 data Reg = Global String
          | Local  String
@@ -14,6 +19,10 @@ instance Show Reg where
 
 data Binding = BRegister Reg
              | BEnclosed Int
+
+instance Show Binding where
+  show (BRegister reg) = show reg
+  show (BEnclosed   n) = "<" ++ show n ++ ">"
 
 data Val = VInt I64
          | VPtr U64
