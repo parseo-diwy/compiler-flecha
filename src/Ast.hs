@@ -10,9 +10,9 @@ data Definition = Def ID Expr
 data Expr   = ExprVar ID
             | ExprConstructor ID
             | ExprNumber Int
-            | ExprChar Char 
+            | ExprChar Char
             | ExprCase Expr [CaseBranch]
-            | ExprLet ID Expr Expr 
+            | ExprLet ID Expr Expr
             | ExprLambda ID Expr
             | ExprApply Expr Expr
             deriving Show

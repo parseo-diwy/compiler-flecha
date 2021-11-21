@@ -10,11 +10,13 @@ type MamCode = String
 type Env = [(ID, Binding)]
 type StackEnv = [Env]
 
+data PrimType = PrimPrint | PrimOp | PrimVar
+
 data Reg = Global String
          | Local  String
 
 instance Show Reg where
-  show (Global str) = "@G_" ++ str
+  show (Global str) = "@" ++ str
   show (Local  str) = "$" ++ str
 
 data Binding = BRegister Reg
@@ -55,11 +57,12 @@ data Instruction = MovReg    (Reg, Reg)
                  | Call      Label
                  | ICall     Reg
                  | Return
+                 | ILabel    Label
 
 instance Show Instruction where
   show (MovReg    args)  = "mov_reg"    ++ show args
   show (MovInt    args)  = "mov_int"    ++ show args
-  show (MovLabel  args)  = "mov_label"  ++ show args
+  show (MovLabel  args)  = "mov_label"  ++ argsLabel args
   show (Alloc     args)  = "alloc"      ++ show args
   show (Load      args)  = "load"       ++ show args
   show (Store     args)  = "store"      ++ show args
@@ -76,8 +79,12 @@ instance Show Instruction where
   show (Call      label) = "call"       ++ arg1 label
   show (ICall     reg)   = "icall"      ++ arg1 reg
   show Return            = "return()"
+  show (ILabel    label) = label ++ ":"
 
 --
 
 arg1 :: Show a => a -> String
 arg1 a = "(" ++ show a ++ ")"
+
+argsLabel :: (Reg, Label) -> String
+argsLabel (reg, label) = "("  ++ show reg ++ ", " ++ label ++ ")"
