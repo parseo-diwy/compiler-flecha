@@ -275,3 +275,7 @@ function mam_test() {
 @test "mam::test43" {
   mam_test "test/mamarracho/test43"
 }
+
+@test "mam::testNumOp" {
+  mam_test "test/mamarracho/testNumOp"
+}

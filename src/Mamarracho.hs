@@ -23,7 +23,7 @@ data MamState = MamState {
 initState :: MamState
 initState = MamState {
   env     = [],
-  code    = [],
+  code    = [Jump "start", ILabel "start"],
   nextReg = 0,
   nextRtn = 0
 }
@@ -58,9 +58,13 @@ compileExpr (ExprVar _id)            reg = compileVariable (_id, reg)
 compileExpr (ExprNumber n)           reg = compilePrimitiveValue (tagNumber,   n, reg)
 compileExpr (ExprChar c)             reg = compilePrimitiveValue (tagChar, ord c, reg)
 compileExpr (ExprApply e1 e2)        reg = do
-  ins2 <- compileExpr e2 reg
-  ins1 <- compileExpr e1 reg
-  return $ ins2 ++ ins1
+  case e1 of
+    (ExprApply (ExprVar cons) e1') -> do
+      compileOperation cons e1' e2 reg
+    _ -> do
+      ins1 <- compileExpr e2 reg
+      ins2 <- compileExpr e1 reg
+      return $ ins1 ++ ins2
 compileExpr (ExprConstructor _id) reg = do
   case tagOf _id of
     TTrue  tag -> compileBoolean tag reg
@@ -117,9 +121,33 @@ compilePrimitiveValue (tag, val, reg) = do
     Store  (reg, 1, temp)
     ]
 
+compileOperation :: ID -> Expr -> Expr -> Reg -> Mam [Instruction]
+compileOperation "ADD" = compileArithmeticOperation Add
+compileOperation "SUB" = compileArithmeticOperation Sub
+compileOperation "MUL" = compileArithmeticOperation Mul
+compileOperation "DIV" = compileArithmeticOperation Div
+compileOperation _id = error $ "CompileOperation: Invalid Constructor '" ++ show _id ++ "'"
+
+compileArithmeticOperation :: NumOp -> Expr -> Expr -> Reg -> Mam [Instruction]
+compileArithmeticOperation mamOp e1 e2 reg = do
+  r1 <- localReg
+  r2 <- localReg
+  temp <- tempReg
+  ins1 <- compileExpr e1 r1
+  ins2 <- compileExpr e2 r2
+  return $ ins1 ++ ins2 ++ [
+    Load   (r1, r1, 1),
+    Load   (r2, r2, 1),
+    mamOp  (r1, r1, r2),
+    MovInt (temp, tagNumber),
+    Alloc  (reg, 2),
+    Store  (reg, 0, temp),
+    Store  (reg, 1, r1)
+    ]
+
 compilePrimitiveOperation :: (ID, Reg) -> Mam [Instruction]
-compilePrimitiveOperation (_id, _) = return []
--- compilePrimitiveOperation (_id, _) = error "compilePrimitiveOperation NOT implemented yet"
+-- compilePrimitiveOperation (_id, _) = return []
+compilePrimitiveOperation (_id, _) = error $ "compilePrimitiveOperation " ++ _id ++ " not implemented"
 
 compileBoolean :: I64 -> Reg -> Mam [Instruction]
 compileBoolean tag reg = do

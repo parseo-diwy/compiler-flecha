@@ -10,6 +10,8 @@ type MamCode = String
 type Env = [(ID, Binding)]
 type StackEnv = [Env]
 
+type NumOp = (Reg, Reg, Reg) -> Instruction
+
 data PrimType = PrimPrint | PrimOp | PrimVar
 
 data Reg = Global String
@@ -66,9 +68,9 @@ instance Show Instruction where
   show (Alloc     args)  = "alloc"      ++ show args
   show (Load      args)  = "load"       ++ show args
   show (Store     args)  = "store"      ++ show args
-  show (Print     reg)   = "print"      ++ arg1 reg
-  show (PrintChar reg)   = "print_char" ++ arg1 reg
-  show (Jump      label) = "jump"       ++ arg1 label
+  show (Print     reg)   = "print"      ++ argR reg
+  show (PrintChar reg)   = "print_char" ++ argR reg
+  show (Jump      label) = "jump"       ++ argL label
   show (JumpEq    args)  = "jump_eq"    ++ show args
   show (JumpLt    args)  = "jump_lt"    ++ show args
   show (Add       args)  = "add"        ++ show args
@@ -76,15 +78,18 @@ instance Show Instruction where
   show (Mul       args)  = "mul"        ++ show args
   show (Div       args)  = "div"        ++ show args
   show (Mod       args)  = "mod"        ++ show args
-  show (Call      label) = "call"       ++ arg1 label
-  show (ICall     reg)   = "icall"      ++ arg1 reg
+  show (Call      label) = "call"       ++ argL label
+  show (ICall     reg)   = "icall"      ++ argR reg
   show Return            = "return()"
   show (ILabel    label) = label ++ ":"
 
 --
 
-arg1 :: Show a => a -> String
-arg1 a = "(" ++ show a ++ ")"
+argL :: Label -> String
+argL label = "(" ++ label ++ ")"
+
+argR :: Reg -> String
+argR reg = "(" ++ show reg ++ ")"
 
 argsLabel :: (Reg, Label) -> String
 argsLabel (reg, label) = "("  ++ show reg ++ ", " ++ label ++ ")"

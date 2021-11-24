@@ -1,0 +1,9 @@
+def sum = 1 + 2
+def sub = 43 - 1
+def mul = 3 * 3
+def div = 16 / 8
+def main =
+  unsafePrintInt sum; unsafePrintChar '\n';
+  unsafePrintInt sub; unsafePrintChar '\n';
+  unsafePrintInt mul; unsafePrintChar '\n';
+  unsafePrintInt div
