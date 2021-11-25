@@ -6,7 +6,6 @@ import Control.Monad.State (execState, MonadState(put, get), State)
 import Data.Char (ord)
 import Data.List (intercalate, find)
 import MamTypes
-import Debug.Trace (traceM, traceShowM)
 
 -- get       :: State s a                        -- Retrieves the state, like Reader.ask
 -- put       :: s -> State s ()                  -- Overwrites the existing state
@@ -23,7 +22,7 @@ data MamState = MamState {
 initState :: MamState
 initState = MamState {
   env     = [],
-  code    = [Jump "start", ILabel "start"],
+  code    = [],
   nextReg = 0,
   nextRtn = 0
 }
@@ -79,8 +78,6 @@ compileExpr (ExprLet _id e1 e2) reg = do
   return $ ins1 ++ ins2
 compileExpr (ExprLambda _id e) reg = do
   closureVars <- extractFreeVars _id e []
-  _ <- traceShowM e
-  _ <- traceShowM closureVars
   label  <- routineLabel
   lexIns <- compileLexicalClosure closureVars label reg
   rtnIns <- compileRoutine e label
@@ -162,7 +159,6 @@ compileLexicalClosure :: [ID] -> Label -> Reg -> Mam [Instruction]
 compileLexicalClosure closureVars label reg = do
   temp <- tempReg
   let len = length closureVars
-  traceM $ "closureVars = " ++ show closureVars
   varsIns <- compileLexicalClosureVars closureVars 2 reg temp
   return $ [
     Alloc (reg, 2 + len),
@@ -202,7 +198,7 @@ compileRoutine e label = do
 -- helpers
 
 getCode :: MamState -> [Instruction]
-getCode MamState { code = c } = c
+getCode mam = [Jump "start", ILabel "start"] ++ code mam
 
 showCode :: Show a => [a] -> String
 showCode = intercalate "\n" . map show
@@ -277,7 +273,7 @@ routineLabel = do
   mam <- get
   let n = nextRtn mam
   put $ mam { nextRtn = n + 1 }
-  return $ "rtn_" ++ show n
+  return $ "rtn" ++ show n
 
 localReg :: Mam Reg
 localReg = do
