@@ -6,11 +6,6 @@ setup() {
 
   ## build flecha
   cabal build --verbose=silent
-
-  ## compile mamarracho
-  pushd mamarracho || exit
-  make mam
-  popd || exit
 }
 
 teardown() {
@@ -33,7 +28,7 @@ function ast_test() {
 function mam_test() {
   TEST_NAME=$1
   cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --mam > "$TEST_NAME.mam"
-  ./mamarracho/mam "$TEST_NAME.mam" > "$TEST_NAME.output"
+  ./bin/mamarracho "$TEST_NAME.mam" > "$TEST_NAME.output"
   run diff "$TEST_NAME.expected" "$TEST_NAME.output"
 
   assert_success
