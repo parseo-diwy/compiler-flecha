@@ -1,0 +1,1 @@
+bin/mamarracho filter=lfs diff=lfs merge=lfs -text
