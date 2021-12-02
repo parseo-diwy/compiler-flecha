@@ -9,7 +9,7 @@ cabal build --verbose=silent
 # run
 cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --ast > "$TEST_NAME.ast"
 cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --mam > "$TEST_NAME.mam"
-./mamarracho/mam "$TEST_NAME.mam" > "$TEST_NAME.output"
+./bin/mamarracho "$TEST_NAME.mam" > "$TEST_NAME.output"
 
 # print
 cat "$TEST_NAME.flecha"
