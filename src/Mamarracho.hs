@@ -13,18 +13,20 @@ import MamTypes
 -- evalState :: State s a -> s -> a
 -- execState :: State s a -> s -> s
 data MamState = MamState {
-  env     :: StackEnv,
-  code    :: [Instruction],
-  nextReg :: Int,
-  nextRtn :: Int
+  env      :: StackEnv,
+  code     :: [Instruction],
+  routines :: [Instruction],
+  nextReg  :: Int,
+  nextRtn  :: Int
 }
 
 initState :: MamState
 initState = MamState {
-  env     = [],
-  code    = [],
-  nextReg = 0,
-  nextRtn = 0
+  env      = [],
+  code     = [],
+  routines = [],
+  nextReg  = 0,
+  nextRtn  = 0
 }
 
 -- Compilation
@@ -42,14 +44,14 @@ compile' (def:program) = do
 
 compileDef :: Definition -> Mam ()
 compileDef (Def _id e) = do
-  mam <- get
-  reg <-localReg
-  _code <- compileExpr e reg
   let greg = Global $ "G_" ++ _id
+  _code <- compileExpr e greg
+  mam <- get
   put $ mam {
     env  = env  mam ++ [[(_id, BRegister greg)]],
-    code = code mam ++ _code ++ [MovReg (greg, reg)]
+    code = code mam ++ _code
   }
+  -- code = code mam ++ _code ++ [MovReg (greg, reg)]
   return ()
 
 compileExpr :: Expr -> Reg -> Mam [Instruction]
@@ -79,9 +81,8 @@ compileExpr (ExprLet _id e1 e2) reg = do
 compileExpr (ExprLambda _id e) reg = do
   closureVars <- extractFreeVars _id e []
   label  <- routineLabel
-  lexIns <- compileLexicalClosure closureVars label reg
-  rtnIns <- compileRoutine e label
-  return $ lexIns ++ rtnIns
+  compileRoutine e label
+  compileLexicalClosure closureVars label reg
 
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
@@ -158,26 +159,31 @@ compileBoolean tag reg = do
 compileLexicalClosure :: [ID] -> Label -> Reg -> Mam [Instruction]
 compileLexicalClosure closureVars label reg = do
   temp <- tempReg
+  lreg <- localReg
   let len = length closureVars
   varsIns <- compileLexicalClosureVars closureVars 2 reg temp
   return $ [
-    Alloc (reg, 2 + len),
+    Alloc (lreg, 2 + len),
     MovInt (temp, len),
-    Store (reg, tagClosure, temp),
+    Store (lreg, tagClosure, temp),
     MovLabel (temp, label),
-    Store (reg, tagNumber, temp)] ++ varsIns
+    Store (lreg, tagNumber, temp)
+    ] ++ varsIns
 
 compileLexicalClosureVars :: [ID] -> Int -> Reg -> Reg -> Mam [Instruction]
 compileLexicalClosureVars [] _ _ _ = return []
 compileLexicalClosureVars (_id:_ids) n reg temp = do
   mam <- get
   regVar <- findVarReg _id (env mam)
-  let ins = [MovReg (temp, regVar), Store (reg, n, temp)]
+  let ins = [
+        MovReg (temp, regVar),
+        Store (reg, n, temp)
+        ]
   rest <- compileLexicalClosureVars _ids (n+1) reg temp
   return $ ins ++ rest
 
 
-compileRoutine :: Expr -> Label -> Mam [Instruction]
+compileRoutine :: Expr -> Label -> Mam ()
 compileRoutine e label = do
   let resLocReg  = Local  "res"
   let resGlobReg = Global "res"
@@ -186,7 +192,8 @@ compileRoutine e label = do
   let argLocReg  = Local  "arg"
   let argGlobReg = Global "arg"
   exprIns <- compileExpr e resLocReg
-  return $ [
+  mam <- get
+  put $ mam { routines = routines mam ++ [
     ILabel label,
     MovReg (funLocReg, funGlobReg),
     MovReg (argLocReg, argGlobReg)
@@ -194,11 +201,16 @@ compileRoutine e label = do
     MovReg (resGlobReg, resLocReg),
     Return
     ]
+  }
+  
 
 -- helpers
 
 getCode :: MamState -> [Instruction]
-getCode mam = [Jump "start", ILabel "start"] ++ code mam
+getCode mam = [Jump "start"]
+           ++ routines mam
+           ++ [ILabel "start"]
+           ++ code mam
 
 showCode :: Show a => [a] -> String
 showCode = intercalate "\n" . map show
@@ -241,7 +253,7 @@ popEnv = do
   put $ mam { env = tail $ env mam }
 
 findVarReg :: ID -> StackEnv -> Mam Reg
-findVarReg _id [] = return $ Local "y"
+findVarReg _id [] = return $ Local "ouch"
 -- findVarReg _id [] = error $ "'"++ _id ++"' is not defined"
 findVarReg _id (env':envs) = do
   let bind = find (\b -> _id == fst b) env'

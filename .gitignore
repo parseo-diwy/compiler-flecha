@@ -3,3 +3,5 @@
 dist-*
 src/Parser.hs
 dist
+_cmp/
+foones.sh
