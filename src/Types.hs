@@ -58,8 +58,9 @@ data Instruction = MovReg    (Reg, Reg)
                  | Mod       (Reg, Reg, Reg)
                  | Call      Label
                  | ICall     Reg
-                 | Return
                  | ILabel    Label
+                 | Comment   String
+                 | Return
 
 instance Show Instruction where
   show (MovReg    args)  = "mov_reg"    ++ show args
@@ -80,8 +81,9 @@ instance Show Instruction where
   show (Mod       args)  = "mod"        ++ show args
   show (Call      label) = "call"       ++ argL label
   show (ICall     reg)   = "icall"      ++ argR reg
-  show Return            = "return()"
   show (ILabel    label) = label ++ ":"
+  show (Comment   text)  = "%" ++ text
+  show Return            = "return()"
 
 --
 
@@ -92,4 +94,4 @@ argR :: Reg -> String
 argR reg = "(" ++ show reg ++ ")"
 
 argsLabel :: (Reg, Label) -> String
-argsLabel (reg, label) = "("  ++ show reg ++ ", " ++ label ++ ")"
+argsLabel (reg, label) = "("  ++ show reg ++ "," ++ label ++ ")"

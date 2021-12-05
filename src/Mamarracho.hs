@@ -35,15 +35,18 @@ compileExpr (ExprChar c)             reg = compilePrimitiveValue tagChar (ord c)
 compileExpr (ExprApply e1 e2)        reg = do
   case e1 of
     (ExprLambda _id e1') -> do
-      ins1 <- compileLambdaExpr _id e1 reg
-      ins2 <- compileLambdaApply e1' e2 reg
+      pushEnv []
+      r1 <- localReg
+      ins1 <- compileLambdaExpr  _id e1' r1 reg
+      ins2 <- compileLambdaApply _id e2  r1 reg
+      _ <- popEnv
       return $ ins1 ++ ins2
     (ExprApply (ExprVar cons) e1') -> do
       compileOperation cons e1' e2 reg
     _ -> do
-      ins1 <- compileExpr e2 reg
-      ins2 <- compileExpr e1 reg
-      return $ ins1 ++ ins2
+      ins1 <- compileExpr e1 reg
+      ins2 <- compileExpr e2 reg
+      return $ ins2 ++ ins1
 compileExpr (ExprConstructor _id) reg = do
   case tagOf _id of
     TTrue  tag -> compileBoolean tag reg
@@ -57,18 +60,17 @@ compileExpr (ExprLet _id e1 e2) reg = do
   ins2 <- compileExpr e2 reg
   _ <- popEnv
   return $ ins1 ++ ins2
-compileExpr (ExprLambda _id e) reg = compileLambdaExpr _id e reg
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: ID -> Reg -> Mam [Instruction]
 compileVariable _id reg = do
   case typeOfPrim _id of
-    PrimPrint -> compilePrimitivePrint (_id, reg)
-    PrimOp    -> compilePrimitiveOperation (_id, reg)
-    PrimVar   -> compileVarValue (_id, reg)
+    PrimPrint -> compilePrimitivePrint _id reg
+    PrimOp    -> compilePrimitiveOperation _id reg
+    PrimVar   -> compileVarValue _id reg
 
-compilePrimitivePrint :: (String, Reg) -> Mam [Instruction]
-compilePrimitivePrint (_id, reg) = do
+compilePrimitivePrint :: String -> Reg -> Mam [Instruction]
+compilePrimitivePrint _id reg = do
   let printer = if _id == "unsafePrintChar" then PrintChar else Print
   lreg <- localReg
   return [
@@ -76,8 +78,8 @@ compilePrimitivePrint (_id, reg) = do
     printer lreg
     ]
 
-compileVarValue :: (ID, Reg) -> Mam [Instruction]
-compileVarValue (_id, reg) = do
+compileVarValue :: ID -> Reg -> Mam [Instruction]
+compileVarValue _id reg = do
   greg <- lookupEnvRegister _id
   return [MovReg (reg, greg)]
 
@@ -85,11 +87,13 @@ compilePrimitiveValue :: TagType -> Int -> Reg -> Mam [Instruction]
 compilePrimitiveValue tag val reg = do
   temp <- tempReg
   return [
+    Comment $ "compilePrimitiveValue" ++ show (tag, val, reg),
     Alloc  (reg, 2),
     MovInt (temp, tag),
     Store  (reg, 0, temp),
     MovInt (temp, val),
-    Store  (reg, 1, temp)
+    Store  (reg, 1, temp),
+    Comment "/compilePrimitiveValue"
     ]
 
 compileOperation :: ID -> Expr -> Expr -> Reg -> Mam [Instruction]
@@ -116,8 +120,9 @@ compileArithmeticOperation mamOp e1 e2 reg = do
     Store  (reg, 1, r1)
     ]
 
-compilePrimitiveOperation :: (ID, Reg) -> Mam [Instruction]
-compilePrimitiveOperation (_id, _) = error $ "compilePrimitiveOperation " ++ _id ++ " not implemented"
+compilePrimitiveOperation :: ID -> Reg -> Mam [Instruction]
+compilePrimitiveOperation _id _ = error $
+  "compilePrimitiveOperation " ++ _id ++ " not implemented"
 
 compileBoolean :: I64 -> Reg -> Mam [Instruction]
 compileBoolean tag reg = do
@@ -128,44 +133,41 @@ compileBoolean tag reg = do
     Store (reg, 0, temp)
     ]
 
-compileLambdaExpr :: ID -> Expr -> Reg -> Mam [Instruction]
-compileLambdaExpr _id e reg = do
-  -- let arg = (_id, BRegister $ Local "arg")
-  let freeVars = extractFreeVars _id e
-  bindClosure freeVars
+compileLambdaExpr :: ID -> Expr -> Reg -> Reg -> Mam [Instruction]
+compileLambdaExpr _id e lreg greg = do
+  extendEnv (_id, BRegister $ Local "arg")
+  bindClosureEnv $ extractFreeVars _id e
   label <- routineLabel
   compileRoutine e label
-  compileLexicalClosure label reg
+  compileLexicalClosure label lreg greg
 
-compileLambdaApply :: Expr -> Expr -> Reg -> Mam [Instruction]
-compileLambdaApply e1 e2 reg = do
-  r1 <- localReg
+compileLambdaApply :: ID -> Expr -> Reg -> Reg -> Mam [Instruction]
+compileLambdaApply _id e2 r1 greg = do
   r2 <- localReg
   r3 <- localReg
-  ins1 <- compileExpr e1 r1
   ins2 <- compileExpr e2 r2
   return $
-    ins1 ++
     ins2 ++ [
-    Load (r3, r1, tagClosure),
     MovReg (Global "fun", r1),
     MovReg (Global "arg", r2),
+    Load (r3, Global "fun", 1),
     ICall r3,
-    MovReg (reg, Global "res")
+    MovReg (greg, Global "res")
     ]
 
-compileLexicalClosure :: Label -> Reg -> Mam [Instruction]
-compileLexicalClosure label reg = do
+compileLexicalClosure :: Label -> Reg -> Reg -> Mam [Instruction]
+compileLexicalClosure label lreg greg = do
   temp <- tempReg
-  lreg <- localReg
-  varsIns <- compileLexicalClosureVars reg temp
+  varsIns <- compileLexicalClosureVars greg temp
   let len = length varsIns
   return $ [
+    Comment $ "compileLexicalClosure" ++ show (label, greg),
     Alloc (lreg, 2 + len),
-    MovInt (temp, len),
-    Store (lreg, tagClosure, temp),
+    MovInt (temp, 3),
+    Store (lreg, 0, temp),
     MovLabel (temp, label),
-    Store (lreg, tagNumber, temp)
+    Store (lreg, tagNumber, temp),
+    Comment "/compileLexicalClosure"
     ] ++ varsIns
 
 compileLexicalClosureVars :: Reg -> Reg -> Mam [Instruction]
@@ -237,14 +239,14 @@ tagOf _id =
     "Cons"    -> TCons    7
     _ -> error $ "Invalid constructor " ++ _id
 
-bindClosure :: [ID] -> Mam ()
-bindClosure = bindClosure' 1
+bindClosureEnv :: [ID] -> Mam ()
+bindClosureEnv = bindClosureEnv' 1
 
-bindClosure' :: Int -> [ID] -> Mam ()
-bindClosure' _ [] = return ()
-bindClosure' n (x:xs) = do
-  pushEnv [(x, BEnclosed n)]
-  bindClosure' (n+1) xs
+bindClosureEnv' :: Int -> [ID] -> Mam ()
+bindClosureEnv' _ [] = return ()
+bindClosureEnv' n (x:xs) = do
+  extendEnv (x, BEnclosed n)
+  bindClosureEnv' (n+1) xs
 
 extractFreeVars :: ID -> Expr -> [ID]
 extractFreeVars = extractFreeVars' []

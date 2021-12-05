@@ -56,7 +56,6 @@ function mam_test() {
 }
 
 @test "mam::test08" {
-  skip
   mam_test "test/mamarracho/test08"
 }
 
