@@ -1,37 +1,15 @@
 module Mamarracho (compile) where
 
-import Ast (Program, Expr(..), Definition(..), ID)
-import Constants (tagChar, tagNumber, TagType, tagClosure)
-import Control.Monad.State (execState, MonadState(put, get), State)
+import Constants
+import Types
+import State
+
+import Ast (Program, Expr(..), Definition(..))
+import Control.Monad.State (execState, MonadState(put, get))
 import Data.Char (ord)
-import Data.List (intercalate, find)
-import MamTypes
-
--- get       :: State s a                        -- Retrieves the state, like Reader.ask
--- put       :: s -> State s ()                  -- Overwrites the existing state
--- runState  :: s -> State s a -> (a, s)
--- evalState :: State s a -> s -> a
--- execState :: State s a -> s -> s
-data MamState = MamState {
-  env      :: StackEnv,
-  code     :: [Instruction],
-  routines :: [Instruction],
-  nextReg  :: Int,
-  nextRtn  :: Int
-}
-
-initState :: MamState
-initState = MamState {
-  env      = [],
-  code     = [],
-  routines = [],
-  nextReg  = 0,
-  nextRtn  = 0
-}
+import Data.List (intercalate)
 
 -- Compilation
-
-type Mam = State MamState
 
 compile :: Program -> MamCode
 compile prog = showCode $ getCode $ execState (compile' prog) initState
@@ -45,21 +23,21 @@ compile' (def:program) = do
 compileDef :: Definition -> Mam ()
 compileDef (Def _id e) = do
   let greg = Global $ "G_" ++ _id
-  _code <- compileExpr e greg
-  mam <- get
-  put $ mam {
-    env  = env  mam ++ [[(_id, BRegister greg)]],
-    code = code mam ++ _code
-  }
-  -- code = code mam ++ _code ++ [MovReg (greg, reg)]
+  code' <- compileExpr e greg
+  extendCode code'
+  extendEnv (_id, BRegister greg)
   return ()
 
 compileExpr :: Expr -> Reg -> Mam [Instruction]
-compileExpr (ExprVar _id)            reg = compileVariable (_id, reg)
-compileExpr (ExprNumber n)           reg = compilePrimitiveValue (tagNumber,   n, reg)
-compileExpr (ExprChar c)             reg = compilePrimitiveValue (tagChar, ord c, reg)
+compileExpr (ExprVar _id)            reg = compileVariable _id reg
+compileExpr (ExprNumber n)           reg = compilePrimitiveValue tagNumber n reg
+compileExpr (ExprChar c)             reg = compilePrimitiveValue tagChar (ord c) reg
 compileExpr (ExprApply e1 e2)        reg = do
   case e1 of
+    (ExprLambda _id e1') -> do
+      ins1 <- compileLambdaExpr _id e1 reg
+      ins2 <- compileLambdaApply e1' e2 reg
+      return $ ins1 ++ ins2
     (ExprApply (ExprVar cons) e1') -> do
       compileOperation cons e1' e2 reg
     _ -> do
@@ -74,20 +52,16 @@ compileExpr (ExprConstructor _id) reg = do
 compileExpr (ExprLet _id e1 e2) reg = do
   temp <- localReg
   ins1 <- compileExpr e1 temp
-  pushEnv [(_id, BRegister temp)]
+  env' <- getEnv
+  pushEnv ((_id, BRegister temp) : env')
   ins2 <- compileExpr e2 reg
-  popEnv
+  _ <- popEnv
   return $ ins1 ++ ins2
-compileExpr (ExprLambda _id e) reg = do
-  closureVars <- extractFreeVars _id e []
-  label  <- routineLabel
-  compileRoutine e label
-  compileLexicalClosure closureVars label reg
-
+compileExpr (ExprLambda _id e) reg = compileLambdaExpr _id e reg
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
-compileVariable :: (ID , Reg) -> Mam [Instruction]
-compileVariable (_id, reg) = do
+compileVariable :: ID -> Reg -> Mam [Instruction]
+compileVariable _id reg = do
   case typeOfPrim _id of
     PrimPrint -> compilePrimitivePrint (_id, reg)
     PrimOp    -> compilePrimitiveOperation (_id, reg)
@@ -104,12 +78,11 @@ compilePrimitivePrint (_id, reg) = do
 
 compileVarValue :: (ID, Reg) -> Mam [Instruction]
 compileVarValue (_id, reg) = do
-  mam <- get
-  greg <- findVarReg _id $ env mam
+  greg <- lookupEnvRegister _id
   return [MovReg (reg, greg)]
 
-compilePrimitiveValue :: (TagType, Int, Reg) -> Mam [Instruction]
-compilePrimitiveValue (tag, val, reg) = do
+compilePrimitiveValue :: TagType -> Int -> Reg -> Mam [Instruction]
+compilePrimitiveValue tag val reg = do
   temp <- tempReg
   return [
     Alloc  (reg, 2),
@@ -144,7 +117,6 @@ compileArithmeticOperation mamOp e1 e2 reg = do
     ]
 
 compilePrimitiveOperation :: (ID, Reg) -> Mam [Instruction]
--- compilePrimitiveOperation (_id, _) = return []
 compilePrimitiveOperation (_id, _) = error $ "compilePrimitiveOperation " ++ _id ++ " not implemented"
 
 compileBoolean :: I64 -> Reg -> Mam [Instruction]
@@ -156,12 +128,38 @@ compileBoolean tag reg = do
     Store (reg, 0, temp)
     ]
 
-compileLexicalClosure :: [ID] -> Label -> Reg -> Mam [Instruction]
-compileLexicalClosure closureVars label reg = do
+compileLambdaExpr :: ID -> Expr -> Reg -> Mam [Instruction]
+compileLambdaExpr _id e reg = do
+  -- let arg = (_id, BRegister $ Local "arg")
+  let freeVars = extractFreeVars _id e
+  bindClosure freeVars
+  label <- routineLabel
+  compileRoutine e label
+  compileLexicalClosure label reg
+
+compileLambdaApply :: Expr -> Expr -> Reg -> Mam [Instruction]
+compileLambdaApply e1 e2 reg = do
+  r1 <- localReg
+  r2 <- localReg
+  r3 <- localReg
+  ins1 <- compileExpr e1 r1
+  ins2 <- compileExpr e2 r2
+  return $
+    ins1 ++
+    ins2 ++ [
+    Load (r3, r1, tagClosure),
+    MovReg (Global "fun", r1),
+    MovReg (Global "arg", r2),
+    ICall r3,
+    MovReg (reg, Global "res")
+    ]
+
+compileLexicalClosure :: Label -> Reg -> Mam [Instruction]
+compileLexicalClosure label reg = do
   temp <- tempReg
   lreg <- localReg
-  let len = length closureVars
-  varsIns <- compileLexicalClosureVars closureVars 2 reg temp
+  varsIns <- compileLexicalClosureVars reg temp
+  let len = length varsIns
   return $ [
     Alloc (lreg, 2 + len),
     MovInt (temp, len),
@@ -170,39 +168,36 @@ compileLexicalClosure closureVars label reg = do
     Store (lreg, tagNumber, temp)
     ] ++ varsIns
 
-compileLexicalClosureVars :: [ID] -> Int -> Reg -> Reg -> Mam [Instruction]
-compileLexicalClosureVars [] _ _ _ = return []
-compileLexicalClosureVars (_id:_ids) n reg temp = do
-  mam <- get
-  regVar <- findVarReg _id (env mam)
-  let ins = [
-        MovReg (temp, regVar),
-        Store (reg, n, temp)
-        ]
-  rest <- compileLexicalClosureVars _ids (n+1) reg temp
+compileLexicalClosureVars :: Reg -> Reg -> Mam [Instruction]
+compileLexicalClosureVars reg temp = do
+  env' <- getEnv
+  compileLexicalClosureVars' env' reg temp
+
+compileLexicalClosureVars' :: Env -> Reg -> Reg -> Mam [Instruction]
+compileLexicalClosureVars' [] _ _ = return []
+compileLexicalClosureVars' ((_, BRegister _):binds) reg temp = compileLexicalClosureVars' binds reg temp
+compileLexicalClosureVars' ((_, BEnclosed n):binds) reg temp = do
+  let ins = [Store (reg, n - 1, temp)]
+  rest <- compileLexicalClosureVars' binds reg temp
   return $ ins ++ rest
 
 
 compileRoutine :: Expr -> Label -> Mam ()
 compileRoutine e label = do
-  let resLocReg  = Local  "res"
-  let resGlobReg = Global "res"
-  let funLocReg  = Local  "fun"
-  let funGlobReg = Global "fun"
-  let argLocReg  = Local  "arg"
-  let argGlobReg = Global "arg"
-  exprIns <- compileExpr e resLocReg
+  let [localRes, globalRes] = [Local "res", Global "res"]
+  let [localFun, globalFun] = [Local "fun", Global "fun"]
+  let [localArg, globalArg] = [Local "arg", Global "arg"]
+  exprIns <- compileExpr e localRes
   mam <- get
   put $ mam { routines = routines mam ++ [
     ILabel label,
-    MovReg (funLocReg, funGlobReg),
-    MovReg (argLocReg, argGlobReg)
+    MovReg (localFun, globalFun),
+    MovReg (localArg, globalArg)
     ] ++ exprIns ++ [
-    MovReg (resGlobReg, resLocReg),
+    MovReg (globalRes, localRes),
     Return
     ]
   }
-  
 
 -- helpers
 
@@ -242,40 +237,28 @@ tagOf _id =
     "Cons"    -> TCons    7
     _ -> error $ "Invalid constructor " ++ _id
 
-pushEnv :: [(ID, Binding)] -> Mam ()
-pushEnv env' = do
-  mam <- get
-  put $ mam { env = env' : env mam }
+bindClosure :: [ID] -> Mam ()
+bindClosure = bindClosure' 1
 
-popEnv :: Mam ()
-popEnv = do
-  mam <- get
-  put $ mam { env = tail $ env mam }
+bindClosure' :: Int -> [ID] -> Mam ()
+bindClosure' _ [] = return ()
+bindClosure' n (x:xs) = do
+  pushEnv [(x, BEnclosed n)]
+  bindClosure' (n+1) xs
 
-findVarReg :: ID -> StackEnv -> Mam Reg
-findVarReg _id [] = return $ Local "ouch"
--- findVarReg _id [] = error $ "'"++ _id ++"' is not defined"
-findVarReg _id (env':envs) = do
-  let bind = find (\b -> _id == fst b) env'
-  case bind of
-    Just (_, BRegister greg) -> return greg
-    _ -> findVarReg _id envs
+extractFreeVars :: ID -> Expr -> [ID]
+extractFreeVars = extractFreeVars' []
 
-extractFreeVars :: ID -> Expr -> [ID] -> Mam [ID]
-extractFreeVars x (ExprVar _id) vars
-  | isPrimitive _id || x == _id = return vars
-  | otherwise = return $ vars ++ [_id]
-extractFreeVars _ (ExprConstructor _id) vars = return vars
-extractFreeVars _ (ExprNumber _)        vars = return vars
-extractFreeVars _ (ExprChar _)          vars = return vars
-extractFreeVars x (ExprCase e _)    vars = extractFreeVars x e vars
-extractFreeVars x (ExprLet _id e1 e2)   vars = do
-  vars' <- extractFreeVars x e1 vars
-  extractFreeVars x e2 vars'
-extractFreeVars x (ExprLambda _id e)    vars = extractFreeVars x e vars
-extractFreeVars x (ExprApply e1 e2)     vars = do
-  vars' <- extractFreeVars x e1 vars
-  extractFreeVars x e2 vars'
+extractFreeVars' :: [ID] -> ID -> Expr -> [ID]
+extractFreeVars' vars x (ExprVar       _id) | x == _id        = vars
+                                            | isPrimitive _id = vars
+                                            | _id `elem` vars = vars
+                                            | otherwise       = vars ++ [_id]
+extractFreeVars' vars x (ExprCase    e   _) = extractFreeVars' vars x e
+extractFreeVars' vars x (ExprLambda  _id e) = extractFreeVars' vars x e
+extractFreeVars' vars x (ExprApply   e1 e2) = extractFreeVars' (extractFreeVars' vars x e1) x e2
+extractFreeVars' vars x (ExprLet _id e1 e2) = extractFreeVars' (extractFreeVars' vars x e1) x e2
+extractFreeVars' vars _ _                   = vars
 
 tempReg :: Mam Reg
 tempReg = return $ Local "temp"

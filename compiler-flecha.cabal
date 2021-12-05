@@ -26,9 +26,10 @@ library
                        Json
                        Lexer
                        Mamarracho
-                       MamTypes
                        Parser
+                       State
                        Tokens
+                       Types
 
   ghc-options:         -Wall
   default-language:    Haskell2010

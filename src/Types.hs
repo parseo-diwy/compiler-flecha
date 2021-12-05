@@ -1,6 +1,6 @@
-module MamTypes where
+module Types where
 
-import Ast (ID)
+type ID = String
 
 type I64 = Int  -- entero con signo de 64 bits
 type U64 = Int  -- entero sin signo de 64 bits
