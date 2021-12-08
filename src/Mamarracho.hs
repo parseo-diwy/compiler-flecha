@@ -82,7 +82,7 @@ compilePrimitivePrint :: String -> Reg -> Mam ()
 compilePrimitivePrint _id reg = do
   let printer = if _id == "unsafePrintChar" then PrintChar else Print
   lreg <- localReg
-  extendCode [
+  addCode [
     Load (lreg, reg, 1),
     printer lreg
     ]
@@ -90,12 +90,12 @@ compilePrimitivePrint _id reg = do
 compileVarValue :: ID -> Reg -> Mam ()
 compileVarValue _id reg = do
   greg <- lookupEnvRegister _id
-  extendCode [MovReg (reg, greg)]
+  addCode [MovReg (reg, greg)]
 
 compilePrimitiveValue :: TagType -> Int -> Reg -> Mam ()
 compilePrimitiveValue tag val reg = do
   temp <- tempReg
-  extendCode [
+  addCode [
     Alloc  (reg, 2),
     MovInt (temp, tag),
     Store  (reg, 0, temp),
@@ -112,7 +112,7 @@ compileOperation "DIV" e1 e2 reg = compileArithmeticOperation Div e1 e2 reg
 compileOperation _id   _   _   _ = do
   n <- lookupEnvBinding _id
   case n of
-    Just _ -> extendCode [Comment "tu vieja"]
+    Just _ -> addCode [Comment "tu vieja"]
     _ -> do
       env' <- getStackEnv
       error $
@@ -128,7 +128,7 @@ compileArithmeticOperation mamOp e1 e2 reg = do
   temp <- tempReg
   compileExpr e1 r1
   compileExpr e2 r2
-  extendCode [
+  addCode [
     Load   (r1, r1, 1),
     Load   (r2, r2, 1),
     mamOp  (r1, r1, r2),
@@ -145,7 +145,7 @@ compilePrimitiveOperation _id _ = error $
 compileBoolean :: I64 -> Reg -> Mam ()
 compileBoolean tag reg = do
   temp <- tempReg
-  extendCode [
+  addCode [
     Alloc (reg, 1),
     MovInt (temp, tag),
     Store (reg, 0, temp)
@@ -164,7 +164,7 @@ compileLambdaApply _id e2 r1 greg = do
   r2 <- localReg
   r3 <- localReg
   compileExpr e2 r2
-  extendCode [
+  addCode [
     MovReg (Global "fun", r1),
     MovReg (Global "arg", r2),
     Load (r3, Global "fun", 1),
@@ -177,14 +177,14 @@ compileLexicalClosure label lreg greg = do
   temp <- tempReg
   varsIns <- compileLexicalClosureVars greg temp
   let len = length varsIns
-  extendCode [
+  addCode [
     Alloc (lreg, 2 + len),
     MovInt (temp, 3),
     Store (lreg, 0, temp),
     MovLabel (temp, label),
     Store (lreg, tagNumber, temp)
     ]
-  extendCode varsIns
+  addCode varsIns
 
 compileLexicalClosureVars :: Reg -> Reg -> Mam [Instruction]
 compileLexicalClosureVars reg temp = do
@@ -207,13 +207,13 @@ compileRoutine e label = do
   let [localArg, globalArg] = [Local "arg", Global "arg"]
   prevStack <- getStack
   switchToRoutineStack 
-  extendCode [
+  addCode [
     ILabel label,
     MovReg (localFun, globalFun),
     MovReg (localArg, globalArg)
     ]
   compileExpr e localRes
-  extendCode [
+  addCode [
     MovReg (globalRes, localRes),
     Return
     ]

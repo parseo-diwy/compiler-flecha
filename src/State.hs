@@ -29,7 +29,7 @@ initState = MamState {
 }
 
 debug :: String -> Mam ()
-debug str = extendCode [Comment $ " " ++ str]
+debug str = addCode [Comment $ " " ++ str]
 
 debugA :: ID -> Expr -> Expr -> Mam ()
 debugA c e1 e2 = debug $ c ++ " " ++ show e1 ++ " " ++ show e2
@@ -118,8 +118,8 @@ switchStack stack = do
 switchToRoutineStack :: Mam ()
 switchToRoutineStack = switchStack RoutineStack
 
-extendCode :: [Instruction] -> Mam ()
-extendCode _code = do
+addCode :: [Instruction] -> Mam ()
+addCode _code = do
   mam <- get
   case currentStack mam of
     CodeStack -> put $ mam { code = code mam ++ _code }
