@@ -28,13 +28,12 @@ compileDef (Def _id e) = do
   return ()
 
 compileExpr :: Expr -> Reg -> Mam ()
-compileExpr (ExprVar _id)            reg = debugV _id >> compileVariable _id reg
-compileExpr (ExprNumber n)           reg = debugN n >> compilePrimitiveValue tagNumber n reg
-compileExpr (ExprChar c)             reg = debugC c >> compilePrimitiveValue tagChar (ord c) reg
+compileExpr (ExprVar _id)            reg = compileVariable _id reg
+compileExpr (ExprNumber n)           reg = compilePrimitiveValue tagNumber n reg
+compileExpr (ExprChar c)             reg = compilePrimitiveValue tagChar (ord c) reg
 compileExpr (ExprApply e1 e2)        reg = do
   case e1 of
     (ExprLambda _id e1') -> do
-      _ <- debugF _id
       pushEnv []
       r1 <- localReg
       compileLambdaExpr  _id e1' r1 reg
@@ -42,19 +41,17 @@ compileExpr (ExprApply e1 e2)        reg = do
       _ <- popEnv
       return ()
     (ExprApply (ExprVar cons) e1') -> do
-      debugA cons e1' e2 >> compileOperation cons e1' e2 reg
+      compileOperation cons e1' e2 reg
     _ -> do
       compileExpr e2 reg
       compileExpr e1 reg
       return ()
 compileExpr (ExprConstructor _id) reg = do
-  _ <- debug _id
   case tagOf _id of
     TTrue  tag -> compileBoolean tag reg
     TFalse tag -> compileBoolean tag reg
     _ -> error $ "ExprConstructor " ++ _id ++ " NOT implemented"
 compileExpr (ExprLet _id e1 e2) reg = do
-  debugL _id
   temp <- localReg
   compileExpr e1 temp
   env' <- getEnv
@@ -63,12 +60,11 @@ compileExpr (ExprLet _id e1 e2) reg = do
   _ <- popEnv
   return ()
 compileExpr (ExprLambda _id e) reg = do
-  debugF _id
   pushEnv []
   r1 <- localReg
-  ins1 <- compileLambdaExpr  _id e r1 reg
+  compileLambdaExpr  _id e r1 reg
   _ <- popEnv
-  return ins1
+  return ()
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: ID -> Reg -> Mam ()
@@ -82,6 +78,7 @@ compilePrimitivePrint :: String -> Reg -> Mam ()
 compilePrimitivePrint _id reg = do
   let printer = if _id == "unsafePrintChar" then PrintChar else Print
   lreg <- localReg
+  debug _id
   addCode [
     Load (lreg, reg, 1),
     printer lreg
@@ -90,11 +87,13 @@ compilePrimitivePrint _id reg = do
 compileVarValue :: ID -> Reg -> Mam ()
 compileVarValue _id reg = do
   greg <- lookupEnvRegister _id
+  debug $ _id ++ "=" ++ show greg
   addCode [MovReg (reg, greg)]
 
 compilePrimitiveValue :: TagType -> Int -> Reg -> Mam ()
 compilePrimitiveValue tag val reg = do
   temp <- tempReg
+  debug $ show reg ++ "=" ++ "[" ++ show tag ++ "," ++ show val ++ "]"
   addCode [
     Alloc  (reg, 2),
     MovInt (temp, tag),
@@ -128,6 +127,7 @@ compileArithmeticOperation mamOp e1 e2 reg = do
   temp <- tempReg
   compileExpr e1 r1
   compileExpr e2 r2
+  debug $ show r1 ++ " " ++ nameOf (mamOp (r1, r1, r2)) ++ " " ++ show r2
   addCode [
     Load   (r1, r1, 1),
     Load   (r2, r2, 1),
@@ -145,6 +145,7 @@ compilePrimitiveOperation _id _ = error $
 compileBoolean :: I64 -> Reg -> Mam ()
 compileBoolean tag reg = do
   temp <- tempReg
+  debug "true"
   addCode [
     Alloc (reg, 1),
     MovInt (temp, tag),
@@ -164,6 +165,7 @@ compileLambdaApply _id e2 r1 greg = do
   r2 <- localReg
   r3 <- localReg
   compileExpr e2 r2
+  debug $ "\\ " ++ _id ++ " -> " ++ show r2
   addCode [
     MovReg (Global "fun", r1),
     MovReg (Global "arg", r2),
@@ -177,6 +179,7 @@ compileLexicalClosure label lreg greg = do
   temp <- tempReg
   varsIns <- compileLexicalClosureVars greg temp
   let len = length varsIns
+  debug $ "LexicalClosureVars (" ++ show len ++")" ++ show lreg ++ " " ++ show greg 
   addCode [
     Alloc (lreg, 2 + len),
     MovInt (temp, 3),
@@ -202,19 +205,19 @@ compileLexicalClosureVars' ((_, BEnclosed n):binds) reg temp = do
 
 compileRoutine :: Expr -> Label -> Mam ()
 compileRoutine e label = do
-  let [localRes, globalRes] = [Local "res", Global "res"]
-  let [localFun, globalFun] = [Local "fun", Global "fun"]
-  let [localArg, globalArg] = [Local "arg", Global "arg"]
+  lreg <- localReg
   prevStack <- getStack
   switchToRoutineStack 
+  -- rtn:
   addCode [
     ILabel label,
-    MovReg (localFun, globalFun),
-    MovReg (localArg, globalArg)
+    MovReg (Local "fun", Global "fun"),
+    MovReg (Local "arg", Global "arg")
     ]
-  compileExpr e localRes
+  compileExpr e lreg
+  debug $ "return " ++ show lreg
   addCode [
-    MovReg (globalRes, localRes),
+    MovReg (Global "res", lreg),
     Return
     ]
   switchStack prevStack
@@ -296,3 +299,11 @@ localReg = do
   let n = nextReg mam
   put $ mam { nextReg = n + 1 }
   return $ Local $ "r" ++ show n
+
+nameOf :: Instruction -> String
+nameOf mamOp = case mamOp of
+  Add (_, _ ,_) -> "+"
+  Sub (_, _ ,_) -> "-"
+  Mul (_, _ ,_) -> "*"
+  Div (_, _ ,_) -> "/"
+  _ -> "??"

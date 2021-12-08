@@ -2,23 +2,23 @@ module Constants where
 
 type TagType = Int
 
-tagNumber :: Int
+tagNumber :: TagType
 tagNumber = 1
 
-tagChar :: Int
+tagChar :: TagType
 tagChar = 2
 
-tagClosure :: Int
+tagClosure :: TagType
 tagClosure = 3
 
-tagTrue :: Int
+tagTrue :: TagType
 tagTrue = 4
 
-tagFalse :: Int
+tagFalse :: TagType
 tagFalse = 5 
 
-tagNil :: Int
+tagNil :: TagType
 tagNil = 6
 
-tagCons :: Int
+tagCons :: TagType
 tagCons = 7

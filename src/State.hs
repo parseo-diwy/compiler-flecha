@@ -1,6 +1,5 @@
 module State where
 
-import Ast (Expr)
 import Control.Monad.State (State, MonadState(get, put), gets)
 import Types (Instruction (Comment), StackEnv, ID, Binding(..), Env, Reg)
 import Data.List (intercalate)
@@ -30,27 +29,6 @@ initState = MamState {
 
 debug :: String -> Mam ()
 debug str = addCode [Comment $ " " ++ str]
-
-debugA :: ID -> Expr -> Expr -> Mam ()
-debugA c e1 e2 = debug $ c ++ " " ++ show e1 ++ " " ++ show e2
-
-debugC :: Char -> Mam ()
-debugC c = debug $ show c ++ " :: char"
-
-debugE :: Expr -> Mam ()
-debugE e = debug $ "(" ++ show e ++ ")"
-
-debugF :: ID -> Mam ()
-debugF x = debug $ "\\ " ++ x ++ " -> "
-
-debugL :: ID -> Mam ()
-debugL x = debug $ "let " ++ show x ++ " = "
-
-debugN :: Int -> Mam ()
-debugN n = debug $ show n ++ " :: int"
-
-debugV :: ID -> Mam ()
-debugV x = debug $ "var " ++ x
 
 
 -- Env
