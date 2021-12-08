@@ -23,6 +23,7 @@ compile' (def:program) = do
 compileDef :: Definition -> Mam ()
 compileDef (Def _id e) = do
   let greg = Global $ "G_" ++ _id
+  debug $ "def " ++ _id
   compileExpr e greg
   extendEnv (_id, BRegister greg)
   return ()
@@ -43,8 +44,7 @@ compileExpr (ExprApply e1 e2)        reg = do
     (ExprApply (ExprVar cons) e1') -> do
       compileOperation cons e1' e2 reg
     _ -> do
-      compileExpr e2 reg
-      compileExpr e1 reg
+      compileApplication e1 e2 reg
       return ()
 compileExpr (ExprConstructor _id) reg = do
   case tagOf _id of
@@ -142,6 +142,30 @@ compilePrimitiveOperation :: ID -> Reg -> Mam ()
 compilePrimitiveOperation _id _ = error $
   "compilePrimitiveOperation " ++ _id ++ " not implemented"
 
+compileApplication :: Expr -> Expr -> Reg -> Mam ()
+compileApplication (ExprVar _id) e2 reg = do
+  case typeOfPrim _id of
+    PrimPrint -> do
+      compileExpr e2 reg
+      compilePrimitivePrint _id reg
+    PrimOp    -> do
+      compileExpr e2 reg
+      compilePrimitiveOperation _id reg
+    PrimVar   -> do
+      r1 <- lookupEnvRegister _id
+      r2 <- localReg
+      r3 <- localReg
+      compileExpr e2 r2
+      debug $ "(" ++ show r1 ++ ") (" ++ show r2 ++ ")"
+      addCode [
+        MovReg (Global "fun", r1),
+        MovReg (Global "arg", r2),
+        Load   (r3, Global "fun", 1),
+        ICall  r3,
+        MovReg (reg, Global "res")
+        ]
+compileApplication e1 e2 reg = error $ "error on compileApplication" ++ show (e1, e2, reg)
+
 compileBoolean :: I64 -> Reg -> Mam ()
 compileBoolean tag reg = do
   temp <- tempReg
@@ -179,13 +203,14 @@ compileLexicalClosure label lreg greg = do
   temp <- tempReg
   varsIns <- compileLexicalClosureVars greg temp
   let len = length varsIns
-  debug $ "LexicalClosureVars (" ++ show len ++")" ++ show lreg ++ " " ++ show greg 
+  debug $ "LexicalClosureVars (" ++ show len ++") " ++ show lreg ++ " " ++ show greg 
   addCode [
-    Alloc (lreg, 2 + len),
+    Alloc (greg, 2 + len),
     MovInt (temp, 3),
-    Store (lreg, 0, temp),
+    Store (greg, 0, temp),
     MovLabel (temp, label),
-    Store (lreg, tagNumber, temp)
+    Store (greg, tagNumber, temp),
+    MovReg (lreg, greg)
     ]
   addCode varsIns
 
