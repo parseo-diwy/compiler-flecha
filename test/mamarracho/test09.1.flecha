@@ -1,0 +1,4 @@
+
+def test x y = unsafePrintInt x
+
+def main = test 42 31

@@ -1,7 +1,7 @@
 module State where
 
 import Control.Monad.State (State, MonadState(get, put), gets)
-import Types (Instruction (Comment), StackEnv, ID, Binding(..), Env, Reg)
+import Types (Instruction (Comment), StackEnv, ID, Binding(..), Env, Reg(Local))
 import Data.List (intercalate)
 
 type Mam = State MamState
@@ -40,14 +40,26 @@ getEnv :: Mam Env
 getEnv = gets (head . env)
 
 lookupEnv :: ID -> Mam (Maybe Binding)
-lookupEnv x = lookup x <$> getEnv
+lookupEnv x = do
+  env' <- getEnv
+  let res = lookup x env'
+  return res
 
 lookupEnvRegister :: ID -> Mam Reg
 lookupEnvRegister x = do
-  res <- lookupEnv x
+  env' <- getEnv
+  let regEnv = filter (isReg . snd) env'
+  let res = lookup x regEnv
+  -- -- res <- lookupEnv x
   case res of
     Just (BRegister reg) -> return reg
-    _ -> lookupEnvError x
+    _ -> do
+      _ <- lookupEnvError x
+      return $ Local "_err"
+
+isReg :: Binding -> Bool
+isReg (BRegister _) = True
+isReg (BEnclosed _) = False
 
 lookupEnvBinding :: ID -> Mam (Maybe Int)
 lookupEnvBinding x = do
@@ -71,14 +83,14 @@ popEnv :: Mam Env
 popEnv = do
   mam <- get
   put $ mam { env = tail $ env mam }
-  return $ last $ env mam
+  return $ head $ env mam
 
-lookupEnvError :: Show a => [Char] -> Mam a
+lookupEnvError :: ID -> Mam String
 lookupEnvError x = do
   env' <- getEnv
   stackEnv' <- getStackEnv
   let stackEnv'' = map show stackEnv'
-  error $ "'"++ show x ++"' is not defined in "
+  error $ "'" ++ show x ++ "' is not defined in "
     ++ show env'
     ++ "\nStackEnv: \n"
     ++ intercalate "\n" stackEnv''

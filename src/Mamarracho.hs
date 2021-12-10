@@ -34,13 +34,7 @@ compileExpr (ExprNumber n)           reg = compilePrimitiveValue tagNumber n reg
 compileExpr (ExprChar c)             reg = compilePrimitiveValue tagChar (ord c) reg
 compileExpr (ExprApply e1 e2)        reg = do
   case e1 of
-    (ExprLambda _id e1') -> do
-      pushEnv []
-      r1 <- localReg
-      compileLambdaExpr  _id e1' r1 reg
-      compileLambdaApply _id e2  r1 reg
-      _ <- popEnv
-      return ()
+    (ExprLambda _id e1') -> compileLambda _id e1' (Just e2) reg
     (ExprApply (ExprVar cons) e1') -> do
       compileOperation cons e1' e2 reg
     _ -> do
@@ -59,12 +53,7 @@ compileExpr (ExprLet _id e1 e2) reg = do
   compileExpr e2 reg
   _ <- popEnv
   return ()
-compileExpr (ExprLambda _id e) reg = do
-  pushEnv []
-  r1 <- localReg
-  compileLambdaExpr  _id e r1 reg
-  _ <- popEnv
-  return ()
+compileExpr (ExprLambda _id e) reg = compileLambda _id e Nothing reg
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: ID -> Reg -> Mam ()
@@ -109,16 +98,17 @@ compileOperation "MUL" e1 e2 reg = compileArithmeticOperation Mul e1 e2 reg
 compileOperation "DIV" e1 e2 reg = compileArithmeticOperation Div e1 e2 reg
 -- compileOperation _id   _   _   _ = error $ "CompileOperation: Invalid Constructor '" ++ show _id ++ "'"
 compileOperation _id   _   _   _ = do
-  n <- lookupEnvBinding _id
-  case n of
-    Just _ -> addCode [Comment "tu vieja"]
-    _ -> do
-      env' <- getStackEnv
-      error $
-        "CompileOperation: Invalid Constructor '" ++ show _id ++ "'"
-        ++ "\n"
-        ++ "StackEnv: "
-        ++ show env'
+  n <- lookupEnvRegister _id
+  addCode [Comment $ show n]
+  -- case n of
+  --   Just _ -> addCode [Comment "tu vieja"]
+  --   _ -> do
+  --     env' <- getStackEnv
+  --     error $
+  --       "CompileOperation: Invalid Constructor '" ++ show _id ++ "'"
+  --       ++ "\n"
+  --       ++ "StackEnv: "
+  --       ++ show env'
 
 compileArithmeticOperation :: NumOp -> Expr -> Expr -> Reg -> Mam ()
 compileArithmeticOperation mamOp e1 e2 reg = do
@@ -176,6 +166,18 @@ compileBoolean tag reg = do
     Store (reg, 0, temp)
     ]
 
+compileLambda :: ID -> Expr -> Maybe Expr -> Reg -> Mam ()
+compileLambda _id e1 me2 reg = do
+  r1 <- localReg
+  env' <- getEnv
+  pushEnv env'
+  compileLambdaExpr _id e1 r1 reg
+  case me2 of
+    Just e2 -> compileLambdaApply _id e2  r1 reg
+    Nothing -> return ()
+  _ <- popEnv
+  return ()
+
 compileLambdaExpr :: ID -> Expr -> Reg -> Reg -> Mam ()
 compileLambdaExpr _id e lreg greg = do
   extendEnv (_id, BRegister $ Local "arg")
@@ -185,16 +187,16 @@ compileLambdaExpr _id e lreg greg = do
   compileLexicalClosure label lreg greg
 
 compileLambdaApply :: ID -> Expr -> Reg -> Reg -> Mam ()
-compileLambdaApply _id e2 r1 greg = do
+compileLambdaApply _id e2 lreg greg = do
+  r1 <- localReg
   r2 <- localReg
-  r3 <- localReg
-  compileExpr e2 r2
-  debug $ "\\ " ++ _id ++ " -> " ++ show r2
+  compileExpr e2 r1
+  debug $ "\\ " ++ _id ++ " -> " ++ show r1
   addCode [
-    MovReg (Global "fun", r1),
-    MovReg (Global "arg", r2),
-    Load (r3, Global "fun", 1),
-    ICall r3,
+    MovReg (Global "fun", lreg),
+    MovReg (Global "arg", r1),
+    Load (r2, Global "fun", 1),
+    ICall r2,
     MovReg (greg, Global "res")
     ]
 
@@ -203,7 +205,7 @@ compileLexicalClosure label lreg greg = do
   temp <- tempReg
   varsIns <- compileLexicalClosureVars greg temp
   let len = length varsIns
-  debug $ "LexicalClosureVars (" ++ show len ++") " ++ show lreg ++ " " ++ show greg 
+  debug $ "LexicalClosureVars (" ++ show len ++") " ++ show lreg ++ " " ++ show greg
   addCode [
     Alloc (greg, 2 + len),
     MovInt (temp, 3),
@@ -232,7 +234,7 @@ compileRoutine :: Expr -> Label -> Mam ()
 compileRoutine e label = do
   lreg <- localReg
   prevStack <- getStack
-  switchToRoutineStack 
+  switchToRoutineStack
   -- rtn:
   addCode [
     ILabel label,
