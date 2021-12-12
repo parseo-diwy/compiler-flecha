@@ -63,27 +63,50 @@ data Instruction = MovReg    (Reg, Reg)
                  | Return
 
 instance Show Instruction where
-  show (MovReg    args)  = "mov_reg"    ++ show args
-  show (MovInt    args)  = "mov_int"    ++ show args
-  show (MovLabel  args)  = "mov_label"  ++ argsLabel args
-  show (Alloc     args)  = "alloc"      ++ show args
-  show (Load      args)  = "load"       ++ show args
-  show (Store     args)  = "store"      ++ show args
-  show (Print     reg)   = "print"      ++ argR reg
-  show (PrintChar reg)   = "print_char" ++ argR reg
-  show (Jump      label) = "jump"       ++ argL label
-  show (JumpEq    args)  = "jump_eq"    ++ show args
-  show (JumpLt    args)  = "jump_lt"    ++ show args
-  show (Add       args)  = "add"        ++ show args
-  show (Sub       args)  = "sub"        ++ show args
-  show (Mul       args)  = "mul"        ++ show args
-  show (Div       args)  = "div"        ++ show args
-  show (Mod       args)  = "mod"        ++ show args
-  show (Call      label) = "call"       ++ argL label
-  show (ICall     reg)   = "icall"      ++ argR reg
-  show (ILabel    label) = label ++ ":"
-  show (Comment   text)  = "%" ++ text
-  show Return            = "return()"
+  show ins@(MovReg    args)  = "mov_reg"    ++ show args      ++ comment ins
+  show ins@(MovInt    args)  = "mov_int"    ++ show args      ++ comment ins
+  show ins@(MovLabel  args)  = "mov_label"  ++ argsLabel args ++ comment ins
+  show ins@(Alloc     args)  = "alloc"      ++ show args      ++ comment ins
+  show ins@(Load      args)  = "load"       ++ show args      ++ comment ins
+  show ins@(Store     args)  = "store"      ++ show args      ++ comment ins
+  show ins@(Print     reg)   = "print"      ++ argR reg       ++ comment ins
+  show ins@(PrintChar reg)   = "print_char" ++ argR reg       ++ comment ins
+  show ins@(Jump      label) = "jump"       ++ argL label     ++ comment ins
+  show ins@(JumpEq    args)  = "jump_eq"    ++ show args      ++ comment ins
+  show ins@(JumpLt    args)  = "jump_lt"    ++ show args      ++ comment ins
+  show ins@(Add       args)  = "add"        ++ show args      ++ comment ins
+  show ins@(Sub       args)  = "sub"        ++ show args      ++ comment ins
+  show ins@(Mul       args)  = "mul"        ++ show args      ++ comment ins
+  show ins@(Div       args)  = "div"        ++ show args      ++ comment ins
+  show ins@(Mod       args)  = "mod"        ++ show args      ++ comment ins
+  show ins@(Call      label) = "call"       ++ argL label     ++ comment ins
+  show ins@(ICall     reg)   = "icall"      ++ argR reg       ++ comment ins
+  show ins@(ILabel    label) = label ++ ":"                   ++ comment ins
+  show ins@(Comment   text)  = "% " ++ text                    ++ comment ins
+  show ins@Return            = "return()"                     ++ comment ins
+
+comment :: Instruction -> String
+comment (MovReg    (r1, r2)    ) = " % " ++ show r1 ++ " := " ++ show r2
+comment (MovInt    (r, n)      ) = " % " ++ show r ++ " := " ++ show n
+comment (MovLabel  (r, l)      ) = " % " ++ show r ++ " := VLoc(p), p := mem(" ++ l ++ ")"
+comment (Alloc     (r, n)      ) = " % " ++ show r ++ " := " ++ show (replicate n "0") ++ " -- " ++ show n ++ " slots"
+comment (Load      (r1, r2, i) ) = " % " ++ show r1 ++ " := " ++ show r2 ++ "[" ++ show i ++ "]"
+comment (Store     (r1, i, r2) ) = " % " ++ show r1 ++ "[" ++ show i ++ "] := " ++ show r2
+comment (Print     r           ) = " % print " ++ show r
+comment (PrintChar r           ) = " % print_char " ++ show r
+comment (Jump      _           ) = ""
+comment (JumpEq    (r1, r2, _) ) = " % jump_if " ++ show r1 ++ " := " ++ show r2
+comment (JumpLt    (r1, r2, _) ) = " % jump_if " ++ show r1 ++ " < " ++ show r2
+comment (Add       (r1, r2, r3)) = " % " ++ show r1 ++ " := " ++ show r2 ++ " + " ++ show r3
+comment (Sub       (r1, r2, r3)) = " % " ++ show r1 ++ " := " ++ show r2 ++ " - " ++ show r3
+comment (Mul       (r1, r2, r3)) = " % " ++ show r1 ++ " := " ++ show r2 ++ " * " ++ show r3
+comment (Div       (r1, r2, r3)) = " % " ++ show r1 ++ " := " ++ show r2 ++ " / " ++ show r3
+comment (Mod       (r1, r2, r3)) = " % " ++ show r1 ++ " := " ++ show r2 ++ " % " ++ show r3
+comment (Call      l           ) = " % save ret dir & env & jump_to" ++ show l
+comment (ICall     r           ) = " % save ret dir & env & jump_to" ++ show r
+comment (ILabel    _           ) = ""
+comment (Comment   _           ) = ""
+comment Return                   = ""
 
 --
 

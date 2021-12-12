@@ -28,7 +28,7 @@ initState = MamState {
 }
 
 debug :: String -> Mam ()
-debug str = addCode [Comment $ " " ++ str]
+debug str = addCode [Comment str]
 
 
 -- Env

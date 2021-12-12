@@ -238,6 +238,7 @@ compileRoutine e label = do
   -- rtn:
   addCode [
     ILabel label,
+    Comment $ show e,
     MovReg (Local "fun", Global "fun"),
     MovReg (Local "arg", Global "arg")
     ]
@@ -292,9 +293,7 @@ bindClosureEnv = bindClosureEnv' 1
 
 bindClosureEnv' :: Int -> [ID] -> Mam ()
 bindClosureEnv' _ [] = return ()
-bindClosureEnv' n (x:xs) = do
-  extendEnv (x, BEnclosed n)
-  bindClosureEnv' (n+1) xs
+bindClosureEnv' n (x:xs) = extendEnv (x, BEnclosed n) >> bindClosureEnv' (n+1) xs
 
 extractFreeVars :: ID -> Expr -> [ID]
 extractFreeVars = extractFreeVars' []
