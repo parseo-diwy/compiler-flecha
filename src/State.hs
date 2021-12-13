@@ -1,17 +1,19 @@
 module State where
 
 import Control.Monad.State (State, MonadState(get, put), gets)
-import Types (Instruction (Comment), StackEnv, ID, Binding(..), Env, Reg(Local))
+import Types (Instruction (Comment), StackEnv, ID, Binding(..), Env, Reg(Local), Label)
 import Data.List (intercalate)
 
 type Mam = State MamState
 
-data Stack = CodeStack | RoutineStack
+data Stack = CodeStack | RoutineStack Label
+
+type CodeRoutine = (Label, [Instruction])
 
 data MamState = MamState {
   env      :: StackEnv,
   code     :: [Instruction],
-  routines :: [Instruction],
+  routines :: [CodeRoutine],
   nextReg  :: Int,
   nextRtn  :: Int,
   currentStack :: Stack
@@ -95,7 +97,7 @@ lookupEnvError x = do
     ++ "\nStackEnv: \n"
     ++ intercalate "\n" stackEnv''
 
--- Code
+-- Code Stack
 
 getStack :: Mam Stack
 getStack = gets currentStack
@@ -105,12 +107,32 @@ switchStack stack = do
   mam <- get
   put $ mam { currentStack = stack }
 
-switchToRoutineStack :: Mam ()
-switchToRoutineStack = switchStack RoutineStack
+switchToRoutineStack :: Label -> Mam ()
+switchToRoutineStack label = switchStack $ RoutineStack label
+
+isRoutineStack :: Mam Bool
+isRoutineStack = do
+  stack <- getStack
+  case stack of
+    CodeStack -> return False
+    RoutineStack _ -> return True
+
+-- Code
 
 addCode :: [Instruction] -> Mam ()
 addCode _code = do
   mam <- get
   case currentStack mam of
     CodeStack -> put $ mam { code = code mam ++ _code }
-    RoutineStack -> put $ mam { routines = routines mam ++ _code }
+    RoutineStack label -> addCodeRoutine label _code
+
+addCodeRoutine :: Label -> [Instruction] -> Mam ()
+addCodeRoutine label _code = do
+  mam <- get
+  let stack = lookup label $ routines mam
+  case stack of
+    Just current -> do
+      let rout = filter (\a -> fst a /= label) $ routines mam
+      put $ mam { routines = rout ++ [(label, current ++ _code)] }
+    Nothing -> do
+      put $ mam { routines = routines mam ++ [(label, _code)] }

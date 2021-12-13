@@ -23,7 +23,6 @@ compile' (def:program) = do
 compileDef :: Definition -> Mam ()
 compileDef (Def _id e) = do
   let greg = Global $ "G_" ++ _id
-  debug $ "def " ++ _id
   compileExpr e greg
   extendEnv (_id, BRegister greg)
   return ()
@@ -34,12 +33,12 @@ compileExpr (ExprNumber n)           reg = compilePrimitiveValue tagNumber n reg
 compileExpr (ExprChar c)             reg = compilePrimitiveValue tagChar (ord c) reg
 compileExpr (ExprApply e1 e2)        reg = do
   case e1 of
-    (ExprLambda _id e1') -> compileLambda _id e1' (Just e2) reg
-    (ExprApply (ExprVar cons) e1') -> do
-      compileOperation cons e1' e2 reg
-    _ -> do
-      compileApplication e1 e2 reg
-      return ()
+    (ExprLambda _id e1')            -> compileLambda _id e1' (Just e2) reg
+    (ExprApply (ExprVar "ADD") e1') -> compileArithmeticOperation Add e1' e2 reg
+    (ExprApply (ExprVar "SUB") e1') -> compileArithmeticOperation Sub e1' e2 reg
+    (ExprApply (ExprVar "MUL") e1') -> compileArithmeticOperation Mul e1' e2 reg
+    (ExprApply (ExprVar "DIV") e1') -> compileArithmeticOperation Div e1' e2 reg
+    _                               -> compileApplication e1 e2 reg
 compileExpr (ExprConstructor _id) reg = do
   case tagOf _id of
     TTrue  tag -> compileBoolean tag reg
@@ -67,7 +66,6 @@ compilePrimitivePrint :: String -> Reg -> Mam ()
 compilePrimitivePrint _id reg = do
   let printer = if _id == "unsafePrintChar" then PrintChar else Print
   lreg <- localReg
-  debug _id
   addCode [
     Load (lreg, reg, 1),
     printer lreg
@@ -75,14 +73,16 @@ compilePrimitivePrint _id reg = do
 
 compileVarValue :: ID -> Reg -> Mam ()
 compileVarValue _id reg = do
-  greg <- lookupEnvRegister _id
-  debug $ _id ++ "=" ++ show greg
-  addCode [MovReg (reg, greg)]
+  res <- lookupEnv _id
+  case res of
+    Just (BRegister r) -> addCode [MovReg (reg, r)]
+    Just (BEnclosed n) -> addCode [Load (reg, Local "fun", n + 2)]
+    _ -> error $ "Var " ++ _id ++ " is not defined en env"
+
 
 compilePrimitiveValue :: TagType -> Int -> Reg -> Mam ()
 compilePrimitiveValue tag val reg = do
   temp <- tempReg
-  debug $ show reg ++ "=" ++ "[" ++ show tag ++ "," ++ show val ++ "]"
   addCode [
     Alloc  (reg, 2),
     MovInt (temp, tag),
@@ -91,25 +91,6 @@ compilePrimitiveValue tag val reg = do
     Store  (reg, 1, temp)
     ]
 
-compileOperation :: ID -> Expr -> Expr -> Reg -> Mam ()
-compileOperation "ADD" e1 e2 reg = compileArithmeticOperation Add e1 e2 reg
-compileOperation "SUB" e1 e2 reg = compileArithmeticOperation Sub e1 e2 reg
-compileOperation "MUL" e1 e2 reg = compileArithmeticOperation Mul e1 e2 reg
-compileOperation "DIV" e1 e2 reg = compileArithmeticOperation Div e1 e2 reg
--- compileOperation _id   _   _   _ = error $ "CompileOperation: Invalid Constructor '" ++ show _id ++ "'"
-compileOperation _id   _   _   _ = do
-  n <- lookupEnvRegister _id
-  addCode [Comment $ show n]
-  -- case n of
-  --   Just _ -> addCode [Comment "tu vieja"]
-  --   _ -> do
-  --     env' <- getStackEnv
-  --     error $
-  --       "CompileOperation: Invalid Constructor '" ++ show _id ++ "'"
-  --       ++ "\n"
-  --       ++ "StackEnv: "
-  --       ++ show env'
-
 compileArithmeticOperation :: NumOp -> Expr -> Expr -> Reg -> Mam ()
 compileArithmeticOperation mamOp e1 e2 reg = do
   r1 <- localReg
@@ -117,7 +98,6 @@ compileArithmeticOperation mamOp e1 e2 reg = do
   temp <- tempReg
   compileExpr e1 r1
   compileExpr e2 r2
-  debug $ show r1 ++ " " ++ nameOf (mamOp (r1, r1, r2)) ++ " " ++ show r2
   addCode [
     Load   (r1, r1, 1),
     Load   (r2, r2, 1),
@@ -129,8 +109,7 @@ compileArithmeticOperation mamOp e1 e2 reg = do
     ]
 
 compilePrimitiveOperation :: ID -> Reg -> Mam ()
-compilePrimitiveOperation _id _ = error $
-  "compilePrimitiveOperation " ++ _id ++ " not implemented"
+compilePrimitiveOperation _id _ = error $ "compilePrimitiveOperation " ++ _id ++ " not implemented"
 
 compileApplication :: Expr -> Expr -> Reg -> Mam ()
 compileApplication (ExprVar _id) e2 reg = do
@@ -146,7 +125,6 @@ compileApplication (ExprVar _id) e2 reg = do
       r2 <- localReg
       r3 <- localReg
       compileExpr e2 r2
-      debug $ "(" ++ show r1 ++ ") (" ++ show r2 ++ ")"
       addCode [
         MovReg (Global "fun", r1),
         MovReg (Global "arg", r2),
@@ -154,12 +132,24 @@ compileApplication (ExprVar _id) e2 reg = do
         ICall  r3,
         MovReg (reg, Global "res")
         ]
-compileApplication e1 e2 reg = error $ "error on compileApplication" ++ show (e1, e2, reg)
+compileApplication e1 e2 reg = do
+  r1 <- localReg
+  r2 <- localReg
+  r3 <- localReg
+  compileExpr e1 r1
+  compileExpr e2 r2
+  addCode [
+    MovReg (Global "fun", r1),
+    MovReg (Global "arg", r2),
+    Load   (r3, Global "fun", 1), 
+    ICall  r3,
+    MovReg (reg, Global "res")
+    ]
+-- compileApplication e1 e2 reg = error $ "error on compileApplication " ++ show (e1, e2, reg)
 
 compileBoolean :: I64 -> Reg -> Mam ()
 compileBoolean tag reg = do
   temp <- tempReg
-  debug "true"
   addCode [
     Alloc (reg, 1),
     MovInt (temp, tag),
@@ -191,7 +181,6 @@ compileLambdaApply _id e2 lreg greg = do
   r1 <- localReg
   r2 <- localReg
   compileExpr e2 r1
-  debug $ "\\ " ++ _id ++ " -> " ++ show r1
   addCode [
     MovReg (Global "fun", lreg),
     MovReg (Global "arg", r1),
@@ -203,30 +192,33 @@ compileLambdaApply _id e2 lreg greg = do
 compileLexicalClosure :: Label -> Reg -> Reg -> Mam ()
 compileLexicalClosure label lreg greg = do
   temp <- tempReg
-  varsIns <- compileLexicalClosureVars greg temp
+  varsIns <- compileLexicalClosureVars lreg greg
+  isRoutine <- isRoutineStack
+  let retreg = if isRoutine then Local "arg" else greg
   let len = length varsIns
-  debug $ "LexicalClosureVars (" ++ show len ++") " ++ show lreg ++ " " ++ show greg
   addCode [
+    Comment "<compileLexicalClosure>",
     Alloc (greg, 2 + len),
     MovInt (temp, 3),
     Store (greg, 0, temp),
     MovLabel (temp, label),
     Store (greg, tagNumber, temp),
-    MovReg (lreg, greg)
+    MovReg (lreg, retreg),
+    Comment "</compileLexicalClosure>"
     ]
   addCode varsIns
 
 compileLexicalClosureVars :: Reg -> Reg -> Mam [Instruction]
-compileLexicalClosureVars reg temp = do
+compileLexicalClosureVars lreg greg = do
   env' <- getEnv
-  compileLexicalClosureVars' env' reg temp
+  compileLexicalClosureVars' env' lreg greg
 
 compileLexicalClosureVars' :: Env -> Reg -> Reg -> Mam [Instruction]
 compileLexicalClosureVars' [] _ _ = return []
-compileLexicalClosureVars' ((_, BRegister _):binds) reg temp = compileLexicalClosureVars' binds reg temp
-compileLexicalClosureVars' ((_, BEnclosed n):binds) reg temp = do
-  let ins = [Store (reg, n - 1, temp)]
-  rest <- compileLexicalClosureVars' binds reg temp
+compileLexicalClosureVars' ((_, BRegister _):binds) lreg greg = compileLexicalClosureVars' binds lreg greg
+compileLexicalClosureVars' ((_, BEnclosed n):binds) lreg greg = do
+  let ins = [Store (greg, n + 2, lreg)]
+  rest <- compileLexicalClosureVars' binds lreg greg
   return $ ins ++ rest
 
 
@@ -234,16 +226,14 @@ compileRoutine :: Expr -> Label -> Mam ()
 compileRoutine e label = do
   lreg <- localReg
   prevStack <- getStack
-  switchToRoutineStack
+  switchToRoutineStack label
   -- rtn:
   addCode [
-    ILabel label,
     Comment $ show e,
     MovReg (Local "fun", Global "fun"),
     MovReg (Local "arg", Global "arg")
     ]
   compileExpr e lreg
-  debug $ "return " ++ show lreg
   addCode [
     MovReg (Global "res", lreg),
     Return
@@ -254,9 +244,17 @@ compileRoutine e label = do
 
 getCode :: MamState -> [Instruction]
 getCode mam = [Jump "start"]
-           ++ routines mam
+           ++ unfoldRoutines (routines mam)
            ++ [ILabel "start"]
            ++ code mam
+
+unfoldRoutines :: [CodeRoutine] -> [Instruction]
+unfoldRoutines = unfoldRoutines' []
+
+unfoldRoutines' :: [Instruction] -> [CodeRoutine] -> [Instruction]
+unfoldRoutines' ins [] = ins
+unfoldRoutines' ins ((label, rout):routines') =
+  unfoldRoutines' (ins ++ [ILabel label] ++ rout) routines'
 
 showCode :: Show a => [a] -> String
 showCode = intercalate "\n" . map show
@@ -289,7 +287,7 @@ tagOf _id =
     _ -> error $ "Invalid constructor " ++ _id
 
 bindClosureEnv :: [ID] -> Mam ()
-bindClosureEnv = bindClosureEnv' 1
+bindClosureEnv = bindClosureEnv' 0
 
 bindClosureEnv' :: Int -> [ID] -> Mam ()
 bindClosureEnv' _ [] = return ()
@@ -325,11 +323,3 @@ localReg = do
   let n = nextReg mam
   put $ mam { nextReg = n + 1 }
   return $ Local $ "r" ++ show n
-
-nameOf :: Instruction -> String
-nameOf mamOp = case mamOp of
-  Add (_, _ ,_) -> "+"
-  Sub (_, _ ,_) -> "-"
-  Mul (_, _ ,_) -> "*"
-  Div (_, _ ,_) -> "/"
-  _ -> "??"

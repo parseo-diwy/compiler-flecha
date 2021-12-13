@@ -89,7 +89,7 @@ comment :: Instruction -> String
 comment (MovReg    (r1, r2)    ) = " % " ++ show r1 ++ " := " ++ show r2
 comment (MovInt    (r, n)      ) = " % " ++ show r ++ " := " ++ show n
 comment (MovLabel  (r, l)      ) = " % " ++ show r ++ " := VLoc(p), p := mem(" ++ l ++ ")"
-comment (Alloc     (r, n)      ) = " % " ++ show r ++ " := " ++ show (replicate n "0") ++ " -- " ++ show n ++ " slots"
+comment (Alloc     (r, n)      ) = " % " ++ show r ++ " := arr[" ++ show n ++ "]"
 comment (Load      (r1, r2, i) ) = " % " ++ show r1 ++ " := " ++ show r2 ++ "[" ++ show i ++ "]"
 comment (Store     (r1, i, r2) ) = " % " ++ show r1 ++ "[" ++ show i ++ "] := " ++ show r2
 comment (Print     r           ) = " % print " ++ show r
