@@ -19,16 +19,18 @@ if [[ "$RUN_MODE" != "-n" && "$RUN_MODE" != "--full" ]]; then
   exit 1
 fi
 
-T=${2:---diwy}  # --diwy (default) | --foones
-W=${3:-$T}    # --diwy | --foones
+T=${2:---diwy} # --diwy (default) | --foones
+W=${3:-$T}     # --diwy | --foones
 
 if [[ "$RUN_MODE" == '--full' && ("$T" == "--diwy" || "$W" == "--diwy") ]]; then
   for i in {1..9};   do diwy "0$i"; done
+  for i in {1..2};   do diwy "09.$i"; done
   for i in {11..31}; do diwy  "$i"; done
 fi
 
 if [[ "$RUN_MODE" == '--full' && ("$T" == "--foones" || "$W" == "--foones") ]]; then
   for i in {1..9};   do foones "0$i"; done
+  for i in {1..2};   do foones "09.$i"; done
   for i in {11..31}; do foones "$i"; done
 fi
 

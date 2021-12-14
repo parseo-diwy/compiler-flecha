@@ -141,7 +141,7 @@ compileApplication e1 e2 reg = do
   addCode [
     MovReg (Global "fun", r1),
     MovReg (Global "arg", r2),
-    Load   (r3, Global "fun", 1), 
+    Load   (r3, Global "fun", 1),
     ICall  r3,
     MovReg (reg, Global "res")
     ]
@@ -228,7 +228,7 @@ unfoldRoutines' ins ((label, rout):routines') =
   unfoldRoutines' (ins ++ [ILabel label] ++ rout) routines'
 
 showCode :: Show a => [a] -> String
-showCode = intercalate "\n" . map show
+showCode code' = intercalate "\n" (map show code') ++ "\n"
 
 typeOfPrim :: String -> PrimType
 typeOfPrim _id

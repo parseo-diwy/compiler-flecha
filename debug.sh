@@ -17,19 +17,17 @@ cat "$TEST_NAME.flecha"
 
 echo "-----  diwy -----"
 cat "$TEST_NAME.output"
-# printf "\n"
 echo "----- /diwy -----"
 
 if [[ $TEST_FOONES == "--foones" ]]; then
   ./bin/flecha_foones "$TEST_NAME.flecha" > "$TEST_NAME.foones.mam"
   echo "-----  foones -----"
   ./bin/mam_foones "$TEST_NAME.foones.mam"
-  # printf "\n"
   echo "----- /foones -----"
   rm -f "$TEST_NAME.foones.mam"
 fi
 
 # clean
-# rm -f "$TEST_NAME.ast"
+rm -f "$TEST_NAME.ast"
 rm -f "$TEST_NAME.mam"
 rm -f "$TEST_NAME.output"
