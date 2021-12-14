@@ -29,9 +29,10 @@ initState = MamState {
   currentStack = CodeStack
 }
 
+-- Debug
+
 debug :: String -> Mam ()
 debug str = addCode [Comment str]
-
 
 -- Env
 
@@ -42,18 +43,13 @@ getEnv :: Mam Env
 getEnv = gets (head . env)
 
 lookupEnv :: ID -> Mam (Maybe Binding)
-lookupEnv x = do
-  env' <- getEnv
-  let res = lookup x env'
-  return res
+lookupEnv x = lookup x <$> getEnv
 
 lookupEnvRegister :: ID -> Mam Reg
 lookupEnvRegister x = do
   env' <- getEnv
   let regEnv = filter (isReg . snd) env'
-  let res = lookup x regEnv
-  -- -- res <- lookupEnv x
-  case res of
+  case lookup x regEnv of
     Just (BRegister reg) -> return reg
     _ -> do
       _ <- lookupEnvError x
@@ -63,18 +59,9 @@ isReg :: Binding -> Bool
 isReg (BRegister _) = True
 isReg (BEnclosed _) = False
 
-lookupEnvBinding :: ID -> Mam (Maybe Int)
-lookupEnvBinding x = do
-  res <- lookupEnv x
-  case res of
-    Just (BEnclosed n) -> return $ Just n
-    _ -> return Nothing
-
 extendEnv :: (ID, Binding) -> Mam ()
-extendEnv bind = do
-  env' <- popEnv
-  let env'' = bind : env'
-  pushEnv env''
+extendEnv ("_", _) = return ()
+extendEnv bind = popEnv >>= \env' -> pushEnv (bind : env')
 
 pushEnv :: [(ID, Binding)] -> Mam ()
 pushEnv env' = do

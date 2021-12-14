@@ -7,7 +7,8 @@ import State
 import Ast (Program, Expr(..), Definition(..))
 import Control.Monad.State (execState, MonadState(put, get))
 import Data.Char (ord)
-import Data.List (intercalate)
+import Data.Function (on)
+import Data.List (intercalate, sortBy, (\\), union)
 
 -- Compilation
 
@@ -33,7 +34,6 @@ compileExpr (ExprNumber n)           reg = compilePrimitiveValue tagNumber n reg
 compileExpr (ExprChar c)             reg = compilePrimitiveValue tagChar (ord c) reg
 compileExpr (ExprApply e1 e2)        reg = do
   case e1 of
-    (ExprLambda _id e1')            -> compileLambda _id e1' (Just e2) reg
     (ExprApply (ExprVar "ADD") e1') -> compileArithmeticOperation Add e1' e2 reg
     (ExprApply (ExprVar "SUB") e1') -> compileArithmeticOperation Sub e1' e2 reg
     (ExprApply (ExprVar "MUL") e1') -> compileArithmeticOperation Mul e1' e2 reg
@@ -48,11 +48,12 @@ compileExpr (ExprLet _id e1 e2) reg = do
   temp <- localReg
   compileExpr e1 temp
   env' <- getEnv
-  pushEnv ((_id, BRegister temp) : env')
+  pushEnv env'
+  extendEnv (_id, BRegister temp)
   compileExpr e2 reg
   _ <- popEnv
   return ()
-compileExpr (ExprLambda _id e) reg = compileLambda _id e Nothing reg
+compileExpr (ExprLambda _id e) reg = compileLambda _id e reg
 compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: ID -> Reg -> Mam ()
@@ -77,8 +78,7 @@ compileVarValue _id reg = do
   case res of
     Just (BRegister r) -> addCode [MovReg (reg, r)]
     Just (BEnclosed n) -> addCode [Load (reg, Local "fun", n + 2)]
-    _ -> error $ "Var " ++ _id ++ " is not defined en env"
-
+    _ -> addCode [Comment $ "Var " ++ _id ++ " not found in env"]
 
 compilePrimitiveValue :: TagType -> Int -> Reg -> Mam ()
 compilePrimitiveValue tag val reg = do
@@ -145,7 +145,6 @@ compileApplication e1 e2 reg = do
     ICall  r3,
     MovReg (reg, Global "res")
     ]
--- compileApplication e1 e2 reg = error $ "error on compileApplication " ++ show (e1, e2, reg)
 
 compileBoolean :: I64 -> Reg -> Mam ()
 compileBoolean tag reg = do
@@ -156,80 +155,52 @@ compileBoolean tag reg = do
     Store (reg, 0, temp)
     ]
 
-compileLambda :: ID -> Expr -> Maybe Expr -> Reg -> Mam ()
-compileLambda _id e1 me2 reg = do
-  r1 <- localReg
+compileLambda :: ID -> Expr -> Reg -> Mam ()
+compileLambda _id e reg = do
   env' <- getEnv
   pushEnv env'
-  compileLambdaExpr _id e1 r1 reg
-  case me2 of
-    Just e2 -> compileLambdaApply _id e2  r1 reg
-    Nothing -> return ()
+  compileLambdaExpr _id e reg
   _ <- popEnv
   return ()
 
-compileLambdaExpr :: ID -> Expr -> Reg -> Reg -> Mam ()
-compileLambdaExpr _id e lreg greg = do
-  extendEnv (_id, BRegister $ Local "arg")
-  bindClosureEnv $ extractFreeVars _id e
-  label <- routineLabel
-  compileRoutine e label
-  compileLexicalClosure label lreg greg
-
-compileLambdaApply :: ID -> Expr -> Reg -> Reg -> Mam ()
-compileLambdaApply _id e2 lreg greg = do
-  r1 <- localReg
-  r2 <- localReg
-  compileExpr e2 r1
-  addCode [
-    MovReg (Global "fun", lreg),
-    MovReg (Global "arg", r1),
-    Load (r2, Global "fun", 1),
-    ICall r2,
-    MovReg (greg, Global "res")
-    ]
-
-compileLexicalClosure :: Label -> Reg -> Reg -> Mam ()
-compileLexicalClosure label lreg greg = do
-  temp <- tempReg
-  varsIns <- compileLexicalClosureVars lreg greg
-  isRoutine <- isRoutineStack
-  let retreg = if isRoutine then Local "arg" else greg
-  let len = length varsIns
-  addCode [
-    Comment "<compileLexicalClosure>",
-    Alloc (greg, 2 + len),
-    MovInt (temp, 3),
-    Store (greg, 0, temp),
-    MovLabel (temp, label),
-    Store (greg, tagNumber, temp),
-    MovReg (lreg, retreg),
-    Comment "</compileLexicalClosure>"
-    ]
-  addCode varsIns
-
-compileLexicalClosureVars :: Reg -> Reg -> Mam [Instruction]
-compileLexicalClosureVars lreg greg = do
+compileLambdaExpr :: ID -> Expr -> Reg -> Mam ()
+compileLambdaExpr _id e reg = do
   env' <- getEnv
-  compileLexicalClosureVars' env' lreg greg
+  label <- routineLabel
+  let freeVars = extractFreeVars env' e \\ [_id]
+  compileLexicalClosure _id freeVars label reg
+  bindClosureEnv freeVars
+  extendEnv (_id, BRegister $ Local "arg")
+  compileRoutine e label
 
-compileLexicalClosureVars' :: Env -> Reg -> Reg -> Mam [Instruction]
-compileLexicalClosureVars' [] _ _ = return []
-compileLexicalClosureVars' ((_, BRegister _):binds) lreg greg = compileLexicalClosureVars' binds lreg greg
-compileLexicalClosureVars' ((_, BEnclosed n):binds) lreg greg = do
-  let ins = [Store (greg, n + 2, lreg)]
-  rest <- compileLexicalClosureVars' binds lreg greg
-  return $ ins ++ rest
+compileLexicalClosure :: ID -> [ID] -> Label -> Reg -> Mam ()
+compileLexicalClosure _id freeVars label reg = do
+  temp <- tempReg
+  let len = length freeVars
+  addCode [
+    Alloc (reg, 2 + len),
+    MovInt (temp, 3),
+    Store (reg, 0, temp),
+    MovLabel (temp, label),
+    Store (reg, 1, temp)
+    ]
+  compileLexicalClosureVars freeVars temp reg 0
 
+compileLexicalClosureVars :: [ID] -> Reg -> Reg -> Int -> Mam ()
+compileLexicalClosureVars     []    _   _ _ = return ()
+compileLexicalClosureVars (x:xs) treg reg n = do
+  compileVariable x treg
+  addCode [Store (reg, n + 2, treg)]
+  compileLexicalClosureVars xs treg reg (n+1)
 
 compileRoutine :: Expr -> Label -> Mam ()
 compileRoutine e label = do
   lreg <- localReg
   prevStack <- getStack
   switchToRoutineStack label
-  -- rtn:
   addCode [
-    Comment $ show e,
+  --rtn_i:
+    Comment $ fl e,
     MovReg (Local "fun", Global "fun"),
     MovReg (Local "arg", Global "arg")
     ]
@@ -249,7 +220,7 @@ getCode mam = [Jump "start"]
            ++ code mam
 
 unfoldRoutines :: [CodeRoutine] -> [Instruction]
-unfoldRoutines = unfoldRoutines' []
+unfoldRoutines = unfoldRoutines' [] . sortBy (compare `on` fst)
 
 unfoldRoutines' :: [Instruction] -> [CodeRoutine] -> [Instruction]
 unfoldRoutines' ins [] = ins
@@ -261,9 +232,9 @@ showCode = intercalate "\n" . map show
 
 typeOfPrim :: String -> PrimType
 typeOfPrim _id
-  | isPrimitivePrinter _id = PrimPrint
+  | isPrimitivePrinter   _id = PrimPrint
   | isPrimitiveOperation _id = PrimOp
-  | otherwise = PrimVar
+  | otherwise                = PrimVar
 
 isPrimitive :: String -> Bool
 isPrimitive _id = isPrimitivePrinter _id || isPrimitiveOperation _id
@@ -290,22 +261,20 @@ bindClosureEnv :: [ID] -> Mam ()
 bindClosureEnv = bindClosureEnv' 0
 
 bindClosureEnv' :: Int -> [ID] -> Mam ()
-bindClosureEnv' _ [] = return ()
+bindClosureEnv' _     [] = return ()
 bindClosureEnv' n (x:xs) = extendEnv (x, BEnclosed n) >> bindClosureEnv' (n+1) xs
 
-extractFreeVars :: ID -> Expr -> [ID]
-extractFreeVars = extractFreeVars' []
-
-extractFreeVars' :: [ID] -> ID -> Expr -> [ID]
-extractFreeVars' vars x (ExprVar       _id) | x == _id        = vars
-                                            | isPrimitive _id = vars
-                                            | _id `elem` vars = vars
-                                            | otherwise       = vars ++ [_id]
-extractFreeVars' vars x (ExprCase    e   _) = extractFreeVars' vars x e
-extractFreeVars' vars x (ExprLambda  _id e) = extractFreeVars' vars x e
-extractFreeVars' vars x (ExprApply   e1 e2) = extractFreeVars' (extractFreeVars' vars x e1) x e2
-extractFreeVars' vars x (ExprLet _id e1 e2) = extractFreeVars' (extractFreeVars' vars x e1) x e2
-extractFreeVars' vars _ _                   = vars
+extractFreeVars :: Env -> Expr -> [ID]
+extractFreeVars env' (ExprVar _id) = if isPrimitive _id then [] else
+  case lookup _id env' of
+    Nothing                     -> [_id]
+    Just (BRegister (Local  _)) -> [_id]
+    Just (BEnclosed          _) -> [_id]
+    Just (BRegister (Global _)) -> []
+extractFreeVars env' (ExprLet _id e1 e2) = extractFreeVars env' e1 `union` (extractFreeVars env' e2 \\ [_id])
+extractFreeVars env' (ExprLambda _id  e) = extractFreeVars env' e \\ [_id]
+extractFreeVars env' (ExprApply   e1 e2) = extractFreeVars env' e1 `union` extractFreeVars env' e2
+extractFreeVars   _                    _ = []
 
 tempReg :: Mam Reg
 tempReg = return $ Local "temp"
@@ -323,3 +292,17 @@ localReg = do
   let n = nextReg mam
   put $ mam { nextReg = n + 1 }
   return $ Local $ "r" ++ show n
+
+fl :: Expr -> String
+fl (ExprVar x) = x
+fl (ExprConstructor x) = x
+fl (ExprNumber n) = show n
+fl (ExprChar c) = show c
+-- fl (ExprCase e cases) = ""
+fl (ExprLet "_" e1 e2) = fl e1 ++ "; " ++ fl e2
+fl (ExprLet x e1 e2) = "let " ++ x ++ " = " ++ fl e1 ++ " in " ++ fl e2
+fl (ExprLambda x e) = "\\" ++ x ++ " -> " ++ fl e
+fl (ExprApply (ExprVar x) (ExprVar y)) = x ++ " " ++ y
+fl (ExprApply (ExprVar x) e2) = x ++ " (" ++ fl e2 ++ ")"
+fl (ExprApply e1 e2) = "(" ++ fl e1 ++ ") (" ++ fl e2 ++ ")"
+fl e = show e ++ " not defined"
