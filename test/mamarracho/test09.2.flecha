@@ -1,9 +1,11 @@
 
-def test x y =
+def test x y z =
   unsafePrintInt x;
   unsafePrintChar '|';
   unsafePrintInt y;
+  unsafePrintChar '|';
+  unsafePrintInt z;
   unsafePrintChar '\n'
 
-def main = test 5 4
+def main = test 5 4 3
 

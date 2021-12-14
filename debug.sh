@@ -8,28 +8,28 @@ TEST_NAME="test/mamarracho/test$TEST_NUMBER"
 cabal build --verbose=silent
 
 # run
-cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --ast > "$TEST_NAME.ast"
+# cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --ast > "$TEST_NAME.ast"
 cabal run --verbose=silent flecha -- "$TEST_NAME.flecha" --mam > "$TEST_NAME.mam"
 ./bin/mamarracho "$TEST_NAME.mam" > "$TEST_NAME.output"
 
 # dump
 cat "$TEST_NAME.flecha"
-echo "----- ----- ----- ----- -----"
-cat "$TEST_NAME.ast"
-echo "----- ----- ----- ----- -----"
-cat "$TEST_NAME.mam"
-echo "----- ----- ----- ----- -----"
+
+echo "-----  diwy -----"
 cat "$TEST_NAME.output"
+# printf "\n"
+echo "----- /diwy -----"
 
 if [[ $TEST_FOONES == "--foones" ]]; then
   ./bin/flecha_foones "$TEST_NAME.flecha" > "$TEST_NAME.foones.mam"
-  echo "----- ----- ----- ----- -----"
-  echo "foones res:"
+  echo "-----  foones -----"
   ./bin/mam_foones "$TEST_NAME.foones.mam"
+  # printf "\n"
+  echo "----- /foones -----"
   rm -f "$TEST_NAME.foones.mam"
 fi
 
 # clean
-rm -f "$TEST_NAME.ast"
+# rm -f "$TEST_NAME.ast"
 rm -f "$TEST_NAME.mam"
 rm -f "$TEST_NAME.output"

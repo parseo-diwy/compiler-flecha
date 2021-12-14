@@ -64,6 +64,14 @@ function mam_test() {
   mam_test "test/mamarracho/test09"
 }
 
+@test "mam::test09.1" {
+  mam_test "test/mamarracho/test09.1"
+}
+
+@test "mam::test09.2" {
+  mam_test "test/mamarracho/test09.2"
+}
+
 @test "mam::test10" {
   skip
   mam_test "test/mamarracho/test10"
