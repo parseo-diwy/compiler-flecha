@@ -27,6 +27,9 @@ if [[ $TEST_FOONES == "--foones" ]]; then
   rm -f "$TEST_NAME.foones.mam"
 fi
 
+# move as a test
+# cp "$TEST_NAME.output" "$TEST_NAME.expected" 
+
 # clean
 rm -f "$TEST_NAME.ast"
 rm -f "$TEST_NAME.mam"

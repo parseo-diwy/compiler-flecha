@@ -1,0 +1,9 @@
+def test x =
+  unsafePrintInt x;
+  unsafePrintChar '\n'
+
+def true x y = x
+def cond x y z = x y z
+
+def main = test (cond true 1 2)
+

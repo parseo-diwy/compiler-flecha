@@ -59,9 +59,9 @@ compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 compileVariable :: ID -> Reg -> Mam ()
 compileVariable _id reg = do
   case varType _id of
+    TVar     -> compileVarValue _id reg
+    TOper    -> compileOperation _id reg
     TPrinter -> compilePrimitivePrint _id reg
-    TOper    -> compilePrimitiveOperation _id reg
-    TVar   -> compileVarValue _id reg
 
 compilePrimitivePrint :: String -> Reg -> Mam ()
 compilePrimitivePrint _id reg = do
@@ -108,31 +108,19 @@ compileArithmeticOperation mamOp e1 e2 reg = do
     Store  (reg, 1, r1)
     ]
 
-compilePrimitiveOperation :: ID -> Reg -> Mam ()
-compilePrimitiveOperation _id _ = error $ "compilePrimitiveOperation " ++ _id ++ " not implemented"
+compileOperation :: ID -> Reg -> Mam ()
+compileOperation x _ = error $ "compileOperation " ++ x ++ " not implemented"
 
 compileApplication :: Expr -> Expr -> Reg -> Mam ()
-compileApplication (ExprVar _id) e2 reg = do
-  case varType _id of
-    TPrinter -> do
-      compileExpr e2 reg
-      compilePrimitivePrint _id reg
-    TOper    -> do
-      compileExpr e2 reg
-      compilePrimitiveOperation _id reg
-    TVar   -> do
-      r1 <- lookupEnvRegister _id
-      r2 <- localReg
-      r3 <- localReg
-      compileExpr e2 r2
-      addCode [
-        MovReg (Global "fun", r1),
-        MovReg (Global "arg", r2),
-        Load   (r3, Global "fun", 1),
-        ICall  r3,
-        MovReg (reg, Global "res")
-        ]
-compileApplication e1 e2 reg = do
+compileApplication e1@(ExprVar x) e2 reg = do
+  case varType x of
+    TVar     -> compileApplicationFunction e1 e2 reg
+    TOper    -> compileExpr e2 reg >> compileOperation x reg
+    TPrinter -> compileExpr e2 reg >> compilePrimitivePrint x reg
+compileApplication e1 e2 reg = compileApplicationFunction e1 e2 reg
+
+compileApplicationFunction :: Expr -> Expr -> Reg -> Mam ()
+compileApplicationFunction e1 e2 reg = do
   r1 <- localReg
   r2 <- localReg
   r3 <- localReg
