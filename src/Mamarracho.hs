@@ -9,6 +9,7 @@ import Control.Monad.State (execState, MonadState(put, get))
 import Data.Char (ord)
 import Data.Function (on)
 import Data.List (intercalate, sortBy, (\\), union)
+import Data.Text (unpack, replace, pack)
 
 -- Compilation
 
@@ -208,7 +209,10 @@ getCode mam = [Jump "start"]
            ++ code mam
 
 unfoldRoutines :: [CodeRoutine] -> [Instruction]
-unfoldRoutines = unfoldRoutines' [] . sortBy (compare `on` fst)
+unfoldRoutines = unfoldRoutines' [] . sortBy (compare `on` fstNum)
+
+fstNum :: (Label, [Instruction]) -> Int
+fstNum (label, _) = read $ unpack $ replace (pack "rtn") (pack "") (pack label) :: Int
 
 unfoldRoutines' :: [Instruction] -> [CodeRoutine] -> [Instruction]
 unfoldRoutines' ins [] = ins

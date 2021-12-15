@@ -3,13 +3,17 @@
 foones() {
   TEST_INPUT="test/mamarracho/test$1.flecha"
   FOONES="_cmp/foones/test$1.mam"
+  FOONES_OUT="_cmp/foones/test$1.output"
   ./bin/flecha_foones "$TEST_INPUT" > "$FOONES"
+  ./bin/mamarracho "$FOONES" > "$FOONES_OUT"
 }
 
 diwy() {
   TEST_INPUT="test/mamarracho/test$1.flecha"
   DIWY="_cmp/diwy/test$1.mam"
+  DIWY_OUT="_cmp/diwy/test$1.output"
   cabal run --verbose=silent flecha -- "$TEST_INPUT" --mam > "$DIWY"
+  ./bin/mamarracho "$DIWY" > "$DIWY_OUT"
 }
 
 RUN_MODE=$1
