@@ -12,7 +12,7 @@ type StackEnv = [Env]
 
 type NumOp = (Reg, Reg, Reg) -> Instruction
 
-data VarType = TPrinter | TOper | TVar
+data VarType = TPrinter | TOper | TVar deriving Show
 
 data Reg = Global String
          | Local  String

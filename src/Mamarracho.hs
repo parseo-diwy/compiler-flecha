@@ -17,18 +17,27 @@ compile :: Program -> MamCode
 compile prog = showCode $ getCode $ execState (compile' prog) initState
 
 compile' :: Program -> Mam ()
-compile' []            = return ()
-compile' (def:program) = do
+compile' prog = registerGlobals prog >> compile'' prog
+
+registerGlobals :: Program -> Mam ()
+registerGlobals                  [] = return ()
+registerGlobals ((Def x _):program) = do
+  extendEnv (x, BRegister $ Global $ "G_" ++ x)
+  registerGlobals program
+
+compile'' :: Program -> Mam ()
+compile'' []            = return ()
+compile'' (def:program) = do
   compileDef def
   compile' program
 
 compileDef :: Definition -> Mam ()
-compileDef (Def _id e) = do
-  let greg = Global $ "G_" ++ _id
-  compileExpr e greg
-  extendEnv (_id, BRegister greg)
-  return ()
-
+compileDef (Def x e) = do
+  res <- lookupEnv x
+  case res of
+    Just (BRegister reg) -> compileExpr e reg
+    _ -> error $ "GLOBAL " ++ x ++ " SHOULD BE DEFINED"
+  
 compileExpr :: Expr -> Reg -> Mam ()
 compileExpr (ExprVar _id)            reg = compileVariable _id reg
 compileExpr (ExprNumber n)           reg = compilePrimitiveValue tagNumber n reg

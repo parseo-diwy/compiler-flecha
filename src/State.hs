@@ -1,8 +1,7 @@
 module State where
 
 import Control.Monad.State (State, MonadState(get, put), gets)
-import Types (Instruction (Comment), StackEnv, ID, Binding(..), Env, Reg(Local), Label)
-import Data.List (intercalate)
+import Types (Instruction(..), StackEnv, ID, Binding(..), Env, Label)
 
 type Mam = State MamState
 
@@ -48,16 +47,6 @@ getEnv = gets (head . env)
 lookupEnv :: ID -> Mam (Maybe Binding)
 lookupEnv x = lookup x <$> getEnv
 
-lookupEnvRegister :: ID -> Mam Reg
-lookupEnvRegister x = do
-  env' <- getEnv
-  let regEnv = filter (isReg . snd) env'
-  case lookup x regEnv of
-    Just (BRegister reg) -> return reg
-    _ -> do
-      _ <- lookupEnvError x
-      return $ Local "_err"
-
 isReg :: Binding -> Bool
 isReg (BRegister _) = True
 isReg (BEnclosed _) = False
@@ -80,16 +69,6 @@ popEnv = do
   mam <- get
   put $ mam { env = tail $ env mam }
   return $ head $ env mam
-
-lookupEnvError :: ID -> Mam String
-lookupEnvError x = do
-  env' <- getEnv
-  stackEnv' <- getStackEnv
-  let stackEnv'' = map show stackEnv'
-  error $ "'" ++ show x ++ "' is not defined in "
-    ++ show env'
-    ++ "\nStackEnv: \n"
-    ++ intercalate "\n" stackEnv''
 
 -- Code Stack
 
