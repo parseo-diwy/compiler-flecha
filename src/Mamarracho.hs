@@ -58,10 +58,10 @@ compileExpr e _ = error $ "Expression NOT implemented: " ++ show e
 
 compileVariable :: ID -> Reg -> Mam ()
 compileVariable _id reg = do
-  case typeOfPrim _id of
-    PrimPrint -> compilePrimitivePrint _id reg
-    PrimOp    -> compilePrimitiveOperation _id reg
-    PrimVar   -> compileVarValue _id reg
+  case varType _id of
+    TPrinter -> compilePrimitivePrint _id reg
+    TOper    -> compilePrimitiveOperation _id reg
+    TVar   -> compileVarValue _id reg
 
 compilePrimitivePrint :: String -> Reg -> Mam ()
 compilePrimitivePrint _id reg = do
@@ -113,14 +113,14 @@ compilePrimitiveOperation _id _ = error $ "compilePrimitiveOperation " ++ _id ++
 
 compileApplication :: Expr -> Expr -> Reg -> Mam ()
 compileApplication (ExprVar _id) e2 reg = do
-  case typeOfPrim _id of
-    PrimPrint -> do
+  case varType _id of
+    TPrinter -> do
       compileExpr e2 reg
       compilePrimitivePrint _id reg
-    PrimOp    -> do
+    TOper    -> do
       compileExpr e2 reg
       compilePrimitiveOperation _id reg
-    PrimVar   -> do
+    TVar   -> do
       r1 <- lookupEnvRegister _id
       r2 <- localReg
       r3 <- localReg
@@ -230,11 +230,11 @@ unfoldRoutines' ins ((label, rout):routines') =
 showCode :: Show a => [a] -> String
 showCode code' = intercalate "\n" (map show code') ++ "\n"
 
-typeOfPrim :: String -> PrimType
-typeOfPrim _id
-  | isPrimitivePrinter   _id = PrimPrint
-  | isPrimitiveOperation _id = PrimOp
-  | otherwise                = PrimVar
+varType :: String -> VarType
+varType x
+  | isPrimitivePrinter   x = TPrinter
+  | isPrimitiveOperation x = TOper
+  | otherwise              = TVar
 
 isPrimitive :: String -> Bool
 isPrimitive _id = isPrimitivePrinter _id || isPrimitiveOperation _id
