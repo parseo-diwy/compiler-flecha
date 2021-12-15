@@ -80,8 +80,11 @@ function mam_test() {
 }
 
 @test "mam::test11" {
-  skip
   mam_test "test/mamarracho/test11"
+}
+
+@test "mam::test11.1" {
+  mam_test "test/mamarracho/test11.1"
 }
 
 @test "mam::test12" {
