@@ -34,6 +34,9 @@ initState = MamState {
 debug :: String -> Mam ()
 debug str = addCode [Comment str]
 
+debugEnv :: Mam ()
+debugEnv = getEnv >>= debug . (++) "env: " . show
+
 -- Env
 
 getStackEnv :: Mam [Env]
@@ -61,7 +64,11 @@ isReg (BEnclosed _) = False
 
 extendEnv :: (ID, Binding) -> Mam ()
 extendEnv ("_", _) = return ()
-extendEnv bind = popEnv >>= \env' -> pushEnv (bind : env')
+extendEnv newBind@(x, _) = do
+  env' <- popEnv
+  case lookup x env' of
+    Just _  -> pushEnv $ map (\b -> if x == fst b then newBind else b) env'
+    Nothing -> pushEnv (newBind : env')
 
 pushEnv :: [(ID, Binding)] -> Mam ()
 pushEnv env' = do
